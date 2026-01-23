@@ -23,6 +23,7 @@
             --accent: #06b6d4; /* Ciano (IA) */
             --game-color: #22c55e; /* Verde (Jogos) */
             --study-color: #f59e0b; /* Laranja (Estudos) */
+            --anime-color: #f97316; /* Laranja Vibrante (Animes) */
             --wallpaper-color: #3b82f6; /* Azul (Wallpapers) */
             --host-color: #2dd4bf; /* Turquesa (Hospedagem) */
             --text-main: #f8fafc;
@@ -169,6 +170,10 @@
         .link-card.streaming:hover { border-color: #e50914; } 
         .link-card.streaming .card-icon { -webkit-text-fill-color: #e50914; }
 
+        /* --- CATEGORIA: ANIMES --- */
+        .link-card.anime:hover { border-color: var(--anime-color); } 
+        .link-card.anime .card-icon { -webkit-text-fill-color: var(--anime-color); }
+
         .link-card.gaming:hover { border-color: var(--game-color); } 
         .link-card.gaming .card-icon { -webkit-text-fill-color: var(--game-color); }
 
@@ -245,7 +250,7 @@
         <!-- Hero Section -->
         <section class="hero">
             <h1>Bem-vindo ao <span>LDX</span>.<br>Entretenimento & Tecnologia.</h1>
-            <p>Seu portal centralizado para filmes, jogos, IA, estudos, wallpapers e hospedagem.</p>
+            <p>Seu portal centralizado para filmes, jogos, animes, IA, estudos, wallpapers e hospedagem.</p>
         </section>
 
         <!-- Busca Google -->
@@ -283,6 +288,29 @@
                 <div class="card-icon"><i class="fa-solid fa-play-circle"></i></div>
                 <h3>Pobreflix</h3>
                 <span>Streaming Online</span>
+            </a>
+            <!-- NOVO SITE ADICIONADO -->
+            <a href="https://filmeson3.site/" target="_blank" class="link-card streaming">
+                <div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div>
+                <h3>FilmesON</h3>
+                <span>Filmes Online</span>
+            </a>
+        </div>
+
+        <!-- Categoria: Animes -->
+        <div class="section-title">
+            <i class="fa-solid fa-dragon" style="color: var(--anime-color)"></i> Animes
+        </div>
+        <div class="grid-links">
+            <a href="https://animefire.io/" target="_blank" class="link-card anime">
+                <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+                <h3>AnimeFire</h3>
+                <span>Animes Online HD</span>
+            </a>
+            <a href="https://animesdigital.org/home" target="_blank" class="link-card anime">
+                <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
+                <h3>Animes Digital</h3>
+                <span>Catálogo Completo</span>
             </a>
         </div>
 
