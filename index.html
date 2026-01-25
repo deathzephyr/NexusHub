@@ -16,20 +16,14 @@
         /* --- DESIGN SYSTEM --- */
         :root {
             --bg-dark: #050507;
-            /* Glass mais profundo e visível */
             --glass-bg: rgba(20, 20, 25, 0.6); 
             --glass-border: rgba(255, 255, 255, 0.1);
-            
             --accent-primary: #8b5cf6; 
             --accent-secondary: #ec4899; 
             --accent-cyan: #06b6d4; 
-            
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            
             --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            
-            /* Sombras padrão mais fortes */
             --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
         }
 
@@ -59,7 +53,7 @@
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px); /* Blur mais suave */
+            filter: blur(90px);
             opacity: 0.4;
             animation: floatOrb 25s infinite alternate ease-in-out;
         }
@@ -80,15 +74,10 @@
 
         /* --- HERO --- */
         .hero { text-align: center; margin: 3rem 0 4rem; position: relative; }
-        
-        /* Texto com gradiente mais rico */
         .hero h1 { font-size: 3.8rem; font-weight: 700; line-height: 1.05; margin-bottom: 1rem; background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; filter: drop-shadow(0 0 30px rgba(0,0,0,0.5)); }
-        
         .hero p { color: var(--text-muted); font-size: 1.05rem; max-width: 550px; margin: 0 auto 2.5rem; padding: 0 10px; font-weight: 400; }
 
         .search-container { max-width: 600px; margin: 0 auto; position: relative; }
-        
-        /* Search Bar com Vidro mais forte */
         .search-bar { 
             position: relative; display: flex; align-items: center; 
             background: rgba(255,255,255,0.06); 
@@ -99,17 +88,14 @@
             box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 25px 50px -12px rgba(0,0,0,0.6); 
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
         }
-        
         .search-bar:focus-within { 
             background: rgba(30, 30, 35, 0.7); 
             border-color: rgba(139, 92, 246, 0.6); 
             box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), 0 30px 60px -12px rgba(0,0,0,0.7), 0 0 30px rgba(139, 92, 246, 0.2); 
             transform: translateY(-2px) scale(1.01); 
         }
-        
         .search-input { flex: 1; background: transparent; border: none; padding: 16px 24px; font-size: 1.1rem; color: white; font-family: 'Space Grotesk', sans-serif; font-weight: 500; }
         .search-input::placeholder { color: rgba(255,255,255,0.3); }
-        
         .search-btn { background: var(--gradient-primary); border: none; width: 52px; height: 52px; border-radius: 18px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); display: flex; align-items: center; justify-content: center; }
         .search-btn:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 8px 25px rgba(236, 72, 153, 0.6); }
 
@@ -120,7 +106,7 @@
         .section-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
         .section-line { height: 1px; width: 100%; background: linear-gradient(to right, rgba(255,255,255,0.2), transparent); }
 
-        /* Cores das Seções (Mantidas) */
+        /* Cores das Seções */
         .header-streaming .section-title { color: #ef4444; }
         .header-streaming .section-line { background: linear-gradient(to right, #ef4444, transparent); }
         .header-anime .section-title { color: #f97316; }
@@ -146,7 +132,6 @@
             color: white;
             position: relative;
             overflow: hidden;
-            /* Melhor transição */
             transition: transform 0.1s linear, box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease;
             backdrop-filter: blur(25px);
             height: 150px;
@@ -158,42 +143,93 @@
             will-change: transform;
         }
 
-        /* Efeito Sheen (Brilho deslizante) - O toque premium */
         .card::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg);
-            transition: 0.6s;
-            pointer-events: none;
-            z-index: 10;
+            transition: 0.6s; pointer-events: none; z-index: 10;
         }
-
         .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
         .card:hover { background: rgba(30, 30, 35, 0.8); border-color: rgba(255,255,255,0.4); }
 
-        /* Ícone de fundo */
         .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.04; transform: rotate(-15deg); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .card:hover .card-bg-icon { opacity: 0.08; transform: rotate(0deg) scale(1.2); }
 
         .card-content { position: relative; z-index: 2; transform: translateZ(20px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; width: 100%; justify-content: center; height: 100%; }
 
-        /* Ícone do Card - Mais estilo */
+        /* ÍCONES - SOLUÇÃO DEFINITIVA */
         .card-icon { 
-            width: 42px; height: 42px; 
+            width: 42px; 
+            height: 42px; 
+            aspect-ratio: 1 / 1; 
             border-radius: 12px; 
             background: rgba(255,255,255,0.05); 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 1.25rem; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem; 
             border: 1px solid rgba(255,255,255,0.05); 
             transition: all 0.3s ease; 
             margin-bottom: 8px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            line-height: 0; /* Remove espaço extra de linha */
         }
+
+        /* IMPORTANTE: Força o alinhamento vertical do ícone dentro do flex */
+        .card-icon i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        /* --- GRUPO 1: ÍCONES LARGOS/HORIZONTAIS (Diminuir e Ajustar Posição) --- */
+        /* O translateY(2px) corrige o centro óptico desses ícones */
+        .card-icon .fa-ticket,
+        .card-icon .fa-film,
+        .card-icon .fa-clapperboard,
+        .card-icon .fa-tv,
+        .card-icon .fa-video,
+        .card-icon .fa-masks-theater,
+        .card-icon .fa-hat-cowboy,
+        .card-icon .fa-mobile,
+        .card-icon .fa-scroll {
+            font-size: 0.9rem !important;
+            transform: scale(0.9) translateY(2px);
+        }
+
+        /* O play é um triângulo, precisa de ajuste de margem para parecer centralizado */
+        .card-icon .fa-play,
+        .card-icon .fa-circle-play {
+            font-size: 1rem !important;
+            margin-left: 2px;
+        }
+
+        /* --- GRUPO 2: ÍCONES COMPACTOS (Aumentar para preencher) --- */
+        .card-icon .fa-fire,
+        .card-icon .fa-star,
+        .card-icon .fa-gamepad,
+        .card-icon .fa-brain,
+        .card-icon .fa-robot,
+        .card-icon .fa-cloud-arrow-up,
+        .card-icon .fa-image,
+        .card-icon .fa-pen-nib,
+        .card-icon .fa-puzzle-piece,
+        .card-icon .fa-book-open,
+        .card-icon .fa-chart-line,
+        .card-icon .fa-brands.fa-github,
+        .card-icon .fa-brands.fa-google {
+            font-size: 1.25rem !important;
+            transform: scale(1.05); /* Um pouco de escala extra para dar peso */
+        }
+
+        /* Ícone Raio (Bolt) fica pequeno demais se aumentar muito */
+        .card-icon .fa-bolt { font-size: 1.1rem !important; }
+
+        /* Fim do ajuste de ícones */
         
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
 
@@ -201,40 +237,30 @@
         .card:hover h3 { transform: translateY(-1px); }
         .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; font-weight: 500; }
 
-        /* --- SOMBRAS COLORIDAS POR CATEGORIA (O "Pop" Visual) --- */
-        
-        /* Streaming (Vermelho) */
+        /* Cores dos Cards */
         .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 15px rgba(239,68,68,0.2); }
         .card[data-cat="streaming"]:hover { box-shadow: 0 20px 40px -10px rgba(239,68,68,0.3), 0 0 0 1px rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
 
-        /* Anime (Laranja) */
         .card[data-cat="anime"] .card-icon { color: #f97316; text-shadow: 0 0 15px rgba(249,115,22,0.2); }
         .card[data-cat="anime"]:hover { box-shadow: 0 20px 40px -10px rgba(249,115,22,0.3), 0 0 0 1px rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); }
 
-        /* Manga (Roxo) */
         .card[data-cat="manga"] .card-icon { color: #8b5cf6; text-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
         .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
 
-        /* Games (Verde) */
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
         .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
 
-        /* IA (Cyan) */
         .card[data-cat="ai"] .card-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6,182,212,0.2); }
         .card[data-cat="ai"]:hover { box-shadow: 0 20px 40px -10px rgba(6,182,212,0.3), 0 0 0 1px rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); }
 
-        /* Host (Teal) */
         .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 15px rgba(45,212,191,0.2); }
         .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(45,212,191,0.3), 0 0 0 1px rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.3); }
 
-        /* Utils (Amarelo) */
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
 
-        /* Wallpapers (Azul) */
         .card[data-cat="wallpapers"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59,130,246,0.2); }
         .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(59,130,246,0.3), 0 0 0 1px rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); }
-
 
         footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; }
 
@@ -243,7 +269,7 @@
             .container { padding: 0 1.2rem; }
             .bento-grid { gap: 12px; grid-template-columns: repeat(2, 1fr); }
             .card { height: 140px; padding: 15px; }
-            .card-icon { width: 38px; height: 38px; font-size: 1.1rem; }
+            .card-icon { width: 38px; height: 38px; font-size: 1rem; }
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
         }
@@ -264,8 +290,11 @@
         </header>
 
         <section class="hero">
-            <h1>Bem-vindo ao LDX.<br>Entretenimento & Tech.</h1>
-            <p>Seu portal centralizado para filmes, jogos, animes, mangás, manhwas, IA, estudos, wallpapers e hospedagem.</p>
+            <h1>
+                <span class="glitch-text" data-value="Bem-vindo ao NexusHub.">Bem-vindo ao NexusHub.</span>
+            </h1>
+            <p>Seu hub definitivo de entretenimento e tecnologia.</p>
+            
             <div class="search-container">
                 <form class="search-bar" action="https://www.google.com/search" method="GET" target="_blank">
                     <i class="fa-solid fa-search" style="margin-left: 15px; color: var(--text-muted); font-size: 0.95rem;"></i>
@@ -425,16 +454,16 @@
             </a>
             <a href="https://poki.com/br" target="_blank" class="card" data-cat="games">
                 <div class="card-content">
-                    <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
+                    <div class="card-icon"><i class="fa-solid fa-mobile"></i></div>
                     <h3>Poki</h3>
                     <p>Jogos Grátis</p>
                 </div>
-                <i class="fa-solid fa-gamepad card-bg-icon"></i>
+                <i class="fa-solid fa-mobile card-bg-icon"></i>
             </a>
              <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
                 <div class="card-content">
                     <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
-                    <h3>CrazyGames</h3>
+                    <h3>Crazy Games</h3>
                     <p>Jogos Variados</p>
                 </div>
                 <i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
@@ -539,7 +568,7 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // Tilt 3D Otimizado (Individual por card)
+        // Tilt 3D Otimizado
         const cards = document.querySelectorAll('.card');
 
         cards.forEach(card => {
@@ -569,6 +598,59 @@
                 e.preventDefault();
                 document.getElementById('searchInput').focus();
             }
+        });
+
+        // --- EFEITO GLITCH RÁPIDO NO TÍTULO ---
+        const letters = "ABCDDH493N3CJS9XSC@#$%>[}";
+        const titleElements = document.querySelectorAll('.glitch-text');
+        
+        const glitchColors = ['#8b5cf6', '#ec4899', '#06b6d4', '#22c55e', '#ef4444', '#f59e0b', '#ffffff'];
+
+        titleElements.forEach(element => {
+            const runGlitch = () => {
+                let iteration = 0;
+                const originalText = element.dataset.value;
+                const intervalSpeed = 20; 
+                
+                const interval = setInterval(() => {
+                    element.innerText = originalText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) return originalText[index];
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join("");
+                    
+                    if (iteration < originalText.length) {
+                        const color1 = glitchColors[Math.floor(Math.random() * glitchColors.length)];
+                        const color2 = glitchColors[Math.floor(Math.random() * glitchColors.length)];
+                        
+                        const offsetX1 = Math.random() * 4 - 2 + 'px';
+                        const offsetY1 = Math.random() * 4 - 2 + 'px';
+                        const offsetX2 = Math.random() * 4 - 2 + 'px';
+                        const offsetY2 = Math.random() * 4 - 2 + 'px';
+
+                        element.style.textShadow = `${offsetX1} ${offsetY1} ${color1}, ${offsetX2} ${offsetY2} ${color2}`;
+                    } else {
+                        element.style.textShadow = 'none';
+                    }
+                    
+                    if (iteration >= originalText.length + 1) { 
+                        clearInterval(interval);
+                    }
+                    
+                    iteration += 1; 
+                }, intervalSpeed);
+            };
+
+            setTimeout(() => {
+                runGlitch();
+            }, 500);
+
+            element.onmouseover = () => {
+                clearTimeout(element.timer);
+                element.timer = setTimeout(runGlitch, 200);
+            };
         });
     </script>
 </body>
