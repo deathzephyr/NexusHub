@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LDX | NexusHub Premium</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2622/2622601.png">
     
@@ -71,27 +71,33 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
 
         /* --- HEADER --- */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 0; }
-        .logo { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
-        .clock { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 100px; font-family: 'Space Grotesk', monospace; font-size: 1rem; color: var(--accent-cyan); backdrop-filter: blur(10px); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
+        .clock { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 100px; font-family: 'Space Grotesk', monospace; font-size: 0.9rem; color: var(--accent-cyan); backdrop-filter: blur(10px); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); }
 
         /* --- HERO --- */
-        .hero { text-align: center; margin: 4rem 0 4rem; position: relative; }
-        .hero h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; }
-        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 500px; margin: 0 auto 3rem; }
+        .hero { text-align: center; margin: 2rem 0 3rem; position: relative; }
+        .hero h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1rem; background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; }
+        .hero p { color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto 2rem; padding: 0 10px; }
 
-        .search-container { max-width: 700px; margin: 0 auto; position: relative; }
-        .search-bar { position: relative; display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 24px; padding: 8px; backdrop-filter: blur(20px); box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 50px -10px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .search-container { max-width: 600px; margin: 0 auto; position: relative; }
+        .search-bar { position: relative; display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 24px; padding: 6px; backdrop-filter: blur(20px); box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 50px -10px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .search-bar:focus-within { background: rgba(255,255,255,0.06); border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1), 0 20px 50px -10px rgba(0,0,0,0.6); transform: translateY(-2px); }
-        .search-input { flex: 1; background: transparent; border: none; padding: 18px 24px; font-size: 1.1rem; color: white; font-family: 'Space Grotesk', sans-serif; }
-        .search-btn { background: var(--gradient-primary); border: none; width: 56px; height: 56px; border-radius: 18px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        .search-input { flex: 1; background: transparent; border: none; padding: 14px 20px; font-size: 1rem; color: white; font-family: 'Space Grotesk', sans-serif; }
+        .search-btn { background: var(--gradient-primary); border: none; width: 48px; height: 48px; border-radius: 16px; color: white; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); display: flex; align-items: center; justify-content: center; }
         .search-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6); }
 
         /* --- GRID & SEÇÕES --- */
-        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; perspective: 1000px; padding-bottom: 5rem; }
+        .bento-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 12px; 
+            perspective: 1000px; 
+            padding-bottom: 5rem; 
+        }
 
-        .section-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.5rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); transform-style: preserve-3d; }
-        .section-title { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .section-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); transform-style: preserve-3d; }
+        .section-title { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
         .section-line { height: 1px; width: 100%; background: linear-gradient(to right, rgba(255,255,255,0.2), transparent); }
 
         /* Cores das Seções */
@@ -112,15 +118,15 @@
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 18px;
+            padding: 15px;
             text-decoration: none;
             color: white;
             position: relative;
             overflow: hidden;
             transition: transform 0.1s linear, box-shadow 0.3s ease, border-color 0.3s ease;
             backdrop-filter: blur(16px);
-            height: 150px;
+            height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -131,17 +137,16 @@
         .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%); pointer-events: none; }
         .card:hover { border-color: rgba(255,255,255,0.3); box-shadow: var(--shadow-glow), var(--shadow-card); }
         
-        /* Ícone de fundo no canto */
-        .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.05; transform: rotate(-15deg); pointer-events: none; transition: all 0.5s ease; }
+        .card-bg-icon { position: absolute; right: -5px; bottom: -5px; font-size: 4rem; opacity: 0.05; transform: rotate(-15deg); pointer-events: none; transition: all 0.5s ease; }
         .card:hover .card-bg-icon { opacity: 0.1; transform: rotate(0deg) scale(1.1); }
 
-        .card-content { position: relative; z-index: 2; transform: translateZ(20px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; width: 100%; justify-content: center; height: 100%; }
+        .card-content { position: relative; z-index: 2; transform: translateZ(20px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; width: 100%; justify-content: center; height: 100%; }
 
-        .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .card-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; margin-bottom: 5px; }
         .card:hover .card-icon { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); }
 
-        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.5px; }
-        .card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }
+        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.2; }
 
         /* Cores */
         .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.4); }
@@ -152,10 +157,17 @@
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 10px rgba(245,158,11,0.4); }
         .card[data-cat="wallpapers"] .card-icon { color: #3b82f6; text-shadow: 0 0 10px rgba(59,130,246,0.4); }
 
-        footer { text-align: center; padding: 3rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 2rem; font-size: 0.9rem; }
+        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 2rem; font-size: 0.8rem; }
 
-        @media (max-width: 900px) { .hero h1 { font-size: 3rem; } .bento-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 600px) { .hero h1 { font-size: 2.2rem; } .search-input { padding: 15px; font-size: 1rem; } .search-btn { width: 45px; height: 45px; } }
+        @media (max-width: 600px) { 
+            .hero h1 { font-size: 2.2rem; } 
+            .container { padding: 0 1rem; }
+            .bento-grid { gap: 10px; }
+            .card { height: 120px; padding: 10px; }
+            .card-icon { width: 32px; height: 32px; font-size: 1rem; }
+            .card h3 { font-size: 0.9rem; }
+            .card p { font-size: 0.7rem; }
+        }
     </style>
 </head>
 <body>
@@ -173,11 +185,11 @@
         </header>
 
         <section class="hero">
-            <h1>Bem-vindo ao LDX.<br>Entretenimento & Tecnologia.</h1>
+            <h1>Bem-vindo ao LDX.<br>Entretenimento & Tech.</h1>
             <p>Seu portal centralizado para filmes, jogos, animes, IA, estudos, wallpapers e hospedagem.</p>
             <div class="search-container">
                 <form class="search-bar" action="https://www.google.com/search" method="GET" target="_blank">
-                    <i class="fa-solid fa-search" style="margin-left: 20px; color: var(--text-muted);"></i>
+                    <i class="fa-solid fa-search" style="margin-left: 15px; color: var(--text-muted); font-size: 0.9rem;"></i>
                     <input type="text" name="q" class="search-input" placeholder="Pesquise no Google..." id="searchInput" autocomplete="off">
                     <button type="submit" class="search-btn"><i class="fa-solid fa-arrow-right"></i></button>
                 </form>
@@ -192,7 +204,15 @@
                 <div class="section-line"></div>
             </div>
 
-            <!-- CINEBY COM ÍCONE NO FUNDO -->
+            <a href="https://myflixerz.to/home" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-ticket"></i></div>
+                    <h3>MyFlixerz</h3>
+                    <p>Filmes e Séries HD</p>
+                </div>
+                <i class="fa-solid fa-ticket card-bg-icon"></i>
+            </a>
+
             <a href="https://www.cineby.gd/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content">
                     <div class="card-icon"><i class="fa-solid fa-film"></i></div>
@@ -210,6 +230,7 @@
                 </div>
                 <i class="fa-solid fa-play card-bg-icon"></i>
             </a>
+            
             <a href="https://filmeson3.site/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content">
                     <div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div>
@@ -256,6 +277,16 @@
                     <p>Assistir Online</p>
                 </div>
                 <i class="fa-solid fa-video card-bg-icon"></i>
+            </a>
+            
+            <!-- NOVO SITE ADICIONADO: ANIMES COMIX -->
+            <a href="https://animescomix.tv/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Animes Comix</h3>
+                    <p>Animes & Doramas</p>
+                </div>
+                <i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: JOGOS -->
