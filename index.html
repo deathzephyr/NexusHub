@@ -35,7 +35,6 @@
             --color-reddit: #FF4500;
             --color-wiki: #FFFFFF;
             --color-spotify: #1DB954;
-            --color-twitter: #000000;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -187,7 +186,6 @@
         .icon-reddit { color: var(--color-reddit); }
         .icon-wiki { color: var(--color-wiki); }
         .icon-spotify { color: var(--color-spotify); }
-        .icon-twitter { color: white; }
 
         /* Input */
         .search-input-container { flex: 1; position: relative; }
@@ -374,7 +372,7 @@
             
             /* Oculta visualmente o nome do motor e a seta no celular */
             #currentEngineName, .engine-btn .fa-chevron-down {
-                display: none;
+                display: none !important;
             }
 
             /* Dropdown Otimizado */
@@ -456,7 +454,6 @@
                             
                             <!-- Social & Info -->
                             <div class="engine-option" data-engine="reddit"><i class="fa-brands fa-reddit icon-reddit"></i> Reddit</div>
-                            <div class="engine-option" data-engine="twitter"><i class="fa-brands fa-x-twitter icon-twitter"></i> Twitter / X</div>
                             
                             <!-- Shopping & Wiki -->
                             <div class="engine-option" data-engine="amazon"><i class="fa-brands fa-amazon icon-amazon"></i> Amazon</div>
@@ -631,8 +628,9 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
-        /* --- SISTEMA DE PESQUISA EXPANDIDO --- */
+        /* --- SISTEMA DE PESQUISA --- */
         
+        // Configuração dos Motores de Busca (Twitter removido conforme solicitado)
         const engines = {
             google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'fa-brands fa-google icon-google' },
             bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
@@ -640,7 +638,6 @@
             youtube: { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=', icon: 'fa-brands fa-youtube icon-youtube' },
             spotify: { name: 'Spotify', url: 'https://open.spotify.com/search/', icon: 'fa-brands fa-spotify icon-spotify' },
             reddit: { name: 'Reddit', url: 'https://www.reddit.com/search/?q=', icon: 'fa-brands fa-reddit icon-reddit' },
-            twitter: { name: 'Twitter', url: 'https://twitter.com/search?q=', icon: 'fa-brands fa-x-twitter icon-twitter' },
             amazon: { name: 'Amazon', url: 'https://www.amazon.com/s?k=', icon: 'fa-brands fa-amazon icon-amazon' },
             wikipedia: { name: 'Wikipedia', url: 'https://pt.wikipedia.org/wiki/Special:Search?search=', icon: 'fa-brands fa-wikipedia-w icon-wiki' }
         };
