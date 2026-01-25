@@ -3,434 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LDX | NexusHub</title>
-    <link rel="website icon" type="png"
-    href="img.png">
-    <!-- Importando fontes e ícones -->
+    <title>LDX | NexusHub Premium</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2622/2622601.png">
+    
+    <!-- Fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- Variáveis de Design --- */
+        /* --- DESIGN SYSTEM --- */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --card-hover: rgba(51, 65, 85, 0.9);
-            --primary: #8b5cf6; /* Roxo */
-            --secondary: #ec4899; /* Rosa */
-            --accent: #06b6d4; /* Ciano (IA) */
-            --game-color: #22c55e; /* Verde (Jogos) */
-            --study-color: #f59e0b; /* Laranja (Estudos) */
-            --anime-color: #f97316; /* Laranja Vibrante (Animes) */
-            --wallpaper-color: #3b82f6; /* Azul (Wallpapers) */
-            --host-color: #2dd4bf; /* Turquesa (Hospedagem) */
-            --text-main: #f8fafc;
+            --bg-dark: #050507;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            
+            --accent-primary: #8b5cf6; 
+            --accent-secondary: #ec4899; 
+            --accent-cyan: #06b6d4; 
+            
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            --glass: blur(12px);
+            
+            --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --shadow-glow: 0 0 40px -10px rgba(139, 92, 246, 0.3);
+            --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- Reset Básico --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
+
+        /* --- BACKGROUND --- */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: floatOrb 20s infinite alternate ease-in-out;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--accent-primary); top: -100px; left: -100px; animation-duration: 25s; }
+        .orb-2 { width: 500px; height: 500px; background: var(--accent-secondary); bottom: -100px; right: -100px; animation-duration: 30s; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--accent-cyan); top: 40%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3; animation: pulseOrb 10s infinite ease-in-out; }
+
+        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 80px) scale(1.1); } }
+        @keyframes pulseOrb { 0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); } 50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.2); } }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+        /* --- HEADER --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 0; }
+        .logo { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
+        .clock { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 100px; font-family: 'Space Grotesk', monospace; font-size: 1rem; color: var(--accent-cyan); backdrop-filter: blur(10px); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); }
+
+        /* --- HERO --- */
+        .hero { text-align: center; margin: 4rem 0 4rem; position: relative; }
+        .hero h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 500px; margin: 0 auto 3rem; }
+
+        .search-container { max-width: 700px; margin: 0 auto; position: relative; }
+        .search-bar { position: relative; display: flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 24px; padding: 8px; backdrop-filter: blur(20px); box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 50px -10px rgba(0,0,0,0.5); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .search-bar:focus-within { background: rgba(255,255,255,0.06); border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1), 0 20px 50px -10px rgba(0,0,0,0.6); transform: translateY(-2px); }
+        .search-input { flex: 1; background: transparent; border: none; padding: 18px 24px; font-size: 1.1rem; color: white; font-family: 'Space Grotesk', sans-serif; }
+        .search-btn { background: var(--gradient-primary); border: none; width: 56px; height: 56px; border-radius: 18px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        .search-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6); }
+
+        /* --- GRID & SEÇÕES --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; perspective: 1000px; padding-bottom: 5rem; }
+
+        .section-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.5rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); transform-style: preserve-3d; }
+        .section-title { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .section-line { height: 1px; width: 100%; background: linear-gradient(to right, rgba(255,255,255,0.2), transparent); }
+
+        /* Cores das Seções */
+        .header-streaming .section-title { color: #ef4444; }
+        .header-streaming .section-line { background: linear-gradient(to right, #ef4444, transparent); }
+        .header-anime .section-title { color: #f97316; }
+        .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
+        .header-game .section-title { color: #22c55e; }
+        .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
+        .header-ai .section-title { color: #06b6d4; }
+        .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
+        .header-host .section-title { color: #2dd4bf; }
+        .header-host .section-line { background: linear-gradient(to right, #2dd4bf, transparent); }
+        .header-utils .section-title { color: #f59e0b; }
+        .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
+
+        /* --- CARDS PEQUENOS --- */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.1s linear, box-shadow 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(16px);
+            height: 150px;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 2rem 0;
-            display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: fadeInDown 0.8s ease-out;
+            transform-style: preserve-3d;
         }
 
-        .logo {
-            font-size: 1.8rem; 
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%); pointer-events: none; }
+        .card:hover { border-color: rgba(255,255,255,0.3); box-shadow: var(--shadow-glow), var(--shadow-card); }
         
-        .logo span {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            -webkit-text-fill-color: var(--text-muted);
-            margin-left: 5px;
-            opacity: 0.6;
-        }
+        /* Ícone de fundo no canto */
+        .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.05; transform: rotate(-15deg); pointer-events: none; transition: all 0.5s ease; }
+        .card:hover .card-bg-icon { opacity: 0.1; transform: rotate(0deg) scale(1.1); }
 
-        .clock { font-size: 1rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+        .card-content { position: relative; z-index: 2; transform: translateZ(20px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; width: 100%; justify-content: center; height: 100%; }
 
-        /* --- Hero Section --- */
-        .hero {
-            text-align: center;
-            padding: 4rem 0 2rem;
-            animation: fadeInUp 0.8s ease-out 0.2s backwards;
-        }
+        .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .card:hover .card-icon { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); }
 
-        .hero h1 { 
-            font-size: 2.8rem; 
-            margin-bottom: 1rem; 
-            line-height: 1.2; 
-            font-weight: 800;
-        }
-        
-        .hero h1 span { 
-            color: var(--accent);
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem; }
+        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }
 
-        /* --- Busca Google --- */
-        .search-wrapper { max-width: 600px; margin: 0 auto 3rem; position: relative; width: 100%; }
-        
-        .search-form {
-            display: flex; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px; padding: 5px; backdrop-filter: var(--glass);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 100%;
-        }
-        .search-form:focus-within {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-            border-color: var(--primary);
-        }
-        .search-input {
-            flex: 1; background: transparent; border: none; padding: 15px 20px;
-            color: white; font-size: 1rem; outline: none; width: 100%;
-        }
-        .search-input::placeholder { color: rgba(255,255,255,0.4); }
-        .search-btn {
-            background: var(--gradient); border: none; color: white;
-            width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; 
-        }
+        /* Cores */
+        .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.4); }
+        .card[data-cat="anime"] .card-icon { color: #f97316; text-shadow: 0 0 10px rgba(249,115,22,0.4); }
+        .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 10px rgba(34,197,94,0.4); }
+        .card[data-cat="ai"] .card-icon { color: #06b6d4; text-shadow: 0 0 10px rgba(6,182,212,0.4); }
+        .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 10px rgba(45,212,191,0.4); }
+        .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 10px rgba(245,158,11,0.4); }
+        .card[data-cat="wallpapers"] .card-icon { color: #3b82f6; text-shadow: 0 0 10px rgba(59,130,246,0.4); }
 
-        /* --- Cards e Grids --- */
-        .section-title {
-            font-size: 1.1rem; margin: 3rem 0 1.5rem 0; display: flex; align-items: center;
-            gap: 10px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
-        }
+        footer { text-align: center; padding: 3rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 2rem; font-size: 0.9rem; }
 
-        .grid-links {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;
-        }
-
-        .link-card {
-            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px; padding: 20px; text-decoration: none; color: var(--text-main);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; backdrop-filter: blur(5px);
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: flex-start; height: 140px;
-        }
-
-        .link-card:hover {
-            transform: translateY(-5px); background: var(--card-hover);
-            border-color: rgba(255,255,255,0.2); box-shadow: var(--shadow);
-        }
-
-        .card-icon { font-size: 2rem; margin-bottom: 15px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .link-card h3 { font-size: 1.1rem; font-weight: 600; }
-        .link-card span { font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Estilos Específicos por Categoria */
-        .link-card.streaming:hover { border-color: #e50914; } 
-        .link-card.streaming .card-icon { -webkit-text-fill-color: #e50914; }
-
-        /* --- CATEGORIA: ANIMES --- */
-        .link-card.anime:hover { border-color: var(--anime-color); } 
-        .link-card.anime .card-icon { -webkit-text-fill-color: var(--anime-color); }
-
-        .link-card.gaming:hover { border-color: var(--game-color); } 
-        .link-card.gaming .card-icon { -webkit-text-fill-color: var(--game-color); }
-
-        .link-card.ai:hover { border-color: var(--accent); } 
-        .link-card.ai .card-icon { -webkit-text-fill-color: var(--accent); }
-
-        .link-card.studies:hover { border-color: var(--study-color); } 
-        .link-card.studies .card-icon { -webkit-text-fill-color: var(--study-color); }
-
-        .link-card.wallpapers:hover { border-color: var(--wallpaper-color); } 
-        .link-card.wallpapers .card-icon { -webkit-text-fill-color: var(--wallpaper-color); }
-
-        .link-card.hosting:hover { border-color: var(--host-color); } 
-        .link-card.hosting .card-icon { -webkit-text-fill-color: var(--host-color); }
-
-
-        /* --- Destaque Cineby --- */
-        .featured-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 2rem;
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 2rem; backdrop-filter: var(--glass); position: relative;
-            overflow: hidden; transition: transform 0.3s ease;
-        }
-        .featured-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
-        .featured-content { z-index: 2; }
-        .badge {
-            background: var(--gradient); color: white; padding: 5px 12px; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            margin-bottom: 10px; display: inline-block;
-        }
-        .featured-card h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-        .featured-card p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
-        
-        .btn-featured {
-            background: white; color: var(--bg-color); padding: 12px 30px; border-radius: 30px;
-            text-decoration: none; font-weight: 700; transition: all 0.3s ease;
-            display: inline-flex; align-items: center; gap: 10px;
-        }
-        .btn-featured:hover { background: var(--secondary); color: white; transform: scale(1.05); }
-
-        /* --- Footer --- */
-        footer {
-            margin-top: auto; padding: 2rem 0; text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);
-        }
-
-        /* --- Animações --- */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- RESPONSIVIDADE (Celulares) --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .featured-card { flex-direction: column; text-align: center; gap: 20px; padding: 1.5rem; }
-            .grid-links { grid-template-columns: 1fr; }
-            .link-card { height: 120px; padding: 15px; align-items: center; text-align: center; justify-content: center; }
-            .logo span { display: none; }
-            .container { padding: 0 15px; }
-        }
+        @media (max-width: 900px) { .hero h1 { font-size: 3rem; } .bento-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .hero h1 { font-size: 2.2rem; } .search-input { padding: 15px; font-size: 1rem; } .search-btn { width: 45px; height: 45px; } }
     </style>
 </head>
 <body>
 
-    <header class="container">
-        <div class="logo">
-            <i class="fa-solid fa-rocket"></i> LDX
-            <span>NexusHub</span>
-        </div>
-        <div class="clock" id="clock">00:00</div>
-    </header>
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-    <main class="container">
-        
-        <!-- Hero Section -->
+    <div class="container">
+        <header>
+            <div class="logo"><i class="fa-solid fa-cube"></i> LDX</div>
+            <div class="clock" id="clock">00:00</div>
+        </header>
+
         <section class="hero">
-            <h1>Bem-vindo ao <span>LDX</span>.<br>Entretenimento & Tecnologia.</h1>
+            <h1>Bem-vindo ao LDX.<br>Entretenimento & Tecnologia.</h1>
             <p>Seu portal centralizado para filmes, jogos, animes, IA, estudos, wallpapers e hospedagem.</p>
-        </section>
-
-        <!-- Busca Google -->
-        <section class="search-wrapper">
-            <form class="search-form" action="https://www.google.com/search" method="GET" target="_blank">
-                <input type="text" name="q" class="search-input" placeholder="Pesquise no Google..." required autocomplete="off">
-                <button type="submit" class="search-btn"><i class="fa-solid fa-search"></i></button>
-            </form>
-        </section>
-
-        <!-- Destaque Principal: Cineby -->
-        <section class="featured-card">
-            <div class="featured-content">
-                <span class="badge">Destaque Principal</span>
-                <h2>Cineby - Filmes Online</h2>
-                <p>O melhor lugar para assistir seu conteúdo favorito. Clique para acessar a biblioteca.</p>
-                <a href="https://www.cineby.gd/" target="_blank" class="btn-featured">
-                    Acessar Cineby <i class="fa-solid fa-arrow-right"></i>
-                </a>
+            <div class="search-container">
+                <form class="search-bar" action="https://www.google.com/search" method="GET" target="_blank">
+                    <i class="fa-solid fa-search" style="margin-left: 20px; color: var(--text-muted);"></i>
+                    <input type="text" name="q" class="search-input" placeholder="Pesquise no Google..." id="searchInput" autocomplete="off">
+                    <button type="submit" class="search-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                </form>
             </div>
-            <i class="fa-solid fa-film" style="font-size: 8rem; color: rgba(255,255,255,0.05); position: absolute; right: -20px; bottom: -20px;"></i>
         </section>
 
-        <!-- Categoria: Filmes & Séries -->
-        <div class="section-title">
-            <i class="fa-solid fa-film" style="color: #e50914;"></i> Filmes & Séries
-        </div>
-        <div class="grid-links">
-            <a href="https://www.cineby.gd/" target="_blank" class="link-card streaming">
-                <div class="card-icon"><i class="fa-solid fa-play"></i></div>
-                <h3>Cineby</h3>
-                <span>Filmes e Séries</span>
+        <div class="bento-grid" id="bentoGrid">
+            
+            <!-- SEÇÃO: STREAMING -->
+            <div class="section-header header-streaming">
+                <div class="section-title"><i class="fa-solid fa-film"></i> Filmes & Séries</div>
+                <div class="section-line"></div>
+            </div>
+
+            <!-- CINEBY COM ÍCONE NO FUNDO -->
+            <a href="https://www.cineby.gd/" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-film"></i></div>
+                    <h3>Cineby</h3>
+                    <p>Filmes e Séries</p>
+                </div>
+                <i class="fa-solid fa-film card-bg-icon"></i>
             </a>
-            <a href="https://filmesserieshd.net/inicio/" target="_blank" class="link-card streaming">
-                <div class="card-icon"><i class="fa-solid fa-play-circle"></i></div>
-                <h3>Pobreflix</h3>
-                <span>Streaming Online</span>
+
+            <a href="https://filmesserieshd.net/inicio/" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-play"></i></div>
+                    <h3>Pobreflix</h3>
+                    <p>Streaming Online</p>
+                </div>
+                <i class="fa-solid fa-play card-bg-icon"></i>
             </a>
-            <a href="https://filmeson3.site/" target="_blank" class="link-card streaming">
-                <div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div>
-                <h3>FilmesON</h3>
-                <span>Filmes Online</span>
+            <a href="https://filmeson3.site/" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div>
+                    <h3>FilmesON</h3>
+                    <p>Filmes Online</p>
+                </div>
+                <i class="fa-solid fa-clapperboard card-bg-icon"></i>
             </a>
+
+            <!-- SEÇÃO: ANIMES -->
+            <div class="section-header header-anime">
+                <div class="section-title"><i class="fa-solid fa-dragon"></i> Animes</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+                    <h3>Anime Fire</h3>
+                    <p>Animes Online HD</p>
+                </div>
+                <i class="fa-solid fa-fire card-bg-icon"></i>
+            </a>
+            <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
+                    <h3>Animes Digital</h3>
+                    <p>Catálogo Completo</p>
+                </div>
+                <i class="fa-solid fa-tv card-bg-icon"></i>
+            </a>
+            <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                    <h3>Top Animes</h3>
+                    <p>Ranking & Top</p>
+                </div>
+                <i class="fa-solid fa-star card-bg-icon"></i>
+            </a>
+             <a href="https://animesonlinecc.to/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+                    <h3>Animes Online</h3>
+                    <p>Assistir Online</p>
+                </div>
+                <i class="fa-solid fa-video card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: JOGOS -->
+            <div class="section-header header-game">
+                <div class="section-title"><i class="fa-solid fa-gamepad"></i> Jogos</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://www.airconsole.com/" target="_blank" class="card" data-cat="games">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
+                    <h3>AirConsole</h3>
+                    <p>Jogos no navegador</p>
+                </div>
+                <i class="fa-solid fa-gamepad card-bg-icon"></i>
+            </a>
+            <a href="https://poki.com/br" target="_blank" class="card" data-cat="games">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
+                    <h3>Poki</h3>
+                    <p>Jogos Grátis</p>
+                </div>
+                <i class="fa-solid fa-gamepad card-bg-icon"></i>
+            </a>
+             <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <h3>CrazyGames</h3>
+                    <p>Jogos Variados</p>
+                </div>
+                <i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: IA -->
+            <div class="section-header header-ai">
+                <div class="section-title"><i class="fa-solid fa-brain"></i> Inteligência Artificial</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://chat.openai.com/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3>ChatGPT</h3>
+                    <p>OpenAI</p>
+                </div>
+                <i class="fa-solid fa-robot card-bg-icon"></i>
+            </a>
+            <a href="https://gemini.google.com/app" target="_blank" class="card" data-cat="ai">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-brands fa-google"></i></div>
+                    <h3>Gemini</h3>
+                    <p>IA do Google</p>
+                </div>
+                <i class="fa-brands fa-google card-bg-icon"></i>
+            </a>
+            <a href="https://chat.z.ai/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Z.ai Chat</h3>
+                    <p>Assistente Rápido</p>
+                </div>
+                <i class="fa-solid fa-bolt card-bg-icon"></i>
+            </a>
+            <a href="https://lmarena.ai/pt" target="_blank" class="card" data-cat="ai">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>LMArena</h3>
+                    <p>Arena de Modelos</p>
+                </div>
+                <i class="fa-solid fa-chart-line card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: DEV -->
+            <div class="section-header header-host">
+                <div class="section-title"><i class="fa-solid fa-server"></i> Hospedagem & Dev</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://github.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-brands fa-github"></i></div>
+                    <h3>GitHub</h3>
+                    <p>Código e Versionamento</p>
+                </div>
+                <i class="fa-brands fa-github card-bg-icon"></i>
+            </a>
+            <a href="https://app.netlify.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3>Netlify</h3>
+                    <p>Deploy & Hospedagem</p>
+                </div>
+                <i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: UTILITÁRIOS -->
+            <div class="section-header header-utils">
+                <div class="section-title"><i class="fa-solid fa-layer-group"></i> Estudos & Wallpapers</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://www.napkin.ai/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                    <h3>Napkin AI</h3>
+                    <p>Notas Visuais</p>
+                </div>
+                <i class="fa-solid fa-pen-nib card-bg-icon"></i>
+            </a>
+            <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpapers">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-image"></i></div>
+                    <h3>MoeWalls</h3>
+                    <p>Fundos de Tela</p>
+                </div>
+                <i class="fa-solid fa-image card-bg-icon"></i>
+            </a>
+
         </div>
 
-        <!-- Categoria: Animes -->
-        <div class="section-title">
-            <i class="fa-solid fa-dragon" style="color: var(--anime-color)"></i> Animes
-        </div>
-        <div class="grid-links">
-            <a href="https://animefire.io/" target="_blank" class="link-card anime">
-                <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
-                <h3>Anime Fire</h3>
-                <span>Animes Online HD</span>
-            </a>
-            <a href="https://animesdigital.org/home" target="_blank" class="link-card anime">
-                <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
-                <h3>Animes Digital</h3>
-                <span>Catálogo Completo</span>
-            </a>
-            <a href="https://topanimes.net/" target="_blank" class="link-card anime">
-                <div class="card-icon"><i class="fa-solid fa-star"></i></div>
-                <h3>Top Animes</h3>
-                <span>Ranking & Top</span>
-            </a>
-            <!-- Ícone alterado para Câmera de Vídeo (fa-video) -->
-            <a href="https://animesonlinecc.to/" target="_blank" class="link-card anime">
-                <div class="card-icon"><i class="fa-solid fa-video"></i></div>
-                <h3>Animes Online</h3>
-                <span>Assistir Online</span>
-            </a>
-        </div>
-
-        <!-- Categoria: Jogos -->
-        <div class="section-title">
-            <i class="fa-solid fa-gamepad" style="color: var(--game-color)"></i> Jogos
-        </div>
-        <div class="grid-links">
-            <a href="https://www.airconsole.com/" target="_blank" class="link-card gaming">
-                <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
-                <h3>AirConsole</h3>
-                <span>Jogos no navegador</span>
-            </a>
-            <a href="https://poki.com/br" target="_blank" class="link-card gaming">
-                <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
-                <h3>Poki</h3>
-                <span>Jogos Grátis</span>
-            </a>
-            <a href="https://www.crazygames.com/br/" target="_blank" class="link-card gaming">
-                <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
-                <h3>CrazyGames</h3>
-                <span>Jogos Variados</span>
-            </a>
-        </div>
-
-        <!-- Categoria: Inteligência Artificial -->
-        <div class="section-title">
-            <i class="fa-solid fa-brain" style="color: var(--accent)"></i> Inteligência Artificial
-        </div>
-        <div class="grid-links">
-            <a href="https://chat.openai.com/" target="_blank" class="link-card ai">
-                <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
-                <h3>ChatGPT</h3>
-                <span>OpenAI</span>
-            </a>
-            <a href="https://gemini.google.com/app" target="_blank" class="link-card ai">
-                <div class="card-icon"><i class="fa-brands fa-google"></i></div>
-                <h3>Gemini</h3>
-                <span>IA do Google</span>
-            </a>
-            <a href="https://chat.z.ai/" target="_blank" class="link-card ai">
-                <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
-                <h3>Z.ai Chat</h3>
-                <span>Assistente Rápido</span>
-            </a>
-            <a href="https://lmarena.ai/pt" target="_blank" class="link-card ai">
-                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <h3>LMArena</h3>
-                <span>Arena de Modelos</span>
-            </a>
-        </div>
-
-        <!-- Categoria: Hospedagem -->
-        <div class="section-title">
-            <i class="fa-solid fa-server" style="color: var(--host-color)"></i> Hospedagem & Dev
-        </div>
-        <div class="grid-links">
-            <a href="https://github.com/" target="_blank" class="link-card hosting">
-                <div class="card-icon"><i class="fa-brands fa-github"></i></div>
-                <h3>GitHub</h3>
-                <span>Código e Versionamento</span>
-            </a>
-            <a href="https://app.netlify.com/" target="_blank" class="link-card hosting">
-                <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                <h3>Netlify</h3>
-                <span>Deploy & Hospedagem</span>
-            </a>
-        </div>
-
-        <!-- Categoria: Estudos -->
-        <div class="section-title">
-            <i class="fa-solid fa-book" style="color: var(--study-color)"></i> Estudos
-        </div>
-        <div class="grid-links">
-            <a href="https://www.napkin.ai/" target="_blank" class="link-card studies">
-                <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
-                <h3>Napkin AI</h3>
-                <span>Notas Visuais</span>
-            </a>
-        </div>
-
-        <!-- Categoria: Wallpapers -->
-        <div class="section-title">
-            <i class="fa-solid fa-image" style="color: var(--wallpaper-color)"></i> Wallpapers
-        </div>
-        <div class="grid-links">
-            <a href="https://moewalls.com/" target="_blank" class="link-card wallpapers">
-                <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
-                <h3>MoeWalls</h3>
-                <span>Fundos de Tela</span>
-            </a>
-        </div>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2026 LDX | NexusHub.</p>
-    </footer>
+        <footer>
+            <p>DESIGN BY LDX &copy; 2026</p>
+        </footer>
+    </div>
 
     <script>
         function updateClock() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const timeString = `${hours}:${minutes}`;
-            document.getElementById('clock').textContent = timeString;
+            document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClock, 1000); updateClock();
+
+        const bentoGrid = document.getElementById('bentoGrid');
+        bentoGrid.addEventListener('mousemove', (e) => {
+            if(window.innerWidth > 768) {
+                const cards = Array.from(document.querySelectorAll('.card'));
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+            }
+        });
+        bentoGrid.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== document.getElementById('searchInput')) {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
     </script>
 </body>
 </html>
