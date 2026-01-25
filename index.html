@@ -84,7 +84,26 @@
 
         /* --- HERO --- */
         .hero { text-align: center; margin: 3rem 0 4rem; position: relative; }
-        .hero h1 { font-size: 3.8rem; font-weight: 700; line-height: 1.05; margin-bottom: 1rem; background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; filter: drop-shadow(0 0 30px rgba(0,0,0,0.5)); }
+        
+        /* Animação de Cores no Título */
+        @keyframes colorCycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero h1 { 
+            font-size: 3.8rem; font-weight: 700; line-height: 1.05; margin-bottom: 1rem;
+            /* Gradiente com as cores do tema */
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #06b6d4, #22c55e, #ef4444, #f59e0b, #ffffff, #8b5cf6);
+            background-size: 300% auto;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            animation: colorCycle 6s linear infinite; /* Animação suave */
+            letter-spacing: -2px; 
+            filter: drop-shadow(0 0 30px rgba(0,0,0,0.5)); 
+        }
+        
         .hero p { color: var(--text-muted); font-size: 1.05rem; max-width: 550px; margin: 0 auto 2.5rem; padding: 0 10px; font-weight: 400; }
 
         /* --- BARRA DE PESQUISA --- */
@@ -336,37 +355,45 @@
         /* Cores dos Cards */
         .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 15px rgba(239,68,68,0.2); }
         .card[data-cat="streaming"]:hover { box-shadow: 0 20px 40px -10px rgba(239,68,68,0.3), 0 0 0 1px rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+        
         .card[data-cat="anime"] .card-icon { color: #f97316; text-shadow: 0 0 15px rgba(249,115,22,0.2); }
         .card[data-cat="anime"]:hover { box-shadow: 0 20px 40px -10px rgba(249,115,22,0.3), 0 0 0 1px rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); }
+        
         .card[data-cat="manga"] .card-icon { color: #8b5cf6; text-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
         .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
+        
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
         .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
+        
         .card[data-cat="ai"] .card-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6,182,212,0.2); }
         .card[data-cat="ai"]:hover { box-shadow: 0 20px 40px -10px rgba(6,182,212,0.3), 0 0 0 1px rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); }
+        
         .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 15px rgba(45,212,191,0.2); }
         .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(45,212,191,0.3), 0 0 0 1px rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.3); }
+        
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
-        .card[data-cat="wallpapers"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59,130,246,0.2); }
-        .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(59,130,246,0.3), 0 0 0 1px rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); }
+        
+        /* MOEWALLS AMARELO */
+        .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
+        .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
 
         footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; }
 
         /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
         @media (max-width: 600px) { 
             .hero h1 { font-size: 2.4rem; } 
-            .container { padding: 0 1rem; } /* Menos padding lateral para aproveitar a tela */
+            .container { padding: 0 1rem; } 
             
             /* Barra de Pesquisa */
             .search-wrapper { width: 100%; padding: 0; }
             
-            /* Botão do Motor em Modo Ícone (Oculta texto e seta) */
+            /* Botão do Motor em Modo Ícone */
             .engine-btn {
-                width: 44px; /* Tamanho quadrado para o ícone */
+                width: 44px; 
                 padding: 0;
                 justify-content: center;
-                border-radius: 50%; /* Redondo para combinar com os botões */
+                border-radius: 50%; 
                 margin-right: 5px;
             }
             
@@ -377,11 +404,11 @@
 
             /* Dropdown Otimizado */
             .engine-dropdown {
-                width: 100%; /* Largura total da barra */
+                width: 100%; 
                 left: 0;
                 top: 130%;
                 border-radius: 12px;
-                max-height: 40vh; /* Altura máxima de 40% da tela para não cortar */
+                max-height: 40vh; 
             }
 
             /* Input */
@@ -392,13 +419,13 @@
             
             /* Botões */
             .btn-icon {
-                width: 40px; height: 40px; /* Ligeiramente menor para caber */
+                width: 40px; height: 40px;
             }
             .btn-mic { margin-right: 4px; }
 
             /* Histórico */
             .search-history {
-                left: 5px; right: 5px; /* Quase largura total */
+                left: 5px; right: 5px; 
                 border-radius: 12px;
             }
             .history-item { padding: 12px 15px; font-size: 0.95rem; }
@@ -428,7 +455,8 @@
 
         <section class="hero">
             <h1>
-                <span class="glitch-text" data-value="Bem-vindo ao NexusHub.">Bem-vindo ao NexusHub.</span>
+                <!-- Classe removida: glitch-text. Texto estático. -->
+                Bem-vindo ao NexusHub.
             </h1>
             <p>Seu hub definitivo de entretenimento e tecnologia.</p>
             
@@ -630,7 +658,7 @@
 
         /* --- SISTEMA DE PESQUISA --- */
         
-        // Configuração dos Motores de Busca (Twitter removido conforme solicitado)
+        // Configuração dos Motores de Busca
         const engines = {
             google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'fa-brands fa-google icon-google' },
             bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
@@ -779,41 +807,6 @@
             }
         });
 
-        /* --- EFEITO GLITCH NO TÍTULO --- */
-        const letters = "ABCDDH493N3CJS9XSC@#$%>[}";
-        const titleElements = document.querySelectorAll('.glitch-text');
-        const glitchColors = ['#8b5cf6', '#ec4899', '#06b6d4', '#22c55e', '#ef4444', '#f59e0b', '#ffffff'];
-
-        titleElements.forEach(element => {
-            const runGlitch = () => {
-                let iteration = 0;
-                const originalText = element.dataset.value;
-                
-                const interval = setInterval(() => {
-                    element.innerText = originalText.split("").map((letter, index) => {
-                        if (index < iteration) return originalText[index];
-                        return letters[Math.floor(Math.random() * letters.length)];
-                    }).join("");
-                    
-                    if (iteration < originalText.length) {
-                        const c1 = glitchColors[Math.floor(Math.random() * glitchColors.length)];
-                        const c2 = glitchColors[Math.floor(Math.random() * glitchColors.length)];
-                        const x1 = Math.random() * 4 - 2 + 'px';
-                        const y1 = Math.random() * 4 - 2 + 'px';
-                        element.style.textShadow = `${x1} ${y1} ${c1}, ${-x1} ${-y1} ${c2}`;
-                    } else {
-                        element.style.textShadow = 'none';
-                    }
-                    
-                    if (iteration >= originalText.length + 1) clearInterval(interval);
-                    iteration += 1; 
-                }, 20);
-            };
-
-            setTimeout(runGlitch, 500);
-            element.onmouseover = () => { clearTimeout(element.timer); element.timer = setTimeout(runGlitch, 200); };
-        });
-
         /* --- TILT 3D --- */
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
@@ -836,4 +829,3 @@
     </script>
 </body>
 </html>
-
