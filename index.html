@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LDX | NexusHub Premium</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2622/2622601.png">
+    <link rel="icon" type="image/png" href="img.png">
     
     <!-- Fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,6 +105,11 @@
         .header-streaming .section-line { background: linear-gradient(to right, #ef4444, transparent); }
         .header-anime .section-title { color: #f97316; }
         .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
+        
+        /* COR MANGÁ & MANHWAS ALTERADA PARA ROXO */
+        .header-manga .section-title { color: #8b5cf6; }
+        .header-manga .section-line { background: linear-gradient(to right, #8b5cf6, transparent); }
+
         .header-game .section-title { color: #22c55e; }
         .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
         .header-ai .section-title { color: #06b6d4; }
@@ -148,9 +153,11 @@
         .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.5px; }
         .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.2; }
 
-        /* Cores */
+        /* Cores dos Cards */
         .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.4); }
         .card[data-cat="anime"] .card-icon { color: #f97316; text-shadow: 0 0 10px rgba(249,115,22,0.4); }
+        /* COR MANGÁ & MANHWAS ALTERADA PARA ROXO */
+        .card[data-cat="manga"] .card-icon { color: #8b5cf6; text-shadow: 0 0 10px rgba(139, 92, 246, 0.4); }
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 10px rgba(34,197,94,0.4); }
         .card[data-cat="ai"] .card-icon { color: #06b6d4; text-shadow: 0 0 10px rgba(6,182,212,0.4); }
         .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 10px rgba(45,212,191,0.4); }
@@ -186,7 +193,7 @@
 
         <section class="hero">
             <h1>Bem-vindo ao LDX.<br>Entretenimento & Tech.</h1>
-            <p>Seu portal centralizado para filmes, jogos, animes, IA, estudos, wallpapers e hospedagem.</p>
+            <p>Seu portal centralizado para filmes, jogos, animes, mangás, manhwas, IA, estudos, wallpapers e hospedagem.</p>
             <div class="search-container">
                 <form class="search-bar" action="https://www.google.com/search" method="GET" target="_blank">
                     <i class="fa-solid fa-search" style="margin-left: 15px; color: var(--text-muted); font-size: 0.9rem;"></i>
@@ -207,7 +214,7 @@
             <a href="https://myflixerz.to/home" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content">
                     <div class="card-icon"><i class="fa-solid fa-ticket"></i></div>
-                    <h3>MyFlixerz</h3>
+                    <h3>My Flixerz</h3>
                     <p>Filmes e Séries HD</p>
                 </div>
                 <i class="fa-solid fa-ticket card-bg-icon"></i>
@@ -234,10 +241,19 @@
             <a href="https://filmeson3.site/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content">
                     <div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div>
-                    <h3>FilmesON</h3>
+                    <h3>Filmes ON</h3>
                     <p>Filmes Online</p>
                 </div>
                 <i class="fa-solid fa-clapperboard card-bg-icon"></i>
+            </a>
+
+            <a href="https://www.boraflix.org/" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-circle-play"></i></div>
+                    <h3>BoraFlix</h3>
+                    <p>Variedade HD</p>
+                </div>
+                <i class="fa-solid fa-circle-play card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: ANIMES -->
@@ -279,14 +295,48 @@
                 <i class="fa-solid fa-video card-bg-icon"></i>
             </a>
             
-            <!-- NOVO SITE ADICIONADO: ANIMES COMIX -->
+            <!-- ANIMES COMIX (NOME MANTIDO) -->
             <a href="https://animescomix.tv/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content">
-                    <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div>
                     <h3>Animes Comix</h3>
                     <p>Animes & Doramas</p>
                 </div>
+                <i class="fa-solid fa-masks-theater card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: MANGÁS & MANHWAS -->
+            <div class="section-header header-manga">
+                <div class="section-title"><i class="fa-solid fa-book"></i> Mangás & Manhwas</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://mangalivre.to/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Mangá Livre</h3>
+                    <p>Leitura Online</p>
+                </div>
                 <i class="fa-solid fa-book-open card-bg-icon"></i>
+            </a>
+
+            <a href="https://br.comikey.com/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-scroll"></i></div>
+                    <h3>Comikey</h3>
+                    <p>Licenciados & Scan</p>
+                </div>
+                <i class="fa-solid fa-scroll card-bg-icon"></i>
+            </a>
+
+            <!-- MUGIWARAS COM ÍCONE DE CHAPÉU (fa-hat-cowboy) -->
+            <a href="https://mugiwarasoficial.com/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content">
+                    <div class="card-icon"><i class="fa-solid fa-hat-cowboy"></i></div>
+                    <h3>Mugiwaras</h3>
+                    <p>Leitura Oficial</p>
+                </div>
+                <i class="fa-solid fa-hat-cowboy card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: JOGOS -->
