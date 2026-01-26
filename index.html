@@ -75,7 +75,7 @@
         @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 90px) scale(1.1); } }
         @keyframes pulseOrb { 0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); } 50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); } }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 80px; /* Espaço extra para o botão mobile */ }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 80px; }
 
         /* --- HEADER --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; }
@@ -403,12 +403,12 @@
         .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
 
-        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; }
+        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; position: relative; z-index: 2; background: var(--bg-dark); }
 
         /* --- MOBILE GRID TOGGLE BUTTON --- */
         .mobile-grid-toggle {
-            position: fixed;
-            bottom: 20px;
+            position: absolute; /* MUDADO PARA ABSOLUTE (Canto da página) */
+            bottom: 100px; /* Fica acima do footer */
             right: 20px;
             width: 50px;
             height: 50px;
@@ -421,7 +421,7 @@
             font-size: 0.9rem;
             box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
             cursor: pointer;
-            z-index: 1000;
+            z-index: 50;
             display: none; /* Oculto por padrão, visível só no mobile */
             align-items: center;
             justify-content: center;
@@ -484,21 +484,16 @@
             }
             .history-item { padding: 12px 15px; font-size: 0.95rem; }
 
-            /* Grid de Cards - O padrão é 2 colunas via CSS */
+            /* Grid de Cards */
             .bento-grid { gap: 12px; grid-template-columns: repeat(2, 1fr); }
             
-            /* Classes dinâmicas sobrescrevem o style inline */
+            /* Cards Padrão (Uniformes em todas as colunas) */
             .card { height: 140px; padding: 15px; }
             .card-icon { width: 38px; height: 38px; font-size: 1rem; }
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
             
-            /* Ajuste para densidade alta (5 ou 7 colunas) */
-            .bento-grid.dense-mode .card { height: 120px; padding: 10px; }
-            .bento-grid.dense-mode .card-icon { width: 32px; height: 32px; margin-bottom: 4px; }
-            .bento-grid.dense-mode .card h3 { font-size: 0.75rem; line-height: 1.1; }
-            .bento-grid.dense-mode .card p { font-size: 0.6rem; }
-            .bento-grid.dense-mode .card-bg-icon { display: none; } /* Esconde bg icon para limpar visual */
+            /* REMOVIDO: dense-mode - Agora cards mantêm visual quadrado padrão mesmo em 3x e 5x */
         }
     </style>
 </head>
@@ -779,12 +774,12 @@
         <footer>
             <p>DESIGN BY LDX &copy; 2026</p>
         </footer>
-    </div>
 
-    <!-- Botão de Controle de Grid Mobile -->
-    <button class="mobile-grid-toggle" id="gridToggleBtn" title="Mudar Colunas">
-        <span id="gridBtnText">2x</span>
-    </button>
+        <!-- Botão de Controle de Grid Mobile (Posicionado dentro da página) -->
+        <button class="mobile-grid-toggle" id="gridToggleBtn" title="Mudar Colunas">
+            <span id="gridBtnText">2x</span>
+        </button>
+    </div>
 
     <script>
         /* --- RELÓGIO --- */
@@ -966,7 +961,8 @@
         });
 
         /* --- CONTROLE DE GRID MOBILE --- */
-        const gridOptions = [2, 3, 5, 7];
+        // APENAS 2, 3 E 5
+        const gridOptions = [2, 3, 5];
         const gridBtn = document.getElementById('gridToggleBtn');
         const gridBtnText = document.getElementById('gridBtnText');
         const bentoGrid = document.getElementById('bentoGrid');
@@ -989,22 +985,11 @@
             // Aplica o estilo inline para sobrescrever o CSS media query
             bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
-            // Se for 5 ou 7 colunas, adiciona classe de densidade para ajustar tamanhos
-            if (cols >= 5) {
-                bentoGrid.classList.add('dense-mode');
-            } else {
-                bentoGrid.classList.remove('dense-mode');
-            }
-
             // Salva no localStorage
             localStorage.setItem('nexusHub_mobileCols', cols);
         }
 
         // Aplica o layout inicial
-        // Apenas aplica se estiver em mobile via CSS media query visualmente, 
-        // mas aqui aplicamos o estilo inline que só é relevante se o CSS mobile estiver ativo ou se quisermos forçar.
-        // Para garantir que funcione bem no mobile, aplicamos sempre, mas o Desktop ignora o grid-template-columns no seu CSS max-width logic.
-        // No entanto, para evitar conflitos, vamos aplicar via JS apenas se a tela for pequena
         if (window.innerWidth <= 600) {
             applyGridLayout();
         }
@@ -1018,7 +1003,6 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth > 600) {
                 bentoGrid.style.gridTemplateColumns = ''; // Remove inline style para deixar o CSS desktop cuidar disso
-                bentoGrid.classList.remove('dense-mode');
             } else {
                 applyGridLayout(); // Reaplica a preferência do mobile
             }
