@@ -342,11 +342,38 @@
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
-        /* Ajustes de Ícones */
-        .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-mobile, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
+        /* Ajustes de Ícones Antigos */
+        .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
-        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-gamepad, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
-        .card-icon .fa-bolt { font-size: 1.1rem !important; }
+        
+        /* Ícones Médios/Grandes */
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        
+        /* Correção de Icone Poki (Celular) e AirConsole (Gamepad) */
+        .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
+
+        /* Adicionado Heart para o Lovable */
+        .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
+
+        /* Ícones Recentes */
+        .card-icon .fa-bolt, .card-icon .fa-presentation-screen, .card-icon .fa-microchip, .card-icon .fa-scissors { font-size: 1.25rem !important; transform: scale(1.05); }
+        
+        /* Ícones Pequenos/Padrão */
+        .card-icon .fa-terminal, .card-icon .fa-message, .card-icon .fa-arrow-pointer { font-size: 1.05rem !important; transform: scale(1.0); }
+        .card-icon .fa-headphones-simple, .card-icon .fa-wand-magic-sparkles { font-size: 1.2rem !important; transform: scale(1.05); }
+
+        /* Novos Ícones (Web Builders) */
+        .card-icon .fa-briefcase, .card-icon .fa-laptop-code, .card-icon .fa-file-code, .card-icon .fa-window-restore { font-size: 1.2rem !important; transform: scale(1.05); }
+
+        /* Novos Ícones (Ideogram, Rocket) */
+        .card-icon .fa-palette, .card-icon .fa-rocket { font-size: 1.25rem !important; transform: scale(1.05); }
+
+        /* NOVOS: JOGOS E MANGÁS */
+        .card-icon .fa-vr-cardboard, .card-icon .fa-dice { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-glasses { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
+
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
         .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform 0.2s; }
         .card:hover h3 { transform: translateY(-1px); }
@@ -455,7 +482,6 @@
 
         <section class="hero">
             <h1>
-                <!-- Classe removida: glitch-text. Texto estático. -->
                 Bem-vindo ao NexusHub.
             </h1>
             <p>Seu hub definitivo de entretenimento e tecnologia.</p>
@@ -580,20 +606,40 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-hat-cowboy"></i></div><h3>Mugiwaras</h3><p>Leitura Oficial</p></div><i class="fa-solid fa-hat-cowboy card-bg-icon"></i>
             </a>
 
+            <!-- NOVOS: ROLIA E MANGAHERE -->
+            <a href="https://roliascan.com/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-glasses"></i></div><h3>RoliaScan</h3><p>Leitura Online</p></div><i class="fa-solid fa-glasses card-bg-icon"></i>
+            </a>
+            <a href="https://www.mangahere.cc/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div><h3>MangaHere</h3><p>Mangás Variados</p></div><i class="fa-solid fa-book-open-reader card-bg-icon"></i>
+            </a>
+
             <!-- SEÇÃO: JOGOS -->
             <div class="section-header header-game">
                 <div class="section-title"><i class="fa-solid fa-gamepad"></i> Jogos</div>
                 <div class="section-line"></div>
             </div>
 
+            <!-- AirConsole (Gamepad) com ajuste para centralizar no quadrado -->
             <a href="https://www.airconsole.com/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-gamepad"></i></div><h3>AirConsole</h3><p>Jogos no navegador</p></div><i class="fa-solid fa-gamepad card-bg-icon"></i>
             </a>
+            
+            <!-- Poki (Mobile) com tamanho ajustado -->
             <a href="https://poki.com/br" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mobile"></i></div><h3>Poki</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-mobile card-bg-icon"></i>
             </a>
+             
              <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><h3>Crazy Games</h3><p>Jogos Variados</p></div><i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
+            </a>
+
+            <!-- JOGOS 360 COM NOVO ÍCONE (DADOS) PARA EVITAR REPETIÇÃO COM AIRCONSOLE -->
+            <a href="https://www.jogos360.com.br/" target="_blank" class="card" data-cat="games">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-dice"></i></div><h3>Jogos 360</h3><p>Jogos Online</p></div><i class="fa-solid fa-dice card-bg-icon"></i>
+            </a>
+            <a href="https://playhop.com/pt" target="_blank" class="card" data-cat="games">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: IA -->
@@ -613,6 +659,53 @@
             </a>
             <a href="https://lmarena.ai/pt" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-line"></i></div><h3>LMArena</h3><p>Arena de Modelos</p></div><i class="fa-solid fa-chart-line card-bg-icon"></i>
+            </a>
+            
+            <a href="https://audio.z.ai/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-headphones-simple"></i></div><h3>Z.ai Audio</h3><p>Criação de Áudio</p></div><i class="fa-solid fa-headphones-simple card-bg-icon"></i>
+            </a>
+            <a href="https://image.z.ai/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Z.ai Image</h3><p>Criação de Imagem</p></div><i class="fa-solid fa-wand-magic-sparkles card-bg-icon"></i>
+            </a>
+
+            <!-- REMOVIDO: OPUS PRO -->
+            <!-- REMOVIDO: BLINK -->
+
+            <a href="https://www.perplexity.ai/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-microchip"></i></div><h3>Perplexity</h3><p>Busca Inteligente</p></div><i class="fa-solid fa-microchip card-bg-icon"></i>
+            </a>
+            <a href="https://claude.ai/new" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-message"></i></div><h3>Claude</h3><p>Anthropic AI</p></div><i class="fa-solid fa-message card-bg-icon"></i>
+            </a>
+
+            <a href="https://durable.com/pt" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-briefcase"></i></div><h3>Durable</h3><p>Site em Segundos</p></div><i class="fa-solid fa-briefcase card-bg-icon"></i>
+            </a>
+            <a href="https://wegic.ai/pt-br" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Wegic</h3><p>Site por Chat</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
+            </a>
+            
+            <!-- LOVABLE COM ÍCONE DE CORAÇÃO -->
+            <a href="https://lovable.dev/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-heart"></i></div><h3>Lovable</h3><p>GPT-4o Builder</p></div><i class="fa-solid fa-heart card-bg-icon"></i>
+            </a>
+            
+            <a href="https://10web.io/ai-website-builder/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-window-restore"></i></div><h3>10Web AI</h3><p>WordPress AI</p></div><i class="fa-solid fa-window-restore card-bg-icon"></i>
+            </a>
+
+            <!-- NOVOS: IDEOGRAM (COM ÍCONE FILE-CODE), REPLIT, ROCKET, NAPKIN MOVIDO -->
+            <a href="https://ideogram.ai/t/explore" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-file-code"></i></div><h3>Ideogram</h3><p>Arte & Texto</p></div><i class="fa-solid fa-file-code card-bg-icon"></i>
+            </a>
+            <a href="https://replit.com/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-terminal"></i></div><h3>Replit</h3><p>Coding & IDE</p></div><i class="fa-solid fa-terminal card-bg-icon"></i>
+            </a>
+            <a href="https://www.rocket.new/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-rocket"></i></div><h3>Rocket</h3><p>Web Builder</p></div><i class="fa-solid fa-rocket card-bg-icon"></i>
+            </a>
+            <a href="https://www.napkin.ai/" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div><h3>Napkin AI</h3><p>Notas Visuais</p></div><i class="fa-solid fa-pen-nib card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: DEV -->
@@ -634,11 +727,15 @@
                 <div class="section-line"></div>
             </div>
 
-            <a href="https://www.napkin.ai/" target="_blank" class="card" data-cat="studies">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div><h3>Napkin AI</h3><p>Notas Visuais</p></div><i class="fa-solid fa-pen-nib card-bg-icon"></i>
-            </a>
+            <!-- Napkin AI foi removido daqui e movido para IA -->
+            <!-- Gamma foi removido conforme solicitado -->
+
             <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpapers">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>Fundos de Tela</p></div><i class="fa-solid fa-image card-bg-icon"></i>
+            </a>
+
+            <a href="https://sweezy-cursors.com/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-arrow-pointer"></i></div><h3>Sweezy</h3><p>Custom Cursor</p></div><i class="fa-solid fa-arrow-pointer card-bg-icon"></i>
             </a>
 
         </div>
@@ -811,7 +908,7 @@
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
-                if(window.innerWidth > 768) {
+                if(window.innerWidth >768) {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
