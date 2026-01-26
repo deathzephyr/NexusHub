@@ -403,7 +403,7 @@
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         
         /* Ícones Médios/Grandes */
-        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-globe, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
         
         /* Correção de Icone Poki (Celular) e AirConsole (Gamepad) */
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -557,19 +557,23 @@
             /* Esconde a descrição no 5x mobile para ficar mais limpo (Pretty Squares) */
             .bento-grid.cols-5 .card p { display: none; }
             .bento-grid.cols-5 .card-bg-icon { display: none; } 
+            
+            /* Controle de Opções Mobile: Esconde 'Auto' e 'Padrão' */
+            .grid-option[data-cols="auto"] { display: none !important; }
         }
         
         /* --- REGRA PARA DESKTOP --- */
         @media (min-width: 601px) {
-            /* 1. Esconde o botão de controle no PC */
-            .grid-selector {
-                display: none !important;
-            }
+            /* Botão Visível no Desktop */
+            /* .grid-selector removido do display: none */
 
-            /* 2. Força 5 colunas no PC sempre */
-            .bento-grid {
-                grid-template-columns: repeat(5, 1fr) !important;
+            /* Controle de Opções PC: Esconde 2 e 3 */
+            .grid-option[data-cols="2"],
+            .grid-option[data-cols="3"] {
+                display: none;
             }
+            
+            /* Default behavior is Auto via CSS grid-template-columns */
         }
     </style>
 </head>
@@ -587,12 +591,13 @@
             
             <!-- Controles do Header (Relógio + Grid) -->
             <div class="header-controls">
-                <!-- Botão de Controle de Grid (VISÍVEL APENAS NO CELULAR, NO PC É ESCONDIDO POR CSS) -->
+                <!-- Botão de Controle de Grid -->
                 <div class="grid-selector">
                     <button class="grid-btn" id="gridBtn" title="Layout">
                         <i class="fa-solid fa-border-all"></i>
                     </button>
                     <div class="grid-dropdown" id="gridDropdown">
+                        <div class="grid-option" data-cols="auto">Padrão (Auto)</div>
                         <div class="grid-option" data-cols="2">2 Colunas</div>
                         <div class="grid-option" data-cols="3">3 Colunas</div>
                         <div class="grid-option" data-cols="5">5 Colunas</div>
@@ -848,6 +853,11 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
             </a>
 
+            <!-- NOVO: VERCEL -->
+            <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
+            </a>
+
             <!-- SEÇÃO: UTILITÁRIOS -->
             <div class="section-header header-utils">
                 <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilidades </div>
@@ -1048,7 +1058,7 @@
             });
         });
 
-        /* --- CONTROLE DE GRID (APENAS MOBILE) --- */
+        /* --- CONTROLE DE GRID (MOBILE E PC) --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const bentoGrid = document.getElementById('bentoGrid');
@@ -1074,15 +1084,29 @@
         });
 
         function applyGrid(cols) {
-            // Remove classes antigas
+            // Limpa classes antigas
             bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
             
-            // Aplica nova classe e estilo
-            bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-            bentoGrid.classList.add(`cols-${cols}`);
-            
-            // Salva preferência
-            localStorage.setItem('nexusHub_mobileCols', cols);
+            if (cols === 'auto') {
+                // Volta ao formato antigo (removendo o inline style, deixa o CSS default agir)
+                bentoGrid.style.gridTemplateColumns = '';
+                // Salva preferência baseada na tela
+                saveGridPreference('auto');
+            } else {
+                // Aplica fixo (2, 3 ou 5)
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
+                // Salva preferência
+                saveGridPreference(cols);
+            }
+        }
+
+        function saveGridPreference(value) {
+            if (window.innerWidth <= 600) {
+                localStorage.setItem('nexusHub_mobileCols', value);
+            } else {
+                localStorage.setItem('nexusHub_desktopCols', value);
+            }
         }
 
         // Fechar ao clicar fora
@@ -1094,31 +1118,37 @@
 
         // Carregar Preferência Salva
         function loadSavedGrid() {
-            const savedCols = localStorage.getItem('nexusHub_mobileCols');
-            if (savedCols && (savedCols == 2 || savedCols == 3 || savedCols == 5)) {
-                // Seleciona o item no menu
-                const optToSelect = document.querySelector(`.grid-option[data-cols="${savedCols}"]`);
-                if(optToSelect) optToSelect.classList.add('selected');
-                
-                // Aplica o grid apenas se estiver no mobile
-                if (window.innerWidth <= 600) {
-                    applyGrid(savedCols);
-                }
+            let savedCols;
+            let key;
+            
+            if (window.innerWidth <= 600) {
+                key = 'nexusHub_mobileCols';
+                savedCols = localStorage.getItem(key);
+                // Se não tiver salvo, padrão mobile é 2
+                if(!savedCols) savedCols = '2';
+            } else {
+                key = 'nexusHub_desktopCols';
+                savedCols = localStorage.getItem(key);
+                // Se não tiver salvo, padrão desktop é 'auto'
+                if(!savedCols) savedCols = 'auto';
             }
+
+            // Seleciona o item no menu visualmente
+            const optToSelect = document.querySelector(`.grid-option[data-cols="${savedCols}"]`);
+            if(optToSelect) optToSelect.classList.add('selected');
+            
+            // Aplica
+            applyGrid(savedCols);
         }
         
         loadSavedGrid();
 
-        // Monitorar redimensionamento (Reaplica se voltar pro mobile)
+        // Monitorar redimensionamento (Reaplica se mudar de mobile <-> desktop)
+        let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
-            if (window.innerWidth <= 600) {
-                // Se for mobile, reaplica a preferência salva
-                const savedCols = localStorage.getItem('nexusHub_mobileCols');
-                if (savedCols) applyGrid(savedCols);
-            } else {
-                // Se for desktop, remove o estilo inline para voltar ao CSS Desktop (que força 5 colunas)
-                bentoGrid.style.gridTemplateColumns = '';
-                bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                loadSavedGrid();
             }
         });
 
