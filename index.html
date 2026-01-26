@@ -461,7 +461,19 @@
         .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
 
-        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; position: relative; z-index: 2; background: var(--bg-dark); }
+        /* --- FOOTER --- */
+        footer { 
+            text-align: center; 
+            padding: 2rem 0; 
+            color: var(--text-muted); 
+            border-top: 1px solid var(--glass-border); 
+            margin-top: 3rem; 
+            font-size: 0.8rem; 
+            letter-spacing: 0.5px; 
+            position: relative; 
+            z-index: 2; 
+            background: transparent; /* FUNDO TRANSPARENTE */
+        }
 
         /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
         @media (max-width: 600px) { 
@@ -522,19 +534,41 @@
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
 
-            /* Ajuste Específico para 5 Colunas (Texto menor, mas altura igual) */
-            .bento-grid.cols-5 .card-icon { width: 32px; height: 32px; font-size: 0.9rem; margin-bottom: 5px; }
-            .bento-grid.cols-5 .card h3 { font-size: 0.8rem; line-height: 1.1; }
-            .bento-grid.cols-5 .card p { font-size: 0.6rem; }
-            .bento-grid.cols-5 .card-bg-icon { display: none; } /* Limpa visual em cards muito estreitos */
+            /* Ajuste Específico para 5 Colunas (Quadradinhos Bonitos) */
+            .bento-grid.cols-5 {
+                gap: 8px; /* Menos espaçamento para caber melhor */
+            }
+            .bento-grid.cols-5 .card {
+                height: 110px; /* Altura proporcional */
+                padding: 8px; /* Padding menor para ganhar espaço interno */
+            }
+            .bento-grid.cols-5 .card-icon { 
+                width: 26px; 
+                height: 26px; 
+                font-size: 0.75rem; 
+                margin-bottom: 4px; 
+                padding: 0; /* Remove padding do ícone para centralizar perfeitamente */
+            }
+            .bento-grid.cols-5 .card h3 { 
+                font-size: 0.65rem; 
+                line-height: 1.1; 
+                margin: 0;
+            }
+            /* Esconde a descrição no 5x mobile para ficar mais limpo (Pretty Squares) */
+            .bento-grid.cols-5 .card p { display: none; }
+            .bento-grid.cols-5 .card-bg-icon { display: none; } 
         }
         
         /* --- REGRA PARA DESKTOP --- */
         @media (min-width: 601px) {
-            /* Esconde as opções 2x e 3x no menu do computador, deixando apenas 5x */
-            .grid-option[data-cols="2"],
-            .grid-option[data-cols="3"] {
-                display: none;
+            /* 1. Esconde o botão de controle no PC */
+            .grid-selector {
+                display: none !important;
+            }
+
+            /* 2. Força 5 colunas no PC sempre */
+            .bento-grid {
+                grid-template-columns: repeat(5, 1fr) !important;
             }
         }
     </style>
@@ -553,7 +587,7 @@
             
             <!-- Controles do Header (Relógio + Grid) -->
             <div class="header-controls">
-                <!-- Botão de Controle de Grid (NO HEADER) -->
+                <!-- Botão de Controle de Grid (VISÍVEL APENAS NO CELULAR, NO PC É ESCONDIDO POR CSS) -->
                 <div class="grid-selector">
                     <button class="grid-btn" id="gridBtn" title="Layout">
                         <i class="fa-solid fa-border-all"></i>
@@ -1013,7 +1047,7 @@
             });
         });
 
-        /* --- CONTROLE DE GRID (NO HEADER) --- */
+        /* --- CONTROLE DE GRID (APENAS MOBILE) --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const bentoGrid = document.getElementById('bentoGrid');
@@ -1074,15 +1108,16 @@
         
         loadSavedGrid();
 
-        // Monitorar redimensionamento
+        // Monitorar redimensionamento (Reaplica se voltar pro mobile)
         window.addEventListener('resize', () => {
             if (window.innerWidth <= 600) {
                 // Se for mobile, reaplica a preferência salva
                 const savedCols = localStorage.getItem('nexusHub_mobileCols');
                 if (savedCols) applyGrid(savedCols);
             } else {
-                // Se for desktop, remove o estilo inline para voltar ao auto
+                // Se for desktop, remove o estilo inline para voltar ao CSS Desktop (que força 5 colunas)
                 bentoGrid.style.gridTemplateColumns = '';
+                bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
             }
         });
 
