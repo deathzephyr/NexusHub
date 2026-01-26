@@ -479,8 +479,6 @@
         
         /* Ícones Social Media */
         .card-icon .fa-brands.fa-instagram { font-size: 1.3rem !important; transform: scale(1.1); }
-        /* REMOVIDO: fa-x-twitter */
-        /* NOVO: Discord */
         .card-icon .fa-brands.fa-discord { font-size: 1.3rem !important; transform: scale(1.1); }
         .card-icon .fa-brands.fa-tiktok { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-brands.fa-facebook { font-size: 1.4rem !important; transform: scale(1.1); } 
@@ -586,37 +584,40 @@
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
 
-            .bento-grid.cols-5 {
-                gap: 8px; 
-            }
-            .bento-grid.cols-5 .card {
-                height: 110px; 
-                padding: 8px; 
-            }
-            .bento-grid.cols-5 .card-icon { 
-                width: 26px; 
-                height: 26px; 
-                font-size: 0.75rem; 
-                margin-bottom: 4px; 
-                padding: 0; 
-            }
-            .bento-grid.cols-5 .card h3 { 
-                font-size: 0.65rem; 
-                line-height: 1.1; 
-                margin: 0;
-            }
-            .bento-grid.cols-5 .card p { display: none; }
-            .bento-grid.cols-5 .card-bg-icon { display: none; } 
-            
+            /* Estilos Específicos para Grid Mobile */
             .dropdown-option[data-cols="auto"] { display: none !important; }
         }
         
+        /* Estilos Específicos para Grid Desktop */
         @media (min-width: 601px) {
             .dropdown-option[data-cols="2"],
             .dropdown-option[data-cols="3"] {
                 display: none;
             }
         }
+
+        /* Estilos para opção 5 Colunas (Compactada) */
+        .bento-grid.cols-5 {
+            gap: 8px; 
+        }
+        .bento-grid.cols-5 .card {
+            height: 110px; 
+            padding: 8px; 
+        }
+        .bento-grid.cols-5 .card-icon { 
+            width: 26px; 
+            height: 26px; 
+            font-size: 0.75rem; 
+            margin-bottom: 4px; 
+            padding: 0; 
+        }
+        .bento-grid.cols-5 .card h3 { 
+            font-size: 0.65rem; 
+            line-height: 1.1; 
+            margin: 0;
+        }
+        .bento-grid.cols-5 .card p { display: none; }
+        .bento-grid.cols-5 .card-bg-icon { display: none; }
     </style>
 </head>
 <body>
@@ -631,7 +632,7 @@
         <header>
             <div class="logo"><i class="fa-solid fa-cube"></i> LDX</div>
             
-            <!-- Controles do Header (Relógio + Grid + Categoria + Ordem) -->
+            <!-- Controles do Header (Relógio + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- Botão de Controle de Grid -->
@@ -644,20 +645,6 @@
                         <div class="dropdown-option" data-cols="2">2 Colunas</div>
                         <div class="dropdown-option" data-cols="3">3 Colunas</div>
                         <div class="dropdown-option" data-cols="5">5 Colunas</div>
-                    </div>
-                </div>
-
-                <!-- Botão de Controle de Ordem (NOVO) -->
-                <div class="header-btn-wrapper">
-                    <button class="header-btn" id="sortBtn" title="Ordem">
-                        <i class="fa-solid fa-arrow-down-wide-short"></i>
-                    </button>
-                    <div class="header-dropdown" id="sortDropdown">
-                        <div class="dropdown-option selected" data-sort="original">Padrão (Atual)</div>
-                        <div class="dropdown-option" data-sort="alpha">Alfabética</div>
-                        <div class="dropdown-option" data-sort="category">Por Categoria</div>
-                        <div class="dropdown-option" data-sort="color">Por Cor</div>
-                        <div class="dropdown-option" data-sort="random">Aleatória</div>
                     </div>
                 </div>
                 
@@ -914,7 +901,7 @@
             <a href="https://www.instagram.com/" target="_blank" class="card" data-cat="social">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-instagram"></i></div><h3>Instagram</h3><p>Fotos e Stories</p></div><i class="fa-brands fa-instagram card-bg-icon"></i>
             </a>
-            <!-- DISCORD (Substituiu Twitter) -->
+            <!-- DISCORD -->
             <a href="https://discord.com/" target="_blank" class="card" data-cat="social">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-discord"></i></div><h3>Discord</h3><p>Comunidades</p></div><i class="fa-brands fa-discord card-bg-icon"></i>
             </a>
@@ -1022,10 +1009,14 @@
             // 3. Mostra os Headers baseados nos cards visíveis
             if (visibleCategories.size > 0) {
                 headers.forEach(header => {
-                    const headerCat = Array.from(header.classList).find(cls => cls.startsWith('header-'))?.replace('header-', '');
-                    if (visibleCategories.has(headerCat)) {
-                        header.style.display = 'flex';
-                    }
+                    if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
+                    if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
+                    if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
+                    if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex';
+                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
+                    if (header.classList.contains('header-social') && visibleCategories.has('social')) header.style.display = 'flex';
+                    if (header.classList.contains('header-utils') && (visibleCategories.has('studies') || visibleCategories.has('wallpapers'))) header.style.display = 'flex';
                 });
             }
         }
@@ -1158,139 +1149,11 @@
             }
         });
 
-        /* --- SISTEMA DE ORDENAÇÃO (NOVO) --- */
-        const bentoGrid = document.getElementById('bentoGrid');
-        const originalOrder = Array.from(bentoGrid.children);
-        const sortBtn = document.getElementById('sortBtn');
-        const sortDropdown = document.getElementById('sortDropdown');
-        const sortOptions = document.querySelectorAll('#sortDropdown .dropdown-option');
-
-        sortBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            sortDropdown.classList.toggle('active');
-        });
-
-        sortOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
-                const mode = opt.dataset.sort;
-                
-                // Remove seleção visual dos outros e atualiza este
-                sortOptions.forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-
-                // Executa a ordenação
-                applySort(mode);
-                sortDropdown.classList.remove('active');
-            });
-        });
-
-        function applySort(mode) {
-            // Clona a ordem atual para garantir que não alteramos o array original acidentalmente na hora de misturar
-            let currentElements = Array.from(bentoGrid.children);
-            
-            // Limpa o grid
-            bentoGrid.innerHTML = '';
-
-            if (mode === 'original') {
-                // Restaura a ordem HTML original
-                originalOrder.forEach(el => bentoGrid.appendChild(el));
-                return;
-            }
-
-            if (mode === 'random') {
-                // Embaralha tudo (apenas cards)
-                // Nota: É interessante manter os headers fixos ou embaralhar tudo junto? 
-                // Para efeito visual, vamos embaralhar tudo.
-                shuffleArray(currentElements);
-            }
-
-            if (mode === 'alpha') {
-                currentElements.sort((a, b) => {
-                    const textA = a.innerText.toLowerCase();
-                    const textB = b.innerText.toLowerCase();
-                    if (textA < textB) return -1;
-                    if (a.tagName === b.tagName) return 0;
-                    return textA.localeCompare(textB, 'pt-BR');
-                });
-            }
-
-            if (mode === 'category') {
-                // Ordem de Categorias definida: Filmes -> Animes -> Mangás -> Jogos -> IA -> Dev -> Social -> Utils
-                const catPriority = ['streaming', 'anime', 'manga', 'games', 'ai', 'hosting', 'social', 'studies', 'wallpapers'];
-                
-                // Recria a lista agrupando por categoria
-                let newOrder = [];
-                
-                catPriority.forEach(cat => {
-                    // Encontra os cards dessa categoria
-                    const catCards = currentElements.filter(el => el.dataset.cat === cat);
-                    // Encontra o header dessa categoria (baseado na classe do header)
-                    const header = currentElements.find(el => el.classList.contains('header-' + cat));
-                    
-                    if (header) newOrder.push(header);
-                    catCards.forEach(card => newOrder.push(card));
-                });
-                
-                currentElements = newOrder;
-            }
-
-            if (mode === 'color') {
-                // Agrupa cor
-                const map = new Map();
-                
-                currentElements.forEach(el => {
-                    // Se for header, ignora ou coloca no topo?
-                    // Vamos agrupar tudo pela cor do ícone do card ou header
-                    let colorKey = 'other';
-                    
-                    if (el.classList.contains('section-header')) {
-                        // Cor do título do header (baseado na categoria)
-                        // Como headers não têm data-cat, inferimos pela classe
-                        if (el.classList.contains('header-streaming')) colorKey = '#ef4444';
-                        else if (el.classList.contains('header-anime')) colorKey = '#f97316';
-                        else if (el.classList.contains('header-manga')) colorKey = '#8b5cf6';
-                        else if (el16 => el16.classList.contains('header-game')) colorKey = '#22c55e';
-                        else if (el.classList.contains('header-ai')) colorKey = '#06b6d4';
-                        else if (el.classList.contains('header-host')) colorKey = '#2dd4bf';
-                        else if (el.classList.contains('header-utils')) colorKey = '#f59e0b'; // Utils + Wallpapers
-                    } else {
-                        // É um card, pega a cor real renderizada do ícone
-                        const icon = el.querySelector('.card-icon i');
-                        if (icon) {
-                            const styles = window.getComputedStyle(icon);
-                            colorKey = styles.color; 
-                        }
-                    }
-                    
-                    if (!map.has(colorKey)) map.set(colorKey, []);
-                    map.get(colorKey).push(el);
-                });
-                
-                currentElements = Array.from(map.values()).flat();
-            }
-
-            // Reinsere no DOM
-            currentElements.forEach(el => bentoGrid.appendChild(el));
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        // Fecha dropdown ao clicar fora
-        document.addEventListener('click', (e) => {
-            if (!sortBtn.contains(e.target) && !sortDropdown.contains(e.target)) {
-                sortDropdown.classList.remove('active');
-            }
-        });
-
         /* --- CONTROLE DE GRID (MOBILE E PC) --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
+        const bentoGrid = document.getElementById('bentoGrid');
 
         gridBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1350,6 +1213,13 @@
             if (window.innerWidth !== lastWidth) {
                 lastWidth = window.innerWidth;
                 loadSavedGrid();
+            }
+        });
+
+        // Fecha dropdown ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) {
+                gridDropdown.classList.remove('active');
             }
         });
 
