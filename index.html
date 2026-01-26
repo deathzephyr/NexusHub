@@ -75,7 +75,7 @@
         @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 90px) scale(1.1); } }
         @keyframes pulseOrb { 0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); } 50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); } }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 80px; /* Espaço extra para o botão mobile */ }
 
         /* --- HEADER --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; }
@@ -94,12 +94,11 @@
 
         .hero h1 { 
             font-size: 3.8rem; font-weight: 700; line-height: 1.05; margin-bottom: 1rem;
-            /* Gradiente com as cores do tema */
             background: linear-gradient(90deg, #8b5cf6, #ec4899, #06b6d4, #22c55e, #ef4444, #f59e0b, #ffffff, #8b5cf6);
             background-size: 300% auto;
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
-            animation: colorCycle 6s linear infinite; /* Animação suave */
+            animation: colorCycle 6s linear infinite;
             letter-spacing: -2px; 
             filter: drop-shadow(0 0 30px rgba(0,0,0,0.5)); 
         }
@@ -172,7 +171,6 @@
             overflow-y: auto;
         }
         
-        /* Scrollbar */
         .engine-dropdown::-webkit-scrollbar { width: 6px; }
         .engine-dropdown::-webkit-scrollbar-track { background: transparent; }
         .engine-dropdown::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
@@ -292,7 +290,7 @@
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- GRID & SEÇÕES --- */
-        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 16px; padding-bottom: 5rem; }
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 16px; padding-bottom: 5rem; transition: all 0.3s ease; }
         .section-header { grid-column: 1 / -1; display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0 1.5rem 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .section-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
         .section-line { height: 1px; width: 100%; background: linear-gradient(to right, rgba(255,255,255,0.2), transparent); }
@@ -347,7 +345,7 @@
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         
         /* Ícones Médios/Grandes */
-        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
         
         /* Correção de Icone Poki (Celular) e AirConsole (Gamepad) */
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -407,10 +405,39 @@
 
         footer { text-align: center; padding: 2rem 0; color: var(--text-muted); border-top: 1px solid var(--glass-border); margin-top: 3rem; font-size: 0.8rem; letter-spacing: 0.5px; }
 
+        /* --- MOBILE GRID TOGGLE BUTTON --- */
+        .mobile-grid-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+            cursor: pointer;
+            z-index: 1000;
+            display: none; /* Oculto por padrão, visível só no mobile */
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+        .mobile-grid-toggle:active { transform: scale(0.95); }
+        .mobile-grid-toggle span { pointer-events: none; }
+
         /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
         @media (max-width: 600px) { 
             .hero h1 { font-size: 2.4rem; } 
             .container { padding: 0 1rem; } 
+            
+            /* Mostra botão de toggle no mobile */
+            .mobile-grid-toggle { display: flex; }
             
             /* Barra de Pesquisa */
             .search-wrapper { width: 100%; padding: 0; }
@@ -457,12 +484,21 @@
             }
             .history-item { padding: 12px 15px; font-size: 0.95rem; }
 
-            /* Grid de Cards */
+            /* Grid de Cards - O padrão é 2 colunas via CSS */
             .bento-grid { gap: 12px; grid-template-columns: repeat(2, 1fr); }
+            
+            /* Classes dinâmicas sobrescrevem o style inline */
             .card { height: 140px; padding: 15px; }
             .card-icon { width: 38px; height: 38px; font-size: 1rem; }
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
+            
+            /* Ajuste para densidade alta (5 ou 7 colunas) */
+            .bento-grid.dense-mode .card { height: 120px; padding: 10px; }
+            .bento-grid.dense-mode .card-icon { width: 32px; height: 32px; margin-bottom: 4px; }
+            .bento-grid.dense-mode .card h3 { font-size: 0.75rem; line-height: 1.1; }
+            .bento-grid.dense-mode .card p { font-size: 0.6rem; }
+            .bento-grid.dense-mode .card-bg-icon { display: none; } /* Esconde bg icon para limpar visual */
         }
     </style>
 </head>
@@ -654,6 +690,12 @@
             <a href="https://gemini.google.com/app" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-google"></i></div><h3>Gemini</h3><p>IA do Google</p></div><i class="fa-brands fa-google card-bg-icon"></i>
             </a>
+            
+            <!-- NOVO: DEEPSEEK -->
+            <a href="https://chat.ai-pro.org/chat/deepseek" target="_blank" class="card" data-cat="ai">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-atom"></i></div><h3>DeepSeek</h3><p>IA Chat Pro</p></div><i class="fa-solid fa-atom card-bg-icon"></i>
+            </a>
+
             <a href="https://chat.z.ai/" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-bolt"></i></div><h3>Z.ai Chat</h3><p>Assistente Rápido</p></div><i class="fa-solid fa-bolt card-bg-icon"></i>
             </a>
@@ -667,9 +709,6 @@
             <a href="https://image.z.ai/" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Z.ai Image</h3><p>Criação de Imagem</p></div><i class="fa-solid fa-wand-magic-sparkles card-bg-icon"></i>
             </a>
-
-            <!-- REMOVIDO: OPUS PRO -->
-            <!-- REMOVIDO: BLINK -->
 
             <a href="https://www.perplexity.ai/" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-microchip"></i></div><h3>Perplexity</h3><p>Busca Inteligente</p></div><i class="fa-solid fa-microchip card-bg-icon"></i>
@@ -727,9 +766,6 @@
                 <div class="section-line"></div>
             </div>
 
-            <!-- Napkin AI foi removido daqui e movido para IA -->
-            <!-- Gamma foi removido conforme solicitado -->
-
             <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpapers">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>Fundos de Tela</p></div><i class="fa-solid fa-image card-bg-icon"></i>
             </a>
@@ -744,6 +780,11 @@
             <p>DESIGN BY LDX &copy; 2026</p>
         </footer>
     </div>
+
+    <!-- Botão de Controle de Grid Mobile -->
+    <button class="mobile-grid-toggle" id="gridToggleBtn" title="Mudar Colunas">
+        <span id="gridBtnText">2x</span>
+    </button>
 
     <script>
         /* --- RELÓGIO --- */
@@ -923,6 +964,66 @@
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
         });
+
+        /* --- CONTROLE DE GRID MOBILE --- */
+        const gridOptions = [2, 3, 5, 7];
+        const gridBtn = document.getElementById('gridToggleBtn');
+        const gridBtnText = document.getElementById('gridBtnText');
+        const bentoGrid = document.getElementById('bentoGrid');
+        
+        let currentGridIndex = 0;
+
+        // Carregar preferência salva
+        const savedGrid = localStorage.getItem('nexusHub_mobileCols');
+        if (savedGrid) {
+            const index = gridOptions.indexOf(parseInt(savedGrid));
+            if (index !== -1) {
+                currentGridIndex = index;
+            }
+        }
+
+        function applyGridLayout() {
+            const cols = gridOptions[currentGridIndex];
+            gridBtnText.textContent = `${cols}x`;
+            
+            // Aplica o estilo inline para sobrescrever o CSS media query
+            bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+            // Se for 5 ou 7 colunas, adiciona classe de densidade para ajustar tamanhos
+            if (cols >= 5) {
+                bentoGrid.classList.add('dense-mode');
+            } else {
+                bentoGrid.classList.remove('dense-mode');
+            }
+
+            // Salva no localStorage
+            localStorage.setItem('nexusHub_mobileCols', cols);
+        }
+
+        // Aplica o layout inicial
+        // Apenas aplica se estiver em mobile via CSS media query visualmente, 
+        // mas aqui aplicamos o estilo inline que só é relevante se o CSS mobile estiver ativo ou se quisermos forçar.
+        // Para garantir que funcione bem no mobile, aplicamos sempre, mas o Desktop ignora o grid-template-columns no seu CSS max-width logic.
+        // No entanto, para evitar conflitos, vamos aplicar via JS apenas se a tela for pequena
+        if (window.innerWidth <= 600) {
+            applyGridLayout();
+        }
+
+        gridBtn.addEventListener('click', () => {
+            currentGridIndex = (currentGridIndex + 1) % gridOptions.length;
+            applyGridLayout();
+        });
+
+        // Reajusta ao redimensionar (opcional, para resetar se sair do mobile)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 600) {
+                bentoGrid.style.gridTemplateColumns = ''; // Remove inline style para deixar o CSS desktop cuidar disso
+                bentoGrid.classList.remove('dense-mode');
+            } else {
+                applyGridLayout(); // Reaplica a preferência do mobile
+            }
+        });
+
     </script>
 </body>
 </html>
