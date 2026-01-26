@@ -36,6 +36,7 @@
             --color-wiki: #FFFFFF;
             --color-spotify: #1DB954;
             --color-cloudflare: #F38020;
+            --color-vercel: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -420,8 +421,29 @@
             position: relative; 
             z-index: 10 !important;
         }
-        .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
+        /* --- CORREÇÃO CRÍTICA: FORÇAR FONTES DO FONTAWESOME --- */
+        .card-icon i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: inherit;
+        }
+
+        /* Forçar fonte para Ícones SOLID (Github, Globe, etc) */
+        .card-icon .fa-solid, 
+        .card-icon .fas {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+
+        /* Forçar fonte para Ícones BRANDS (Vercel, Spotify, Reddit, Cloudflare) */
+        .card-icon .fa-brands, 
+        .card-icon .fab {
+            font-family: "Font Awesome 6 Brands";
+            font-weight: 400;
+        }
+
         /* Ajustes de Ícones Antigos */
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
@@ -454,34 +476,25 @@
         .card-icon .fa-glasses { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
 
-        /* --- ÍCONES ESPECÍFICOS (CORRIGIDOS: VERCEL, CLOUDFLARE, INVERTEXTO) --- */
-        /* Vercel: Aumentado tamanho e forçado display inline-flex para centralizar perfeitamente */
+        /* --- ÍCONES ESPECÍFICOS (VERCEL, CLOUDFLARE, INVERTEXTO) --- */
+        
+        /* VERCEL: Triângulo Branco Grande */
         .card-icon .fa-brands.fa-vercel { 
             font-size: 1.6rem !important; 
             transform: scale(1.0); 
             line-height: 1; 
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            color: inherit !important;
+            /* A cor é definida pelo atributo color herdado do pai */
         }
         
+        /* CLOUDFLARE: Laranja */
         .card-icon .fa-brands.fa-cloudflare { font-size: 1.25rem !important; transform: scale(1.05); }
         
-        /* Invertexto (Globe) e SeriesGraph: Ajustados para visibilidade */
+        /* INVERTEXTO & SERIESGRAPH: Ícones Sólidos Grandes */
         .card-icon .fa-solid.fa-globe, 
         .card-icon .fa-solid.fa-chart-simple { 
             font-size: 1.4rem !important; 
             transform: scale(1.1); 
             line-height: 1;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Fix específico para garantir visibilidade do ícone */
-        .card-icon i {
-            color: inherit; /* Garante herança da cor da marca ou cor do texto */
         }
 
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
@@ -905,9 +918,9 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
             </a>
 
-            <!-- VERCEL CORRIGIDO (Classes exatas fa fa-brands fa-vercel) -->
+            <!-- VERCEL CORRIGIDO (Triângulo Branco com Fonte Correta) -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa fa-brands fa-vercel"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa fa-brands fa-vercel card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-vercel"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa-brands fa-vercel card-bg-icon"></i>
             </a>
 
             <!-- CLOUDFLARE -->
@@ -934,7 +947,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>SeriesGraph</h3><p>Gráficos Séries</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
             </a>
 
-            <!-- INVERTEXTO CORRIGIDO -->
+            <!-- INVERTEXTO CORRIGIDO (Globo Branco) -->
             <a href="https://www.invertexto.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Invertexto</h3><p>Domínios & Hosting</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
             </a>
