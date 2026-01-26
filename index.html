@@ -113,7 +113,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 6px;
-            width: 140px;
+            width: 160px;
             display: none; 
             flex-direction: column;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -137,9 +137,10 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.9rem;
             font-weight: 500;
+            white-space: nowrap;
         }
         
-        /* --- NOVO: CORES ESPECÍFICAS PARA OS FILTROS --- */
+        /* --- CORES ESPECÍFICAS PARA OS FILTROS --- */
         #catDropdown .dropdown-option[data-cat-filter="streaming"] { color: #ef4444; }
         #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
         #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
@@ -147,6 +148,7 @@
         #catDropdown .dropdown-option[data-cat-filter="ai"] { color: #06b6d4; }
         #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #2dd4bf; }
         #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
+        #catDropdown .dropdown-option[data-cat-filter="social"] { color: #3b82f6; }
 
         .dropdown-option:hover { 
             background: rgba(255,255,255,0.08); 
@@ -390,6 +392,7 @@
         .header-ai .section-title { color: #06b6d4; } .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
         .header-host .section-title { color: #2dd4bf; } .header-host .section-line { background: linear-gradient(to right, #2dd4bf, transparent); }
         .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
+        .header-social .section-title { color: #3b82f6; } .header-social .section-line { background: linear-gradient(to right, #3b82f6, transparent); }
 
         /* --- CARDS --- */
         .card {
@@ -438,8 +441,8 @@
         .card-icon { 
             width: 42px; 
             height: 42px; 
-            aspect-ratio: 1/1; /* Garante proporção quadrada */
-            border-radius: 6px; /* Cantos mais quadrados (era 12px) */
+            aspect-ratio: 1/1; 
+            border-radius: 6px; 
             background: rgba(255,255,255,0.05); 
             display: flex; justify-content: center; align-items: center; 
             font-size: 1.1rem; 
@@ -449,11 +452,11 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
             position: relative; 
             z-index: 10 !important;
-            flex-shrink: 0; /* Impede que o ícone esmague o container */
+            flex-shrink: 0; 
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
-        /* --- CORREÇÃO CRÍTICA: FORÇAR FONTES DO FONTAWESOME --- */
+        /* --- FORÇAR FONTES DO FONTAWESOME --- */
         .card-icon .fa-solid, .card-icon .fas {
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
@@ -467,10 +470,20 @@
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
-        .card-icon .fa-caret-up { font-size: 1.4rem !important; transform: scale(1.1) translateY(-2px); } /* Vercel */
-        .card-icon .fa-scissors { font-size: 1.1rem !important; transform: rotate(-45deg) scale(1.1); } /* Remove.bg */
-        .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); } /* Codepen */
-        .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); } /* Invertexto Novo */
+        .card-icon .fa-caret-up { font-size: 1.4rem !important; transform: scale(1.1) translateY(-2px); }
+        .card-icon .fa-scissors { font-size: 1.1rem !important; transform: rotate(-45deg) scale(1.1); }
+        .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); }
+        .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); }
+        
+        /* Ícones Social Media */
+        .card-icon .fa-brands.fa-instagram { font-size: 1.3rem !important; transform: scale(1.1); }
+        /* REMOVIDO: fa-x-twitter */
+        /* NOVO: Discord */
+        .card-icon .fa-brands.fa-discord { font-size: 1.3rem !important; transform: scale(1.1); }
+        .card-icon .fa-brands.fa-tiktok { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-brands.fa-facebook { font-size: 1.4rem !important; transform: scale(1.1); } 
+        .card-icon .fa-brands.fa-whatsapp { font-size: 1.3rem !important; transform: scale(1.1); }
+
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
         .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -507,6 +520,9 @@
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
         .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
+        /* Social (Azul) */
+        .card[data-cat="social"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .card[data-cat="social"]:hover { box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
 
         /* --- FOOTER --- */
         footer { 
@@ -642,6 +658,7 @@
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
                         <div class="dropdown-option" data-cat-filter="ai">I.A.</div>
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
+                        <div class="dropdown-option" data-cat-filter="social">Redes Sociais</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
                     </div>
                 </div>
@@ -863,13 +880,36 @@
             <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
             </a>
-            <!-- ADICIONADO: VERCEL -->
+            <!-- VERCEL -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-caret-up"></i></div><h3>Vercel</h3><p>Cloud Platform</p></div><i class="fa-solid fa-caret-up card-bg-icon"></i>
             </a>
-            <!-- ADICIONADO: CODEPEN -->
+            <!-- CODEPEN -->
             <a href="https://codepen.io/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: REDES SOCIAIS -->
+            <div class="section-header header-social">
+                <div class="section-title"><i class="fa-solid fa-share-nodes"></i> Redes Sociais</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://www.instagram.com/" target="_blank" class="card" data-cat="social">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-instagram"></i></div><h3>Instagram</h3><p>Fotos e Stories</p></div><i class="fa-brands fa-instagram card-bg-icon"></i>
+            </a>
+            <!-- DISCORD (Substituiu Twitter) -->
+            <a href="https://discord.com/" target="_blank" class="card" data-cat="social">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-discord"></i></div><h3>Discord</h3><p>Comunidades</p></div><i class="fa-brands fa-discord card-bg-icon"></i>
+            </a>
+            <a href="https://www.tiktok.com/" target="_blank" class="card" data-cat="social">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-tiktok"></i></div><h3>TikTok</h3><p>Vídeos Curtos</p></div><i class="fa-brands fa-tiktok card-bg-icon"></i>
+            </a>
+            <a href="https://www.facebook.com/" target="_blank" class="card" data-cat="social">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-facebook"></i></div><h3>Facebook</h3><p>Amigos e Notícias</p></div><i class="fa-brands fa-facebook card-bg-icon"></i>
+            </a>
+            <a href="https://web.whatsapp.com/" target="_blank" class="card" data-cat="social">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-whatsapp"></i></div><h3>WhatsApp</h3><p>Conversas</p></div><i class="fa-brands fa-whatsapp card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: UTILITÁRIOS -->
@@ -890,9 +930,9 @@
             <a href="https://www.invertexto.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-sitemap"></i></div><h3>Invertexto</h3><p>Domínios & Tools</p></div><i class="fa-solid fa-sitemap card-bg-icon"></i>
             </a>
-            <!-- ADICIONADO: REMOVE.BG -->
+            <!-- REMOVE.BG -->
             <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="studies">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>Remove.bg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
             </a>
 
         </div>
