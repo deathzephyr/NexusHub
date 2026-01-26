@@ -436,8 +436,10 @@
         }
 
         .card-icon { 
-            width: 42px; height: 42px; 
-            border-radius: 12px; 
+            width: 42px; 
+            height: 42px; 
+            aspect-ratio: 1/1; /* Garante proporção quadrada */
+            border-radius: 6px; /* Cantos mais quadrados (era 12px) */
             background: rgba(255,255,255,0.05); 
             display: flex; justify-content: center; align-items: center; 
             font-size: 1.1rem; 
@@ -447,6 +449,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
             position: relative; 
             z-index: 10 !important;
+            flex-shrink: 0; /* Impede que o ícone esmague o container */
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
@@ -467,6 +470,7 @@
         .card-icon .fa-caret-up { font-size: 1.4rem !important; transform: scale(1.1) translateY(-2px); } /* Vercel */
         .card-icon .fa-scissors { font-size: 1.1rem !important; transform: rotate(-45deg) scale(1.1); } /* Remove.bg */
         .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); } /* Codepen */
+        .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); } /* Invertexto Novo */
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
         .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -884,11 +888,11 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>SeriesGraph</h3><p>Gráficos Séries</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
             </a>
             <a href="https://www.invertexto.com/" target="_blank" class="card" data-cat="studies">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Invertexto</h3><p>Domínios & Hosting</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-sitemap"></i></div><h3>Invertexto</h3><p>Domínios & Tools</p></div><i class="fa-solid fa-sitemap card-bg-icon"></i>
             </a>
             <!-- ADICIONADO: REMOVE.BG -->
             <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="studies">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>Remove.bg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
             </a>
 
         </div>
