@@ -35,6 +35,7 @@
             --color-reddit: #FF4500;
             --color-wiki: #FFFFFF;
             --color-spotify: #1DB954;
+            --color-cloudflare: #F38020;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -385,16 +386,40 @@
         .card::after {
             content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg); transition: 0.6s; pointer-events: none; z-index: 10;
+            transform: skewX(-25deg); transition: 0.6s; pointer-events: none; 
+            /* REMOVIDO z-index do brilho para garantir que ícones importantes fiquem visíveis */
+            z-index: 5; 
         }
         .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
         .card:hover { background: rgba(30, 30, 35, 0.8); border-color: rgba(255,255,255,0.4); }
-        .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.04; transform: rotate(-15deg); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.04; transform: rotate(-15deg); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1; }
         .card:hover .card-bg-icon { opacity: 0.08; transform: rotate(0deg) scale(1.2); }
-        .card-content { position: relative; z-index: 2; transform: translateZ(20px); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; width: 100%; justify-content: center; height: 100%; }
+        .card-content { 
+            position: relative; 
+            z-index: 20 !important; /* FORÇA PRIORIDADE DOS ÍCONES */
+            transform: translateZ(20px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 8px; 
+            width: 100%; 
+            justify-content: center; 
+            height: 100%; 
+        }
 
         .card-icon { 
-            width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
+            width: 42px; height: 42px; 
+            border-radius: 12px; 
+            background: rgba(255,255,255,0.05); 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 1.1rem; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: all 0.3s ease; 
+            margin-bottom: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
+            position: relative; /* Necessário para z-index funcionar */
+            z-index: 10 !important;
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
@@ -403,7 +428,7 @@
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         
         /* Ícones Médios/Grandes */
-        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-globe, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-line, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-simple, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
         
         /* Correção de Icone Poki (Celular) e AirConsole (Gamepad) */
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -430,8 +455,18 @@
         .card-icon .fa-glasses { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
 
+        /* --- ÍCONES ESPECÍFICOS (Vercel, Cloudflare, Invertexto, SeriesGraph) --- */
+        .card-icon .fa-brands.fa-vercel { font-size: 1.3rem !important; transform: scale(1.1); }
+        .card-icon .fa-brands.fa-cloudflare { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-solid.fa-globe, .card-icon .fa-solid.fa-chart-simple { font-size: 1.25rem !important; transform: scale(1.05); }
+
+        /* Fix específico para garantir visibilidade do ícone */
+        .card-icon i {
+            color: inherit; /* Garante herança da cor da marca ou cor do texto */
+        }
+
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
-        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform 0.2s; }
+        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform: 0.2s; }
         .card:hover h3 { transform: translateY(-1px); }
         .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; font-weight: 500; }
 
@@ -762,10 +797,11 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><h3>Crazy Games</h3><p>Jogos Variados</p></div><i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
             </a>
 
-            <!-- JOGOS 360 COM NOVO ÍCONE (DADOS) PARA EVITAR REPETIÇÃO COM AIRCONSOLE -->
-            <a href="https://www.jogos360.com.br/" target="_blank" class="card" data-cat="games">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-dice"></i></div><h3>Jogos 360</h3><p>Jogos Online</p></div><i class="fa-solid fa-dice card-bg-icon"></i>
+            <!-- NOVO: EMUGAMES (USANDO ÍCONE DADOS) -->
+            <a href="https://emugames.com/" target="_blank" class="card" data-cat="games">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-dice"></i></div><h3>EmuGames</h3><p>Retro & Emulação</p></div><i class="fa-solid fa-dice card-bg-icon"></i>
             </a>
+
             <a href="https://playhop.com/pt" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
@@ -784,7 +820,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-google"></i></div><h3>Gemini</h3><p>IA do Google</p></div><i class="fa-brands fa-google card-bg-icon"></i>
             </a>
             
-            <!-- CHATBOT PRO (ANTIGO DEEPSEEK) COM ÍCONE DO CHATGPT (fa-robot) -->
+            <!-- DEEPSEEK COM ÍCONE DO CHATGPT (fa-robot) -->
             <a href="https://chat.ai-pro.org/chat/deepseek" target="_blank" class="card" data-cat="ai">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-robot"></i></div><h3>Chatbot Pro</h3><p>IA Chat Pro</p></div><i class="fa-solid fa-robot card-bg-icon"></i>
             </a>
@@ -793,7 +829,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-bolt"></i></div><h3>Z.ai Chat</h3><p>Assistente Rápido</p></div><i class="fa-solid fa-bolt card-bg-icon"></i>
             </a>
             <a href="https://lmarena.ai/pt" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-line"></i></div><h3>LMArena</h3><p>Arena de Modelos</p></div><i class="fa-solid fa-chart-line card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>LMArena</h3><p>Arena de Modelos</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
             </a>
             
             <a href="https://audio.z.ai/" target="_blank" class="card" data-cat="ai">
@@ -853,9 +889,14 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
             </a>
 
-            <!-- NOVO: VERCEL -->
+            <!-- VERCEL COM SÍMBOLO E ÍCONE FIXO (z-index e display) -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-vercel"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa-brands fa-vercel card-bg-icon"></i>
+            </a>
+
+            <!-- CLOUDFLARE -->
+            <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
             </a>
 
             <!-- SEÇÃO: UTILITÁRIOS -->
@@ -870,6 +911,16 @@
 
             <a href="https://sweezy-cursors.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-arrow-pointer"></i></div><h3>Sweezy</h3><p>Custom Cursor</p></div><i class="fa-solid fa-arrow-pointer card-bg-icon"></i>
+            </a>
+
+            <!-- SERIESGRAPH -->
+            <a href="https://seriesgraph.com/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>SeriesGraph</h3><p>Gráficos Séries</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
+            </a>
+
+            <!-- INVERTEXTO -->
+            <a href="https://www.invertexto.com/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Invertexto</h3><p>Domínios & Hosting</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
             </a>
 
         </div>
