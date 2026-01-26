@@ -387,7 +387,6 @@
             content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg); transition: 0.6s; pointer-events: none; 
-            /* REMOVIDO z-index do brilho para garantir que ícones importantes fiquem visíveis */
             z-index: 5; 
         }
         .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
@@ -396,7 +395,7 @@
         .card:hover .card-bg-icon { opacity: 0.08; transform: rotate(0deg) scale(1.2); }
         .card-content { 
             position: relative; 
-            z-index: 20 !important; /* FORÇA PRIORIDADE DOS ÍCONES */
+            z-index: 20 !important; 
             transform: translateZ(20px); 
             display: flex; 
             flex-direction: column; 
@@ -418,7 +417,7 @@
             transition: all 0.3s ease; 
             margin-bottom: 8px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
-            position: relative; /* Necessário para z-index funcionar */
+            position: relative; 
             z-index: 10 !important;
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
@@ -428,7 +427,7 @@
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         
         /* Ícones Médios/Grandes */
-        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-chart-simple, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
         
         /* Correção de Icone Poki (Celular) e AirConsole (Gamepad) */
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -455,10 +454,30 @@
         .card-icon .fa-glasses { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
 
-        /* --- ÍCONES ESPECÍFICOS (Vercel, Cloudflare, Invertexto, SeriesGraph) --- */
-        .card-icon .fa-brands.fa-vercel { font-size: 1.3rem !important; transform: scale(1.1); }
+        /* --- ÍCONES ESPECÍFICOS (CORRIGIDOS: VERCEL, CLOUDFLARE, INVERTEXTO) --- */
+        /* Vercel: Aumentado tamanho e forçado display inline-flex para centralizar perfeitamente */
+        .card-icon .fa-brands.fa-vercel { 
+            font-size: 1.6rem !important; 
+            transform: scale(1.0); 
+            line-height: 1; 
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: inherit !important;
+        }
+        
         .card-icon .fa-brands.fa-cloudflare { font-size: 1.25rem !important; transform: scale(1.05); }
-        .card-icon .fa-solid.fa-globe, .card-icon .fa-solid.fa-chart-simple { font-size: 1.25rem !important; transform: scale(1.05); }
+        
+        /* Invertexto (Globe) e SeriesGraph: Ajustados para visibilidade */
+        .card-icon .fa-solid.fa-globe, 
+        .card-icon .fa-solid.fa-chart-simple { 
+            font-size: 1.4rem !important; 
+            transform: scale(1.1); 
+            line-height: 1;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* Fix específico para garantir visibilidade do ícone */
         .card-icon i {
@@ -466,7 +485,7 @@
         }
 
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
-        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform: 0.2s; }
+        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform 0.2s; }
         .card:hover h3 { transform: translateY(-1px); }
         .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; font-weight: 500; }
 
@@ -599,9 +618,6 @@
         
         /* --- REGRA PARA DESKTOP --- */
         @media (min-width: 601px) {
-            /* Botão Visível no Desktop */
-            /* .grid-selector removido do display: none */
-
             /* Controle de Opções PC: Esconde 2 e 3 */
             .grid-option[data-cols="2"],
             .grid-option[data-cols="3"] {
@@ -889,9 +905,9 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
             </a>
 
-            <!-- VERCEL COM SÍMBOLO E ÍCONE FIXO (z-index e display) -->
+            <!-- VERCEL CORRIGIDO (Classes exatas fa fa-brands fa-vercel) -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-vercel"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa-brands fa-vercel card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa fa-brands fa-vercel"></i></div><h3>Vercel</h3><p>Plataforma Cloud</p></div><i class="fa fa-brands fa-vercel card-bg-icon"></i>
             </a>
 
             <!-- CLOUDFLARE -->
@@ -918,7 +934,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>SeriesGraph</h3><p>Gráficos Séries</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
             </a>
 
-            <!-- INVERTEXTO -->
+            <!-- INVERTEXTO CORRIGIDO -->
             <a href="https://www.invertexto.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-globe"></i></div><h3>Invertexto</h3><p>Domínios & Hosting</p></div><i class="fa-solid fa-globe card-bg-icon"></i>
             </a>
