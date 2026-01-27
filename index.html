@@ -82,10 +82,8 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; }
         .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
         
-        /* Área de controles do topo (Relógio + Grid + Categorias + Home) */
+        /* Área de controles do topo (Grid + Categorias + Home) */
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .clock { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255,255,255,0.15); padding: 8px 18px; border-radius: 100px; font-family: 'Space Grotesk', monospace; font-size: 0.9rem; color: var(--accent-cyan); backdrop-filter: blur(20px); box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); font-weight: 600; letter-spacing: 1px; }
 
         /* --- BOTÕES DO CABEÇALHO (Grid e Filtros) --- */
         .header-btn-wrapper { position: relative; flex-shrink: 0; }
@@ -101,7 +99,7 @@
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
-            text-decoration: none; /* Para o botão Home funcionar como link */
+            text-decoration: none;
         }
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn i { font-size: 1.1rem; }
@@ -403,7 +401,7 @@
             text-decoration: none;
             color: white;
             position: relative;
-            overflow: hidden; /* Importante para o efeito Ripple */
+            overflow: hidden;
             transition: transform 0.1s linear, box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease;
             backdrop-filter: blur(25px);
             height: 150px;
@@ -432,7 +430,7 @@
             transform: scale(0);
             animation: ripple-anim 0.6s ease-out;
             pointer-events: none;
-            z-index: 1; /* Fica atrás do texto (que é z-index 20), mas acima do fundo */
+            z-index: 1;
         }
 
         @keyframes ripple-anim {
@@ -456,7 +454,7 @@
             width: 100%; 
             justify-content: center; 
             height: 100%; 
-            pointer-events: none; /* Permite o clique passar para o card pai */
+            pointer-events: none;
         }
 
         .card-icon { 
@@ -642,7 +640,7 @@
             <!-- LOGO ALTERADO PARA fa-layer-group -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Botão Home + Grid + Categoria + Relógio) -->
+            <!-- Controles do Header (Botão Home + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- NOVO BOTÃO HOME -->
@@ -680,8 +678,6 @@
                         <!-- REMOVIDO: SOCIAL -->
                     </div>
                 </div>
-
-                <div class="clock" id="clock">00:00</div>
             </div>
         </header>
 
@@ -944,13 +940,6 @@
     </div>
 
     <script>
-        /* --- RELÓGIO --- */
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        }
-        setInterval(updateClock, 1000); updateClock();
-
         /* --- SISTEMA DE PESQUISA E FILTRO --- */
         
         const engines = {
@@ -1012,7 +1001,6 @@
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
                     if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex';
                     if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
-                    // REMOVIDO: header-social
                     
                     if (header.classList.contains('header-utils') && (visibleCategories.has('studies') || visibleCategories.has('wallpapers'))) header.style.display = 'flex';
                 });
