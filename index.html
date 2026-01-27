@@ -82,7 +82,7 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; }
         .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
         
-        /* Área de controles do topo (Relógio + Grid + Categorias) */
+        /* Área de controles do topo (Relógio + Grid + Categorias + Home) */
         .header-controls { display: flex; align-items: center; gap: 12px; }
         
         .clock { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(255,255,255,0.15); padding: 8px 18px; border-radius: 100px; font-family: 'Space Grotesk', monospace; font-size: 0.9rem; color: var(--accent-cyan); backdrop-filter: blur(20px); box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); font-weight: 600; letter-spacing: 1px; }
@@ -101,6 +101,7 @@
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
+            text-decoration: none; /* Para o botão Home funcionar como link */
         }
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn i { font-size: 1.1rem; }
@@ -148,8 +149,7 @@
         #catDropdown .dropdown-option[data-cat-filter="ai"] { color: #06b6d4; }
         #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #2dd4bf; }
         #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
-        /* SOCIAL BRANCO */
-        #catDropdown .dropdown-option[data-cat-filter="social"] { color: #ffffff; }
+        #catDropdown .dropdown-option[data-cat-filter="wallpapers"] { color: #f59e0b; }
 
         .dropdown-option:hover { 
             background: rgba(255,255,255,0.08); 
@@ -393,8 +393,6 @@
         .header-ai .section-title { color: #06b6d4; } .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
         .header-host .section-title { color: #2dd4bf; } .header-host .section-line { background: linear-gradient(to right, #2dd4bf, transparent); }
         .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
-        /* SOCIAL BRANCO */
-        .header-social .section-title { color: #ffffff; } .header-social .section-line { background: linear-gradient(to right, #ffffff, transparent); }
 
         /* --- CARDS --- */
         .card {
@@ -498,13 +496,6 @@
         .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); }
         .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); }
         
-        /* Ícones Social Media */
-        .card-icon .fa-brands.fa-instagram { font-size: 1.3rem !important; transform: scale(1.1); }
-        .card-icon .fa-brands.fa-discord { font-size: 1.3rem !important; transform: scale(1.1); }
-        .card-icon .fa-brands.fa-tiktok { font-size: 1.2rem !important; transform: scale(1.05); }
-        .card-icon .fa-brands.fa-facebook { font-size: 1.4rem !important; transform: scale(1.1); } 
-        .card-icon .fa-brands.fa-whatsapp { font-size: 1.3rem !important; transform: scale(1.1); }
-
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
         .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -541,9 +532,6 @@
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
         .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
-        /* SOCIAL BRANCO */
-        .card[data-cat="social"] .card-icon { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.15); }
-        .card[data-cat="social"]:hover { box-shadow: 0 20px 40px -10px rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); }
 
         /* --- FOOTER --- */
         footer { 
@@ -651,11 +639,17 @@
 
     <div class="container">
         <header>
-            <div class="logo"><i class="fa-solid fa-cube"></i> LDX</div>
+            <!-- LOGO ALTERADO PARA fa-layer-group -->
+            <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Relógio + Grid + Categoria) -->
+            <!-- Controles do Header (Botão Home + Grid + Categoria + Relógio) -->
             <div class="header-controls">
                 
+                <!-- NOVO BOTÃO HOME -->
+                <a href="https://deathzephyr.github.io/PortaisLDX/" class="header-btn" title="Portal Principal" target="_self">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+
                 <!-- Botão de Controle de Grid -->
                 <div class="header-btn-wrapper">
                     <button class="header-btn" id="gridBtn" title="Layout">
@@ -682,8 +676,8 @@
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
                         <div class="dropdown-option" data-cat-filter="ai">I.A.</div>
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
-                        <div class="dropdown-option" data-cat-filter="social">Redes Sociais</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
+                        <!-- REMOVIDO: SOCIAL -->
                     </div>
                 </div>
 
@@ -919,30 +913,6 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: REDES SOCIAIS -->
-            <div class="section-header header-social">
-                <div class="section-title"><i class="fa-solid fa-share-nodes"></i> Redes Sociais</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://www.instagram.com/" target="_blank" class="card" data-cat="social">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-instagram"></i></div><h3>Instagram</h3><p>Fotos e Stories</p></div><i class="fa-brands fa-instagram card-bg-icon"></i>
-            </a>
-            <!-- DISCORD -->
-            <a href="https://discord.com/" target="_blank" class="card" data-cat="social">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-discord"></i></div><h3>Discord</h3><p>Comunidades</p></div><i class="fa-brands fa-discord card-bg-icon"></i>
-            </a>
-            <a href="https://www.tiktok.com/" target="_blank" class="card" data-cat="social">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-tiktok"></i></div><h3>TikTok</h3><p>Vídeos Curtos</p></div><i class="fa-brands fa-tiktok card-bg-icon"></i>
-            </a>
-            <a href="https://www.facebook.com/" target="_blank" class="card" data-cat="social">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-facebook"></i></div><h3>Facebook</h3><p>Amigos e Notícias</p></div><i class="fa-brands fa-facebook card-bg-icon"></i>
-            </a>
-            <!-- WHATSAPP SEM "WEB" -->
-            <a href="https://web.whatsapp.com/" target="_blank" class="card" data-cat="social">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-whatsapp"></i></div><h3>WhatsApp</h3><p>Conversas</p></div><i class="fa-brands fa-whatsapp card-bg-icon"></i>
-            </a>
-
             <!-- SEÇÃO: UTILITÁRIOS -->
             <div class="section-header header-utils">
                 <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilidades </div>
@@ -1042,7 +1012,8 @@
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
                     if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex';
                     if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
-                    if (header.classList.contains('header-social') && visibleCategories.has('social')) header.style.display = 'flex';
+                    // REMOVIDO: header-social
+                    
                     if (header.classList.contains('header-utils') && (visibleCategories.has('studies') || visibleCategories.has('wallpapers'))) header.style.display = 'flex';
                 });
             }
