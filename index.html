@@ -103,14 +103,14 @@
         .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 2rem; }
 
         /* --- HEADER --- */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; z-index: 10; }
         .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
         
         /* Área de controles do topo (Grid + Categorias + Home) */
-        .header-controls { display: flex; align-items: center; gap: 12px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; z-index: 10; position: relative; }
 
         /* --- BOTÕES DO CABEÇALHO (Grid e Filtros) --- */
-        .header-btn-wrapper { position: relative; flex-shrink: 0; }
+        .header-btn-wrapper { position: relative; flex-shrink: 0; z-index: 10; }
         
         .header-btn {
             background: rgba(255,255,255,0.03);
@@ -124,30 +124,33 @@
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
+            position: relative; /* Garante que esteja acima */
+            z-index: 10;
         }
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn i { font-size: 1.1rem; }
 
-        /* NOVO BOTÃO DE FUNDO (Estilo Branco) */
+        /* BOTÃO DE FUNDO (AJUSTADO - SEM BRILHO EXCESSIVO) */
         .bg-settings-btn {
-            background: rgba(20, 20, 25, 0.8); 
-            border: 1px solid rgba(255,255,255,0.15); 
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
             width: 44px; height: 44px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: #ffffff;
-            backdrop-filter: blur(20px); 
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); 
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             font-size: 1rem;
+            position: relative;
+            z-index: 10;
+            /* Removido box-shadow e backdrop-filter para igualar aos outros */
         }
 
         .bg-settings-btn:hover {
-            border-color: rgba(255,255,255,0.8);
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            color: white;
+            /* Removido transform e glow forte */
         }
 
         .header-dropdown {
@@ -591,7 +594,7 @@
             background: transparent; 
         }
 
-        /* --- BG SETTINGS MODAL (COPIADO DO PORTAL PRINCIPAL) --- */
+        /* --- BG SETTINGS MODAL --- */
         #bgModal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -852,7 +855,7 @@
             <!-- LOGO ALTERADO PARA fa-layer-group -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Botão Home + Grid + Categoria + Fundo) -->
+            <!-- Controles do Header (Botão Home + Fundo + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- NOVO BOTÃO HOME -->
@@ -860,7 +863,7 @@
                     <i class="fa-solid fa-house"></i>
                 </a>
 
-                <!-- NOVO BOTÃO DE FUNDO -->
+                <!-- BOTÃO DE FUNDO (AJUSTADO) -->
                 <button class="bg-settings-btn" id="bgSettingsBtn" title="Personalizar Fundo">
                     <i class="fa-solid fa-palette"></i>
                 </button>
@@ -1197,9 +1200,10 @@
 
     <script>
         /* --- LÓGICA DE FUNDO PADRÃO (img2.jpg) --- */
-        const defaultBackground = 'img2.jpg';
-        if (!localStorage.getItem('ldx_custom_bg')) {
-            localStorage.setItem('ldx_custom_bg', defaultBackground);
+        // Verifica se o valor existe E não está vazio. Se estiver vazio ou nulo, define o padrão.
+        const savedBgCheck = localStorage.getItem('ldx_custom_bg');
+        if (!savedBgCheck || savedBgCheck === '') {
+            localStorage.setItem('ldx_custom_bg', 'img2.jpg');
             localStorage.setItem('ldx_bg_type', 'image');
         }
 
@@ -1388,7 +1392,7 @@
             recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
             recognition.onend = () => { voiceBtn.classList.remove('listening'); };
         } else {
-            voiceBtn.style.display = 'none'); 
+            voiceBtn.style.display = 'none'; 
         }
 
         document.addEventListener('keydown', (e) => {
@@ -1472,7 +1476,7 @@
             }
         });
 
-        /* --- BACKGROUND CUSTOMIZATION SYSTEM (NOVO) --- */
+        /* --- BACKGROUND CUSTOMIZATION SYSTEM --- */
         const bgSettingsBtn = document.getElementById('bgSettingsBtn');
         const bgModal = document.getElementById('bgModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -1535,11 +1539,11 @@
             closeModal();
         }
 
-        // Carregar fundo salvo (ou o padrão img2.jpg definido lá em cima)
+        // Carregar fundo salvo (lógica atualizada)
         const savedBg = localStorage.getItem('ldx_custom_bg');
         const savedType = localStorage.getItem('ldx_bg_type');
 
-        if (savedBg) {
+        if (savedBg && savedBg !== '') {
             if(savedType === 'image') {
                 customBgLayer.style.backgroundImage = `url('${savedBg}')`;
             } else {
@@ -1574,7 +1578,7 @@
             }
         });
 
-        // Resetar (Volta para img2.jpg)
+        // Resetar
         resetBgBtn.addEventListener('click', () => {
             localStorage.removeItem('ldx_custom_bg');
             localStorage.removeItem('ldx_bg_type');
@@ -1586,7 +1590,7 @@
         const cardElements = document.querySelectorAll('.card');
         cardElements.forEach(card => {
             card.addEventListener('mousemove', (e) => {
-                if(window.innerWidth >768) {
+                if(window.innerWidth > 768) {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
@@ -1602,37 +1606,30 @@
             });
         });
 
-        /* --- EFEITO RIPPLE DE CLIQUE (ANIMAÇÃO DE CLICAR) --- */
+        /* --- EFEITO RIPPLE DE CLIQUE --- */
         cardElements.forEach(card => {
             card.addEventListener('click', function(e) {
-                // Se for clique com o botão esquerdo (0)
                 if(e.button === 0) {
-                    e.preventDefault(); // Impede a abertura imediata para ver a animação
+                    e.preventDefault(); 
 
-                    // Cria o elemento do ripple
                     const ripple = document.createElement('span');
                     ripple.classList.add('ripple');
                     
-                    // Posiciona o ripple onde o mouse clicou, relativo ao card
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     
-                    // Define tamanho e posição
                     const size = Math.max(rect.width, rect.height);
                     ripple.style.width = ripple.style.height = `${size}px`;
                     ripple.style.left = `${x - size / 2}px`;
                     ripple.style.top = `${y - size / 2}px`;
                     
-                    // Adiciona ao card
                     card.appendChild(ripple);
                     
-                    // Remove após a animação
                     setTimeout(() => {
                         ripple.remove();
                     }, 600);
 
-                    // Abre o link após um pequeno delay (300ms)
                     const href = this.getAttribute('href');
                     const target = this.getAttribute('target');
                     setTimeout(() => {
