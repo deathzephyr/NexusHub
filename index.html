@@ -490,7 +490,7 @@
             border-radius: 6px; 
             background: rgba(255,255,255,0.05); 
             display: flex; justify-content: center; align-items: center; 
-            font-size: 1.1rem; 
+            font-size:1.1rem; 
             border: 1px solid rgba(255,255,255,0.05); 
             transition: all 0.3s ease; 
             margin-bottom: 8px; 
@@ -654,6 +654,12 @@
     </style>
 </head>
 <body>
+
+    <!-- PLAYER DE ÁUDIO (CONECTADO AO PORTAL LDX) -->
+    <!-- IMPORTANTE: Se o arquivo song.mpeg estiver na pasta raiz, use src="../song.mpeg". Se estiver nesta pasta, use src="song.mpeg" -->
+    <audio id="bgMusic" loop src="../song.mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
 
     <!-- CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
     <div id="custom-bg-layer"></div>
@@ -968,6 +974,53 @@
     </div>
 
     <script>
+        /* --- LÓGICA DE SÍNCRONIZAÇÃO DE MÚSICA (CONECTADO AO PORTAL LDX) --- */
+        const audio = document.getElementById('bgMusic');
+        const savedTime = localStorage.getItem('ldx_music_time');
+        const savedPlaying = localStorage.getItem('ldx_music_playing');
+        const savedVolume = localStorage.getItem('ldx_music_volume');
+
+        // Configurar Volume
+        if (savedVolume) {
+            audio.volume = parseFloat(savedVolume);
+        } else {
+            audio.volume = 0.5;
+        }
+
+        // Restaurar o tempo da música se ela já estava tocando em outra página
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        // Se a música estava tocando na página anterior, retomar aqui
+        if (savedPlaying === 'true') {
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    console.log("Música retomada no NexusHub");
+                }).catch(error => {
+                    console.log("Autoplay bloqueado pelo navegador no NexusHub. Música pausada.");
+                });
+            }
+        }
+
+        // Loop de Sincronização: Salva o tempo atual a cada 1 segundo
+        // Isso garante que se o usuário mudar de página, a música não "pule"
+        setInterval(() => {
+            if (!audio.paused) {
+                localStorage.setItem('ldx_music_time', audio.currentTime);
+                localStorage.setItem('ldx_music_playing', 'true');
+            } else {
+                localStorage.setItem('ldx_music_playing', 'false');
+            }
+        }, 1000);
+
+        // Atualiza o estado de "playing" nos eventos nativos do audio
+        audio.onplay = () => localStorage.setItem('ldx_music_playing', 'true');
+        audio.onpause = () => localStorage.setItem('ldx_music_playing', 'false');
+
+        /* --- FIM DA SÍNCRONIZAÇÃO --- */
+
         /* --- LÓGICA DE FUNDO CONECTADO (SISTEMA LDX) --- */
         // Define img2.jpg como padrão se não houver configuração salva
         const defaultBackground = 'img2.jpg';
@@ -1209,7 +1262,7 @@
                 bentoGrid.style.gridTemplateColumns = '';
                 saveGridPreference('auto');
             } else {
-                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
                 if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
                 saveGridPreference(cols);
             }
