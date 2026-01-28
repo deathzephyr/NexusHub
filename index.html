@@ -517,3 +517,380 @@
                         <p>Tecnologia e entretenimento.</p>
                     </div>
                 </div>
+            </a>
+
+            <!-- CARD: CENTRALHUB -->
+            <a href="https://deathzephyr.github.io/CentralHub/" target="_self" class="hub-card">
+                <div class="hub-bg-icon"><i class="fa-solid fa-globe"></i></div>
+                <div class="hub-content">
+                    <div class="hub-icon"><i class="fa-solid fa-globe"></i></div>
+                    <div>
+                        <h2>CentralHub</h2>
+                        <p>Serviços digitais oficiais e essenciais.</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <footer>
+            <p>DESIGN BY LDX © 2026</p>
+        </footer>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"><i class="fa-solid fa-check-circle"></i> <span>Imagem carregada com sucesso!</span></div>
+
+    <!-- MODAL DE CONFIGURAÇÃO DE FUNDO -->
+    <div id="bgModal">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-palette" style="color: #fff;"></i> Personalizar</h3>
+                <button class="close-modal" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <span class="section-title">Imagens Preset</span>
+            <div class="preset-grid">
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1515630278258-407f66498911?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1515630278258-407f66498911?q=80&w=1920&auto=format&fit=crop"></div>
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1920&auto=format&fit=crop"></div>
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop"></div>
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop"></div>
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1920&auto=format&fit=crop"></div>
+                <div class="preset-item" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop');" data-type="image" data-url="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop"></div>
+            </div>
+
+            <span class="section-title">Arquivo do Dispositivo</span>
+            <div class="upload-container">
+                <input type="file" id="bgFileInput" accept="image/*">
+                <button type="button" class="upload-btn" id="uploadTriggerBtn">
+                    <i class="fa-solid fa-upload"></i>
+                    <span>Carregar Foto</span>
+                </button>
+            </div>
+
+            <button class="reset-btn" id="resetBgBtn">
+                <i class="fa-solid fa-rotate-left"></i> Restaurar Padrão
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /* --- LÓGICA DE MÚSICA --- */
+        const audio = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicStateIcon = document.getElementById('musicStateIcon');
+        const musicIconContainer = document.getElementById('musicIconContainer');
+        const musicLabel = document.getElementById('musicLabel');
+        
+        // Definir volume padrão
+        audio.volume = 0.5;
+
+        // Variável para controlar o primeiro toque do usuário no mobile
+        let userInteracted = false;
+
+        // Listener Global: Desbloqueia o áudio no primeiro toque na tela (CORREÇÃO MOBILE)
+        // Isso resolve o problema do "autoplay bloqueado" no celular
+        document.body.addEventListener('click', () => {
+            if (!userInteracted) {
+                userInteracted = true;
+                // Quando o usuário toca na tela pela primeira vez, tenta tocar a música
+                // Isso "desbloqueia" o áudio do navegador
+                attemptAutoplay();
+            }
+        }, { once: true }); // Executa apenas uma vez
+
+        // Função para atualizar a UI baseada no estado real de reprodução
+        function updateMusicUI() {
+            // Sempre define o ícone como Colcheia
+            musicStateIcon.className = "fa-solid fa-music";
+
+            if (!audio.paused) {
+                // Tocando -> Ícone Colcheia (Animado) e Texto "Parar Música"
+                musicIconContainer.classList.add('playing');
+                musicLabel.textContent = "Parar Música";
+            } else {
+                // Pausado -> Ícone Colcheia (Parado) e Texto "Ligar Música"
+                musicIconContainer.classList.remove('playing');
+                musicLabel.textContent = "Ligar Música";
+            }
+        }
+
+        // Tentar iniciar automaticamente (ou após o clique de desbloqueio)
+        function attemptAutoplay() {
+            // Carrega o áudio primeiro para garantir que o buffer esteja pronto
+            audio.load().then(() => {
+                return audio.play();
+            }).then(_ => {
+                // Reprodução iniciada
+                updateMusicUI();
+                localStorage.setItem('ldx_music_playing', 'true');
+            }).catch(error => {
+                console.log("Autoplay bloqueado pelo navegador. Música pausada até o toque do usuário.");
+                updateMusicUI();
+                localStorage.setItem('ldx_music_playing', 'false');
+            });
+        }
+
+        // Botão de Toggle
+        function toggleMusic() {
+            if (audio.paused) {
+                // Se estiver pausado, liga (Tocar)
+                audio.play().then(() => {
+                    localStorage.setItem('ldx_music_playing', 'true');
+                    updateMusicUI();
+                }).catch(e => {
+                    alert("Não foi possível reproduzir. Verifique se o arquivo 'song.mpeg' existe.");
+                });
+            } else {
+                // Se estiver tocando, desliga (Pausar)
+                audio.pause();
+                localStorage.setItem('ldx_music_playing', 'false');
+                updateMusicUI();
+            }
+        }
+
+        musicToggleBtn.addEventListener('click', toggleMusic);
+
+        /* --- LOOP DE SINCRONIZAÇÃO DE TEMPO (PARA CONECTAR AS PÁGINAS) --- */
+        // Este loop roda a cada 1 segundo e salva o tempo exato da música no localStorage.
+        // Assim, o NexusHub sabe exatamente onde continuar.
+        setInterval(() => {
+            if (!audio.paused) {
+                localStorage.setItem('ldx_music_time', audio.currentTime);
+                localStorage.setItem('ldx_music_playing', 'ltrue');
+                localStorage.setItem('ldx_music_volume', audio.volume);
+            } else {
+                localStorage.setItem('ldx_music_playing', 'false');
+            }
+        }, 1000);
+
+        // Atualiza o estado nativamente também
+        audio.onplay = () => localStorage.setItem('ldx_music_playing', 'true');
+        audio.onpause = () => localStorage.setItem('ldx_music_playing', 'false');
+        /* --- FIM DO LOOP DE SINCRONIZAÇÃO --- */
+
+        /* --- DROPDOWN MENU LOGIC --- */
+        const settingsTrigger = document.getElementById('settingsTrigger');
+        const settingsDropdown = document.getElementById('settingsDropdown');
+        const bgTriggerBtn = document.getElementById('bgTriggerBtn');
+        const bgModal = document.getElementById('bgModal');
+
+        settingsTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsDropdown.classList.toggle('active');
+            settingsTrigger.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!settingsDropdown.contains(e.target) && !settingsTrigger.contains(e.target)) {
+                settingsDropdown.classList.remove('active');
+                settingsTrigger.classList.remove('active');
+            }
+        });
+
+        bgTriggerBtn.addEventListener('click', () => {
+            settingsDropdown.classList.remove('active');
+            settingsTrigger.classList.remove('active');
+            bgModal.classList.add('active');
+        });
+
+        /* --- LÓGICA DE FUNDO PADRÃO --- */
+        const defaultBackground = 'img2.jpg';
+        if (!localStorage.getItem('ldx_custom_bg')) {
+            localStorage.setItem('ldx_custom_bg', defaultBackground);
+            localStorage.setItem('ldx_bg_type', 'image');
+        }
+
+        /* --- LOADER SYSTEM --- */
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                // Tenta tocar automaticamente.
+                // No mobile, isso pode falhar. Mas o listener do body vai tentar de novo no primeiro toque.
+                attemptAutoplay();
+            }, 1800);
+        });
+
+        /* --- GREETING & CLOCK --- */
+        function updateTimeAndGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            const timeString = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clock').textContent = timeString;
+
+            const greetingEl = document.getElementById('greeting-text');
+            let greeting = "Seja bem-vindo.";
+            
+            if (hours >= 5 && hours < 12) greeting = "Bom dia, viajante.";
+            else if (hours >= 12 && hours < 18) greeting = "Boa tarde, viajante.";
+            else if (hours >= 18 && hours < 24) greeting = "Boa noite, viajante.";
+            else greeting = "Boa madrugada, insone.";
+            
+            if (greetingEl.textContent !== greeting + " Selecione seu destino e acesse o melhor conteúdo.") {
+                greetingEl.textContent = greeting + " Selecione seu destino e acesse o melhor conteúdo.";
+            }
+        }
+        setInterval(updateTimeAndGreeting, 1000);
+        updateTimeAndGreeting();
+
+        /* --- TILT3D & RIPPLE CLICK --- */
+        const hubCards = document.querySelectorAll('.hub-card');
+        
+        hubCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if(window.innerWidth > 768) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+
+            card.addEventListener('click', function(e) {
+                if(e.button === 0) {
+                    e.preventDefault(); 
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x - size / 2}px`;
+                    ripple.style.top = `${y - size / 2}px`;
+                    card.appendChild(ripple);
+                    setTimeout(() => { ripple.remove(); }, 600);
+
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target');
+                    setTimeout(() => {
+                        if (href) {
+                            if (target === '_blank') window.open(href, '_blank');
+                            else window.location.href = href;
+                        }
+                    }, 300);
+                }
+            });
+        });
+
+        /* --- GRID CONTROL --- */
+        const bentoGrid = document.getElementById('bentoGrid');
+        function loadSavedGrid() {
+            let savedCols;
+            let key = window.innerWidth <= 768 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols';
+            savedCols = localStorage.getItem(key) || (window.innerWidth <= 768 ? '1' : '3');
+            
+            if (window.innerWidth > 768) {
+                bentoGrid.style.gridTemplateColumns = savedCols === 'auto' ? '' : `repeat(${savedCols}, 1fr)`;
+            } else {
+                bentoGrid.style.gridTemplateColumns = '1fr';
+            }
+        }
+        loadSavedGrid();
+
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                loadSavedGrid();
+            }
+        });
+
+        /* --- BACKGROUND CUSTOMIZATION SYSTEM --- */
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const bgFileInput = document.getElementById('bgFileInput');
+        const uploadTriggerBtn = document.getElementById('uploadTriggerBtn');
+        const resetBgBtn = document.getElementById('resetBgBtn');
+        const customBgLayer = document.getElementById('custom-bg-layer');
+        const presetItems = document.querySelectorAll('.preset-item');
+        const toast = document.getElementById('toast');
+
+        function showToast(message) {
+            toast.querySelector('span').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function closeModal() { bgModal.classList.remove('active'); }
+        closeModalBtn.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+
+        uploadTriggerBtn.addEventListener('click', () => { bgFileInput.click(); });
+
+        function setBackground(value, type) {
+            document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+            if (type === 'image') {
+                customBgLayer.style.backgroundImage = `url('${value}')`;
+                document.body.style.backgroundImage = 'none';
+                document.body.classList.add('has-custom-bg');
+                localStorage.setItem('ldx_custom_bg', value);
+                localStorage.setItem('ldx_bg_type', 'image');
+                presetItems.forEach(item => {
+                    if(item.getAttribute('data-url') === value) item.classList.add('active');
+                });
+            } else if (type === 'color') {
+                customBgLayer.style.backgroundImage = 'none';
+                document.body.style.backgroundImage = value;
+                document.body.classList.add('has-custom-bg');
+                localStorage.setItem('ldx_custom_bg', value);
+                localStorage.setItem('ldx_bg_type', 'color');
+            }
+            closeModal();
+        }
+
+        const savedBg = localStorage.getItem('ldx_custom_bg');
+        const savedType = localStorage.getItem('ldx_bg_type');
+
+        if (savedBg) {
+            if(savedType === 'image') {
+                customBgLayer.style.backgroundImage = `url('${savedBg}')`;
+            } else {
+                document.body.style.backgroundImage = savedBg;
+            }
+            document.body.classList.add('has-custom-bg');
+        }
+
+        presetItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                setBackground(url, 'image');
+            });
+        });
+
+        bgFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast("Imagem muito grande! (Max 5MB)");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64String = event.target.result;
+                    setBackground(base64String, 'image');
+                    showToast("Imagem carregada com sucesso!");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        resetBgBtn.addEventListener('click', () => {
+            localStorage.removeItem('ldx_custom_bg');
+            localStorage.removeItem('ldx_bg_type');
+            location.reload(); 
+        });
+
+    </script>
+</body>
+</html>
