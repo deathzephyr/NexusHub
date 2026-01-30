@@ -170,7 +170,7 @@
         #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
         #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
         #catDropdown .dropdown-option[data-cat-filter="games"] { color: #22c55e; }
-        #catDropdown .dropdown-option[data-cat-filter="ai"] { color: #06b6d4; }
+        /* #catDropdown .dropdown-option[data-cat-filter="ai"] { color: #06b6d4; }  <-- REMOVIDO */
         #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #2dd4bf; }
         #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
         #catDropdown .dropdown-option[data-cat-filter="wallpapers"] { color: #f59e0b; }
@@ -414,7 +414,7 @@
         .header-anime .section-title { color: #f97316; } .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
         .header-manga .section-title { color: #8b5cf6; } .header-manga .section-line { background: linear-gradient(to right, #8b5cf6, transparent); }
         .header-game .section-title { color: #22c55e; } .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
-        .header-ai .section-title { color: #06b6d4; } .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
+        /* .header-ai .section-title { color: #06b6d4; } .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); } <-- REMOVIDO */
         .header-host .section-title { color: #2dd4bf; } .header-host .section-line { background: linear-gradient(to right, #2dd4bf, transparent); }
         .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
 
@@ -548,8 +548,7 @@
         .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
         .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
-        .card[data-cat="ai"] .card-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6,182,212,0.2); }
-        .card[data-cat="ai"]:hover { box-shadow: 0 20px 40px -10px rgba(6,182,212,0.3), 0 0 0 1px rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); }
+        /* .card[data-cat="ai"] ... <-- REMOVIDO */
         .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 15px rgba(45,212,191,0.2); }
         .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(45,212,191,0.3), 0 0 0 1px rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.3); }
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
@@ -701,7 +700,7 @@
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
-                        <div class="dropdown-option" data-cat-filter="ai">I.A.</div>
+                        <!-- Opção I.A. REMOVIDA -->
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
                     </div>
@@ -849,69 +848,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: IA -->
-            <div class="section-header header-ai">
-                <div class="section-title"><i class="fa-solid fa-brain"></i> Inteligência Artificial</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://chat.openai.com/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-atom"></i></div><h3>ChatGPT</h3><p>OpenAI</p></div><i class="fa-solid fa-atom card-bg-icon"></i>
-            </a>
-            <a href="https://gemini.google.com/app" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-google"></i></div><h3>Gemini</h3><p>IA do Google</p></div><i class="fa-brands fa-google card-bg-icon"></i>
-            </a>
-            <a href="https://chat.ai-pro.org/chat/deepseek" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-robot"></i></div><h3>Chatbot Pro</h3><p>IA Chat Pro</p></div><i class="fa-solid fa-robot card-bg-icon"></i>
-            </a>
-            <a href="https://chat.z.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-bolt"></i></div><h3>Z.ai Chat</h3><p>Assistente Rápido</p></div><i class="fa-solid fa-bolt card-bg-icon"></i>
-            </a>
-            <a href="https://lmarena.ai/pt" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div><h3>LMArena</h3><p>Arena de Modelos</p></div><i class="fa-solid fa-chart-simple card-bg-icon"></i>
-            </a>
-            <a href="https://audio.z.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-headphones-simple"></i></div><h3>Z.ai Audio</h3><p>Criação de Áudio</p></div><i class="fa-solid fa-headphones-simple card-bg-icon"></i>
-            </a>
-            <a href="https://image.z.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Z.ai Image</h3><p>Criação de Imagem</p></div><i class="fa-solid fa-wand-magic-sparkles card-bg-icon"></i>
-            </a>
-            <a href="https://www.perplexity.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-microchip"></i></div><h3>Perplexity</h3><p>Busca Inteligente</p></div><i class="fa-solid fa-microchip card-bg-icon"></i>
-            </a>
-            <a href="https://claude.ai/new" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-message"></i></div><h3>Claude</h3><p>Anthropic AI</p></div><i class="fa-solid fa-message card-bg-icon"></i>
-            </a>
-            <a href="https://durable.com/pt" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-briefcase"></i></div><h3>Durable</h3><p>Site em Segundos</p></div><i class="fa-solid fa-briefcase card-bg-icon"></i>
-            </a>
-            <a href="https://wegic.ai/pt-br" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Wegic</h3><p>Site por Chat</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
-            </a>
-            <a href="https://lovable.dev/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-heart"></i></div><h3>Lovable</h3><p>GPT-4o Builder</p></div><i class="fa-solid fa-heart card-bg-icon"></i>
-            </a>
-            <a href="https://10web.io/ai-website-builder/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-window-restore"></i></div><h3>10Web AI</h3><p>WordPress AI</p></div><i class="fa-solid fa-window-restore card-bg-icon"></i>
-            </a>
-            <a href="https://ideogram.ai/t/explore" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-file-code"></i></div><h3>Ideogram</h3><p>Arte & Texto</p></div><i class="fa-solid fa-file-code card-bg-icon"></i>
-            </a>
-            
-            <!-- NOVO ITEM: LANDING SITE AI -->
-            <a href="https://www.landingsite.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div><h3>LandingSite</h3><p>Criador de LP</p></div><i class="fa-solid fa-pen-ruler card-bg-icon"></i>
-            </a>
-
-            <a href="https://replit.com/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-terminal"></i></div><h3>Replit</h3><p>Coding & IDE</p></div><i class="fa-solid fa-terminal card-bg-icon"></i>
-            </a>
-            <a href="https://www.rocket.new/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-rocket"></i></div><h3>Rocket</h3><p>Web Builder</p></div><i class="fa-solid fa-rocket card-bg-icon"></i>
-            </a>
-            <a href="https://www.napkin.ai/" target="_blank" class="card" data-cat="ai">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div><h3>Napkin AI</h3><p>Notas Visuais</p></div><i class="fa-solid fa-pen-nib card-bg-icon"></i>
-            </a>
+            <!-- SEÇÃO: IA REMOVIDA AQUI -->
 
             <!-- SEÇÃO: DEV -->
             <div class="section-header header-host">
@@ -1047,7 +984,7 @@
                     if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
                     if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
-                    if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex';
+                    // if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex'; <-- REMOVIDO
                     if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
                     
                     if (header.classList.contains('header-utils') && (visibleCategories.has('studies') || visibleCategories.has('wallpapers'))) header.style.display = 'flex';
