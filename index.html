@@ -138,7 +138,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 6px;
-            width: 160px;
+            width: 180px;
             display: none; 
             flex-direction: column;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -170,10 +170,10 @@
         #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
         #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
         #catDropdown .dropdown-option[data-cat-filter="games"] { color: #22c55e; }
-        /* #catDropdown .dropdown-option[data-cat-filter="ai"] { color: #06b6d4; }  <-- REMOVIDO */
         #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #2dd4bf; }
         #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
-        #catDropdown .dropdown-option[data-cat-filter="wallpapers"] { color: #f59e0b; }
+        #catDropdown .dropdown-option[data-cat-filter="design"] { color: #d946ef; }
+        #catDropdown .dropdown-option[data-cat-filter="wallpaper"] { color: #3b82f6; }
 
         .dropdown-option:hover { 
             background: rgba(255,255,255,0.08); 
@@ -414,9 +414,12 @@
         .header-anime .section-title { color: #f97316; } .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
         .header-manga .section-title { color: #8b5cf6; } .header-manga .section-line { background: linear-gradient(to right, #8b5cf6, transparent); }
         .header-game .section-title { color: #22c55e; } .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
-        /* .header-ai .section-title { color: #06b6d4; } .header-ai .section-line { background: linear-gradient(to right, #06b6d4, transparent); } <-- REMOVIDO */
         .header-host .section-title { color: #2dd4bf; } .header-host .section-line { background: linear-gradient(to right, #2dd4bf, transparent); }
         .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
+        
+        /* NOVAS CATEGORIAS */
+        .header-design .section-title { color: #d946ef; } .header-design .section-line { background: linear-gradient(to right, #d946ef, transparent); }
+        .header-wallpaper .section-title { color: #3b82f6; } .header-wallpaper .section-line { background: linear-gradient(to right, #3b82f6, transparent); }
 
         /* --- CARDS --- */
         .card {
@@ -511,7 +514,7 @@
             font-weight: 400;
         }
 
-        /* Ajustes de Ícones */
+        /* Ajustes de Ícones Gerais */
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
         .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
         .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-pen-ruler, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -520,6 +523,16 @@
         .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); }
         .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); }
         
+        /* NOVOS AJUSTES DE ÍCONES */
+        .card-icon .fa-laptop-code { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-eraser { font-size: 1.15rem !important; transform: scale(1.05) rotate(-10deg); }
+        .card-icon .fa-align-justify { font-size: 1.1rem !important; transform: scale(1.0); }
+        .card-icon .fa-palette { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-display, .card-icon .fa-camera-retro, .card-icon .fa-camera { font-size: 1.3rem !important; transform: scale(1.05); }
+        .card-icon .fa-images { font-size: 1.25rem !important; transform: scale(1.05); }
+        /* Novo: SpeedTest */
+        .card-icon .fa-gauge-high { font-size: 1.25rem !important; transform: scale(1.05); }
+
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
         .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -548,13 +561,16 @@
         .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
         .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
-        /* .card[data-cat="ai"] ... <-- REMOVIDO */
         .card[data-cat="hosting"] .card-icon { color: #2dd4bf; text-shadow: 0 0 15px rgba(45,212,191,0.2); }
         .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(45,212,191,0.3), 0 0 0 1px rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.3); }
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
-        .card[data-cat="wallpapers"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
-        .card[data-cat="wallpapers"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
+        
+        /* Cores dos NOVOS Cards */
+        .card[data-cat="design"] .card-icon { color: #d946ef; text-shadow: 0 0 15px rgba(217,70,239,0.2); }
+        .card[data-cat="design"]:hover { box-shadow: 0 20px 40px -10px rgba(217,70,239,0.3), 0 0 0 1px rgba(217,70,239,0.1); border-color: rgba(217,70,239,0.3); }
+        .card[data-cat="wallpaper"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .card[data-cat="wallpaper"]:hover { box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
 
         /* --- FOOTER --- */
         footer { 
@@ -700,6 +716,8 @@
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
+                        <div class="dropdown-option" data-cat-filter="design">Design & Artes</div>
+                        <div class="dropdown-option" data-cat-filter="wallpaper">Wallpapers</div>
                         <!-- Opção I.A. REMOVIDA -->
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
@@ -772,8 +790,9 @@
             <a href="https://www.cineby.gd/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-film"></i></div><h3>Cineby</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-film card-bg-icon"></i>
             </a>
-            <a href="https://filmesserieshd.net/inicio/" target="_blank" class="card" data-cat="streaming">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-play"></i></div><h3>Pobreflix</h3><p>Streaming Online</p></div><i class="fa-solid fa-play card-bg-icon"></i>
+            <!-- CARD ALTERADO: POBREFLIX -> REDE CANAIS -->
+            <a href="https://redecanais.fm/" target="_blank" class="card" data-cat="streaming">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-tv"></i></div><h3>Rede Canais</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-tv card-bg-icon"></i>
             </a>
             <a href="https://filmeson3.site/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-clapperboard"></i></div><h3>Filmes ON</h3><p>Filmes Online</p></div><i class="fa-solid fa-clapperboard card-bg-icon"></i>
@@ -791,9 +810,12 @@
             <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><h3>Anime Fire</h3><p>Animes Online HD</p></div><i class="fa-solid fa-fire card-bg-icon"></i>
             </a>
+            
+            <!-- CARD ALTERADO: ICON TV -> ICON LAPTOP-CODE (LAPTOP) -->
             <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-tv"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-tv card-bg-icon"></i>
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
             </a>
+
             <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>Top Animes</h3><p>Ranking & Top</p></div><i class="fa-solid fa-star card-bg-icon"></i>
             </a>
@@ -848,7 +870,54 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: IA REMOVIDA AQUI -->
+            <!-- NOVA SEÇÃO: DESIGN & ARTES -->
+            <div class="section-header header-design">
+                <div class="section-title"><i class="fa-solid fa-palette"></i> Design & Artes</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://cleanup.pictures/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-eraser"></i></div><h3>Cleanup</h3><p>Remover objetos</p></div><i class="fa-solid fa-eraser card-bg-icon"></i>
+            </a>
+            <a href="https://textbehindimage.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-align-justify"></i></div><h3>Text Behind Img</h3><p>Texto atrás de foto</p></div><i class="fa-solid fa-align-justify card-bg-icon"></i>
+            </a>
+            <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
+            </a>
+            <a href="https://www.photopea.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div><h3>Photopea</h3><p>Editor Grátis</p></div><i class="fa-solid fa-pen-ruler card-bg-icon"></i>
+            </a>
+            <a href="https://www.canva.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-palette"></i></div><h3>Canva</h3><p>Design Gráfico</p></div><i class="fa-solid fa-palette card-bg-icon"></i>
+            </a>
+
+            <!-- NOVA SEÇÃO: WALLPAPERS -->
+            <div class="section-header header-wallpaper">
+                <div class="section-title"><i class="fa-solid fa-image"></i> Wallpapers</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>4K Anime & PC</p></div><i class="fa-solid fa-image card-bg-icon"></i>
+            </a>
+            <a href="https://wallhaven.cc/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mountain-sun"></i></div><h3>Wallhaven</h3><p>Arte 4K</p></div><i class="fa-solid fa-mountain-sun card-bg-icon"></i>
+            </a>
+            
+            <!-- UNSPLASH SUBSTITUÍDO POR 4KWALLPAPERS -->
+            <a href="https://4kwallpapers.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-display"></i></div><h3>4K Wallpapers</h3><p>Fundos Ultra HD</p></div><i class="fa-solid fa-display card-bg-icon"></i>
+            </a>
+
+            <!-- PEXELS SUBSTITUÍDO BY FREEPIK -->
+            <a href="https://br.freepik.com/fotos-vetores-gratis/wallpaper-desktop" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-images"></i></div><h3>Freepik</h3><p>Vetores & Fotos</p></div><i class="fa-solid fa-images card-bg-icon"></i>
+            </a>
+
+            <a href="https://www.wallpaperflare.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>WallpaperFlare</h3><p>Fundos HD</p></div><i class="fa-solid fa-star card-bg-icon"></i>
+            </a>
 
             <!-- SEÇÃO: DEV -->
             <div class="section-header header-host">
@@ -880,9 +949,6 @@
                 <div class="section-line"></div>
             </div>
 
-            <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpapers">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>Fundos de Tela</p></div><i class="fa-solid fa-image card-bg-icon"></i>
-            </a>
             <a href="https://sweezy-cursors.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-arrow-pointer"></i></div><h3>Sweezy</h3><p>Custom Cursor</p></div><i class="fa-solid fa-arrow-pointer card-bg-icon"></i>
             </a>
@@ -892,9 +958,13 @@
             <a href="https://www.invertexto.com/" target="_blank" class="card" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-sitemap"></i></div><h3>Invertexto</h3><p>Domínios & Tools</p></div><i class="fa-solid fa-sitemap card-bg-icon"></i>
             </a>
-            <!-- REMOVE.BG -->
-            <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="studies">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
+            <a href="https://translate.google.com.br/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-language"></i></div><h3>Google Tradutor</h3><p>Tradução</p></div><i class="fa-solid fa-language card-bg-icon"></i>
+            </a>
+            
+            <!-- NOVO CARD ADICIONADO: SPEEDTEST -->
+            <a href="https://www.speedtest.net/" target="_blank" class="card" data-cat="studies">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-gauge-high"></i></div><h3>SpeedTest</h3><p>Teste de Velocidade</p></div><i class="fa-solid fa-gauge-high card-bg-icon"></i>
             </a>
 
         </div>
@@ -984,10 +1054,12 @@
                     if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
                     if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
-                    // if (header.classList.contains('header-ai') && visibleCategories.has('ai')) header.style.display = 'flex'; <-- REMOVIDO
-                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
+                    // NOVOS FILTROS
+                    if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
+                    if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
                     
-                    if (header.classList.contains('header-utils') && (visibleCategories.has('studies') || visibleCategories.has('wallpapers'))) header.style.display = 'flex';
+                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
+                    if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
                 });
             }
         }
