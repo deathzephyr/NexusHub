@@ -15,7 +15,7 @@
     <!-- Link para o CSS Externo -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="">
 
     <!-- CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
     <div id="custom-bg-layer"></div>
@@ -31,13 +31,20 @@
             <!-- LOGO -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Botão Home + Grid + Categoria) -->
+            <!-- Controles do Header (Botão Home + Cadeado + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- Botão Home -->
                 <a href="https://deathzephyr.github.io/PortaisLDX/" class="header-btn" title="Portal Principal" target="_self">
                     <i class="fa-solid fa-house"></i>
                 </a>
+
+                <!-- NOVO BOTÃO: CADEADO BL/GL -->
+                <div class="header-btn-wrapper">
+                    <button class="header-btn" id="lockBtn" title="Desbloquear Leitura BL/GL">
+                        <i class="fa-solid fa-lock"></i>
+                    </button>
+                </div>
 
                 <!-- Botão de Controle de Grid -->
                 <div class="header-btn-wrapper">
@@ -63,7 +70,9 @@
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
                         <div class="dropdown-option" data-cat-filter="manhwa">Manhwas</div>
+                        <!-- Opção BL/GL (Escondida via CSS/JS se bloqueado) -->
                         <div class="dropdown-option" data-cat-filter="bl">Leitura BL/GL</div>
+                        
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
                         <div class="dropdown-option" data-cat-filter="design">Design & Artes</div>
                         <div class="dropdown-option" data-cat-filter="wallpaper">Wallpapers</div>
@@ -208,7 +217,7 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Leitura Manga</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: LEITURA BL/GL -->
+            <!-- SEÇÃO: LEITURA BL/GL (Escondida por padrão) -->
             <div class="section-header header-bl">
                 <div class="section-title"><i class="fa-solid fa-heart"></i> Leitura BL/GL</div>
                 <div class="section-line"></div>
