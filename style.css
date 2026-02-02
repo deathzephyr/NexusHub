@@ -581,6 +581,14 @@ footer {
     background: transparent; 
 }
 
+/* --- SISTEMA DE BLOQUEIO BL/GL --- */
+/* Esconde itens BL/GL por padrão, a menos que o body tenha a classe 'bl-unlocked' */
+body:not(.bl-unlocked) .card[data-cat="bl"],
+body:not(.bl-unlocked) .section-header.header-bl,
+body:not(.bl-unlocked) .dropdown-option[data-cat-filter="bl"] {
+    display: none !important;
+}
+
 /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
 @media (max-width: 600px) { 
     .hero h1 { font-size: 2.4rem; } 
