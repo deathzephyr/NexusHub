@@ -12,15 +12,707 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS -->
     <style>
-        /* Cole aqui o conteúdo do 'style.css' OU use <link rel="stylesheet" href="style.css"> */
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --bg-dark: #050507;
+            --glass-bg: rgba(20, 20, 25, 0.6); 
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-primary: #8b5cf6; 
+            --accent-secondary: #ec4899; 
+            --accent-cyan: #06b6d4; 
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            
+            /* Cores das Marcas */
+            --color-google: #EA4335;
+            --color-youtube: #FF0000;
+            --color-bing: #008373;
+            --color-ddg: #DE5833;
+            --color-amazon: #FF9900;
+            --color-reddit: #FF4500;
+            --color-wiki: #FFFFFF;
+            --color-spotify: #1DB954;
+            --color-cloudflare: #F38020;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
+
+        /* --- BACKGROUND LAYER SYSTEM (FIXO) --- */
+        #custom-bg-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            -webkit-transform: translate3d(0,0,0);
+        }
+
+        /* Esconde as orbs quando há fundo customizado */
+        body.has-custom-bg .ambient-light {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.has-custom-bg #custom-bg-layer {
+            opacity: 1;
+        }
+
+        /* --- BACKGROUND --- */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.4;
+            animation: floatOrb 25s infinite alternate ease-in-out;
+        }
+
+        .orb-1 { width: 500px; height: 500px; background: var(--accent-primary); top: -150px; left: -150px; animation-duration: 30s; }
+        .orb-2 { width: 600px; height: 600px; background: var(--accent-secondary); bottom: -150px; right: -150px; animation-duration: 35s; animation-delay: -5s; }
+        .orb-3 { width: 350px; height: 350px; background: var(--accent-cyan); top: 40%; left: 50%; transform: translate(-50%, -50%); opacity: 0.25; animation: pulseOrb 12s infinite ease-in-out; }
+
+        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 90px) scale(1.1); } }
+        @keyframes pulseOrb { 0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); } 50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); } }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 2rem; }
+
+        /* --- HEADER --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; z-index: 10; }
+        .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
+        
+        /* Área de controles do topo (Grid + Categorias + Home) */
+        .header-controls { display: flex; align-items: center; gap: 12px; z-index: 10; position: relative; }
+
+        /* --- BOTÕES DO CABEÇALHO (Grid e Filtros) --- */
+        .header-btn-wrapper { position: relative; flex-shrink: 0; z-index: 10; }
+        
+        .header-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 44px; height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            position: relative;
+            z-index: 10;
+        }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .header-btn i { font-size: 1.1rem; }
+
+        .header-dropdown {
+            position: absolute;
+            top: 120%; right: 0;
+            background: rgba(15, 15, 20, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 6px;
+            width: 180px;
+            display: none; 
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .header-dropdown.active { display: flex; opacity: 1; transform: translateY(0); }
+
+        .dropdown-option {
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: 0.2s;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* --- CORES ESPECÍFICAS PARA OS FILTROS --- */
+        #catDropdown .dropdown-option[data-cat-filter="streaming"] { color: #ef4444; }
+        #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
+        #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
+        /* COR MANHWA */
+        #catDropdown .dropdown-option[data-cat-filter="manhwa"] { color: #06b6d4; }
+        /* NOVA COR BL/GL */
+        #catDropdown .dropdown-option[data-cat-filter="bl"] { color: #db2777; }
+        
+        #catDropdown .dropdown-option[data-cat-filter="games"] { color: #22c55e; }
+        /* COR HOSTING (ALTERADA P/ VERDE ESCURO) */
+        #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #047857; }
+        
+        #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
+        #catDropdown .dropdown-option[data-cat-filter="design"] { color: #d946ef; }
+        #catDropdown .dropdown-option[data-cat-filter="wallpaper"] { color: #3b82f6; }
+
+        .dropdown-option:hover { 
+            background: rgba(255,255,255,0.08); 
+            transform: translateX(2px); 
+        }
+        .dropdown-option.selected { 
+            background: rgba(255,255,255,0.05); 
+            color: inherit !important; 
+            font-weight: 700; 
+        }
+
+        /* --- HERO --- */
+        .hero { text-align: center; margin: 3rem 0 2rem; position: relative; }
+        
+        /* Animação de Cores no Título */
+        @keyframes colorCycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero h1 { 
+            font-size: 3.8rem; font-weight: 700; line-height: 1.05; margin-bottom: 1rem;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #06b6d4, #22c55e, #ef4444, #f59e0b, #ffffff, #8b5cf6);
+            background-size: 300% auto;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            animation: colorCycle 6s linear infinite;
+            letter-spacing: -2px; 
+            filter: drop-shadow(0 0 30px rgba(0,0,0,0.5)); 
+        }
+        
+        .hero p { color: var(--text-muted); font-size: 1.05rem; max-width: 550px; margin: 0 auto 2.5rem; padding: 0 10px; font-weight: 400; }
+
+        /* --- BARRA DE PESQUISA --- */
+        .search-wrapper { position: relative; max-width: 700px; margin: 0 auto; z-index: 100; width: 100%; }
+        
+        .search-bar { 
+            position: relative; display: flex; align-items: center; 
+            background: rgba(20, 20, 25, 0.7); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 28px; 
+            padding: 6px; 
+            backdrop-filter: blur(40px); 
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 50px -12px rgba(0,0,0,0.6); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            overflow: visible;
+        }
+
+        .search-bar:focus-within { 
+            background: rgba(25, 25, 30, 0.85); 
+            border-color: rgba(139, 92, 246, 0.4); 
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1), 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 40px rgba(139, 92, 246, 0.15); 
+            transform: translateY(-2px); 
+        }
+
+        /* Seletor de Motor */
+        .engine-selector { position: relative; margin-right: 5px; flex-shrink: 0; }
+        
+        .engine-btn {
+            background: rgba(255,255,255,0.03);
+            border: none;
+            border-radius: 22px;
+            height: 48px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        
+        .engine-btn:hover { background: rgba(255,255,255,0.08); }
+        .engine-btn i { font-size: 1.1rem; transition: color 0.3s; }
+        
+        /* Dropdown */
+        .engine-dropdown {
+            position: absolute;
+            top: 120%; left: 0;
+            background: rgba(15, 15, 20, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 6px;
+            width: 180px;
+            display: none; 
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            max-height: 320px;
+            overflow-y: auto;
+            z-index: 101;
+        }
+        
+        .engine-dropdown::-webkit-scrollbar { width: 6px; }
+        .engine-dropdown::-webkit-scrollbar-track { background: transparent; }
+        .engine-dropdown::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+        .engine-dropdown::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+        .engine-dropdown.active { display: flex; opacity: 1; transform: translateY(0); }
+        
+        .engine-option {
+            padding: 10px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .engine-option:hover { background: rgba(255,255,255,0.08); color: white; }
+        .engine-option.selected { background: rgba(255,255,255,0.05); color: white; font-weight: 500; }
+        
+        /* Cores dos Ícones */
+        .icon-google { color: var(--color-google); }
+        .icon-youtube { color: var(--color-youtube); }
+        .icon-bing { color: var(--color-bing); }
+        .icon-ddg { color: var(--color-ddg); }
+        .icon-amazon { color: var(--color-amazon); }
+        .icon-reddit { color: var(--color-reddit); }
+        .icon-wiki { color: var(--color-wiki); }
+        .icon-spotify { color: var(--color-spotify); }
+
+        /* Input */
+        .search-input-container { flex: 1; position: relative; }
+        .search-input { 
+            width: 100%; background: transparent; border: none; 
+            padding: 16px 10px; font-size: 1.15rem; color: white; 
+            font-family: 'Space Grotesk', sans-serif; font-weight: 500; 
+        }
+        .search-input::placeholder { color: rgba(255,255,255,0.25); }
+
+        /* Botões de Ação */
+        .action-btns { display: flex; align-items: center; gap: 8px; padding-right: 6px; flex-shrink: 0; }
+
+        .btn-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-icon:hover { background: rgba(255,255,255,0.08); color: white; transform: scale(1.05); }
+
+        .btn-mic.listening { 
+            color: var(--color-google); 
+            animation: pulseMic 1.5s infinite; 
+        }
+        
+        @keyframes pulseMic {
+            0% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(234, 67, 53, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0); }
+        }
+
+        .btn-submit { 
+            background: var(--gradient-primary); 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+        .btn-submit:hover { 
+            transform: scale(1.05) rotate(-10deg); 
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5); 
+        }
+
+        /* Histórico */
+        .search-history {
+            position: absolute;
+            top: 110%; left: 60px; right: 60px;
+            background: rgba(15, 15, 20, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 8px 0;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 99;
+        }
+        .search-history.active { display: flex; animation: slideDown 0.2s ease-out; }
+        
+        .history-item {
+            padding: 10px 20px;
+            display: flex; align-items: center; gap: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .history-item:hover { background: rgba(255,255,255,0.05); color: white; padding-left: 25px; }
+        .history-item i { font-size: 0.8rem; }
+
+        .history-label {
+            padding: 5px 20px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- GRID & SEÇÕES --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 16px; padding-bottom: 5rem; transition: all 0.3s ease; }
+        
+        .section-header { 
+            grid-column: 1 / -1; 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            margin: 2.5rem 0 1.5rem 0; 
+            padding-bottom: 0.5rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.08); 
+        }
+        
+        .section-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+        .section-line { height: 1px; width: 100%; background: linear-gradient(to right, rgba(255,255,255,0.2), transparent); }
+
+        /* Cores das Seções */
+        .header-streaming .section-title { color: #ef4444; } .header-streaming .section-line { background: linear-gradient(to right, #ef4444, transparent); }
+        .header-anime .section-title { color: #f97316; } .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
+        .header-manga .section-title { color: #8b5cf6; } .header-manga .section-line { background: linear-gradient(to right, #8b5cf6, transparent); }
+        
+        /* SEÇÃO MANHWA */
+        .header-manhwa .section-title { color: #06b6d4; } .header-manhwa .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
+
+        /* SEÇÃO BL/GL (NOVA) */
+        .header-bl .section-title { color: #db2777; } .header-bl .section-line { background: linear-gradient(to right, #db2777, transparent); }
+
+        .header-game .section-title { color: #22c55e; } .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
+        
+        /* SEÇÃO HOSTING (COR ALTERADA P/ VERDE ESCURO) */
+        .header-host .section-title { color: #047857; } .header-host .section-line { background: linear-gradient(to right, #047857, transparent); }
+
+        .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
+        
+        /* NOVAS CATEGORIAS */
+        .header-design .section-title { color: #d946ef; } .header-design .section-line { background: linear-gradient(to right, #d946ef, transparent); }
+        .header-wallpaper .section-title { color: #3b82f6; } .header-wallpaper .section-line { background: linear-gradient(to right, #3b82f6, transparent); }
+
+        /* --- CARDS --- */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.1s linear, box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(25px);
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transform-style: preserve-3d;
+            will-change: transform;
+            cursor: pointer;
+        }
+        .card::after {
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); transition: 0.6s; pointer-events: none; 
+            z-index: 5; 
+        }
+        .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
+        .card:hover { background: rgba(30, 30, 35, 0.8); border-color: rgba(255,255,255,0.4); }
+        
+        /* --- ANIMAÇÃO RIPPLE (CLIQUE) --- */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-anim 0.6s ease-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes ripple-anim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.04; transform: rotate(-15deg); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1; }
+        .card:hover .card-bg-icon { opacity: 0.08; transform: rotate(0deg) scale(1.2); }
+        .card-content { 
+            position: relative; 
+            z-index: 20 !important; 
+            transform: translateZ(20px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            gap: 8px; 
+            width: 100%; 
+            justify-content: center; 
+            height: 100%; 
+            pointer-events: none;
+        }
+
+        .card-icon { 
+            width: 42px; 
+            height: 42px; 
+            aspect-ratio: 1/1; 
+            border-radius: 6px; 
+            background: rgba(255,255,255,0.05); 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 1.1rem; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: all 0.3s ease; 
+            margin-bottom: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 0; 
+            position: relative; 
+            z-index: 10 !important;
+            flex-shrink: 0; 
+        }
+        .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
+        
+        /* --- FORÇAR FONTES DO FONTAWESOME --- */
+        .card-icon .fa-solid, .card-icon .fas {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+        .card-icon .fa-brands, .card-icon .fab {
+            font-family: "Font Awesome 6 Brands";
+            font-weight: 400;
+        }
+
+        /* Ajustes de Ícones Gerais */
+        .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
+        .card-icon .fa-play, .card-icon .fa-circle-play { font-size: 1rem !important; margin-left: 2px; }
+        .card-icon .fa-fire, .card-icon .fa-star, .card-icon .fa-atom, .card-icon .fa-brain, .card-icon .fa-robot, .card-icon .fa-cloud-arrow-up, .card-icon .fa-image, .card-icon .fa-pen-nib, .card-icon .fa-pen-ruler, .card-icon .fa-puzzle-piece, .card-icon .fa-book-open, .card-icon .fa-brands.fa-github, .card-icon .fa-brands.fa-google { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-caret-up { font-size: 1.4rem !important; transform: scale(1.1) translateY(-2px); }
+        .card-icon .fa-scissors { font-size: 1.1rem !important; transform: rotate(-45deg) scale(1.1); }
+        .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); }
+        .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); }
+        
+        /* NOVOS AJUSTES DE ÍCONES */
+        .card-icon .fa-laptop-code { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-eraser { font-size: 1.15rem !important; transform: scale(1.05) rotate(-10deg); }
+        .card-icon .fa-align-justify { font-size: 1.1rem !important; transform: scale(1.0); }
+        .card-icon .fa-palette { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-display, .card-icon .fa-camera-retro, .card-icon .fa-camera { font-size: 1.3rem !important; transform: scale(1.05); }
+        .card-icon .fa-images { font-size: 1.25rem !important; transform: scale(1.05); }
+        /* Novo: SpeedTest */
+        .card-icon .fa-gauge-high { font-size: 1.25rem !important; transform: scale(1.05); }
+        /* Novo: Seedling (Flower) */
+        .card-icon .fa-seedling { font-size: 1.15rem !important; transform: scale(1.05); }
+        /* Novos Ícones BL/GL */
+        .card-icon .fa-mug-hot { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-q { font-size: 1.4rem !important; transform: scale(1.1); font-family: "Times New Roman", serif; font-style: italic; }
+        .card-icon .fa-certificate { font-size: 1.1rem !important; transform: scale(1.1); }
+        .card-icon .fa-explosion { font-size: 1.1rem !important; transform: scale(1.1); }
+        /* NOVO: User Secret (Discreto) */
+        .card-icon .fa-user-secret { font-size: 1.15rem !important; transform: scale(1.05); }
+
+        .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
+        .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-bolt, .card-icon .fa-presentation-screen, .card-icon .fa-microchip, .card-icon .fa-scissors { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-terminal, .card-icon .fa-message, .card-icon .fa-arrow-pointer { font-size: 1.05rem !important; transform: scale(1.0); }
+        .card-icon .fa-headphones-simple, .card-icon .fa-wand-magic-sparkles { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-briefcase, .card-icon .fa-laptop-code, .card-icon .fa-file-code, .card-icon .fa-window-restore { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-palette, .card-icon .fa-rocket { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-vr-cardboard, .card-icon .fa-dice { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-glasses { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
+        .card-icon .fa-brands.fa-cloudflare { font-size: 1.25rem !important; transform: scale(1.05); }
+        .card-icon .fa-solid.fa-globe, .card-icon .fa-solid.fa-chart-simple { font-size: 1.4rem !important; transform: scale(1.1); line-height: 1; display: inline-flex; justify-content: center; align-items: center; }
+        /* Ícone para Manhwa */
+        .card-icon .fa-book-journal-whills { font-size: 1.25rem !important; transform: scale(1.05); }
+
+        .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
+        .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.3px; transition: transform 0.2s; }
+        .card:hover h3 { transform: translateY(-1px); }
+        .card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; font-weight: 500; }
+
+        /* Cores dos Cards */
+        .card[data-cat="streaming"] .card-icon { color: #ef4444; text-shadow: 0 0 15px rgba(239,68,68,0.2); }
+        .card[data-cat="streaming"]:hover { box-shadow: 0 20px 40px -10px rgba(239,68,68,0.3), 0 0 0 1px rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+        .card[data-cat="anime"] .card-icon { color: #f97316; text-shadow: 0 0 15px rgba(249,115,22,0.2); }
+        .card[data-cat="anime"]:hover { box-shadow: 0 20px 40px -10px rgba(249,115,22,0.3), 0 0 0 1px rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); }
+        .card[data-cat="manga"] .card-icon { color: #8b5cf6; text-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
+        .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
+        
+        /* COR MANHWA */
+        .card[data-cat="manhwa"] .card-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+        .card[data-cat="manhwa"]:hover { box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.4), 0 0 0 1px rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.4); }
+
+        /* COR BL/GL (NOVA) */
+        .card[data-cat="bl"] .card-icon { color: #db2777; text-shadow: 0 0 15px rgba(219, 39, 119, 0.2); }
+        .card[data-cat="bl"]:hover { box-shadow: 0 20px 40px -10px rgba(219, 39, 119, 0.4), 0 0 0 1px rgba(219, 39, 119, 0.2); border-color: rgba(219, 39, 119, 0.4); }
+
+        .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
+        .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
+        
+        /* COR HOSTING (VERDE ESCURO) */
+        .card[data-cat="hosting"] .card-icon { color: #047857; text-shadow: 0 0 15px rgba(4, 120, 87, 0.2); }
+        .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(4, 120, 87, 0.3), 0 0 0 1px rgba(4, 120, 87, 0.1); border-color: rgba(4, 120, 87, 0.3); }
+
+        .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
+        .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
+        
+        /* Cores dos NOVOS Cards */
+        .card[data-cat="design"] .card-icon { color: #d946ef; text-shadow: 0 0 15px rgba(217,70,239,0.2); }
+        .card[data-cat="design"]:hover { box-shadow: 0 20px 40px -10px rgba(217,70,239,0.3), 0 0 0 1px rgba(217,70,239,0.1); border-color: rgba(217,70,239,0.3); }
+        .card[data-cat="wallpaper"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .card[data-cat="wallpaper"]:hover { box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
+
+        /* --- FOOTER --- */
+        footer { 
+            text-align: center; 
+            padding: 2rem 0; 
+            color: var(--text-muted); 
+            border-top: 1px solid var(--glass-border); 
+            margin-top: 3rem; 
+            font-size: 0.8rem; 
+            letter-spacing: 0.5px; 
+            position: relative; 
+            z-index: 2; 
+            background: transparent; 
+        }
+
+        /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
+        @media (max-width: 600px) { 
+            .hero h1 { font-size: 2.4rem; } 
+            .container { padding: 0 1rem; } 
+            
+            .search-wrapper { width: 100%; padding: 0; }
+            .engine-btn {
+                width: 44px; 
+                padding: 0;
+                justify-content: center;
+                border-radius: 50%; 
+                margin-right: 5px;
+            }
+            #currentEngineName, .engine-btn .fa-chevron-down { display: none !important; }
+
+            .engine-dropdown {
+                width: 100%; 
+                left: 0;
+                top: 130%;
+                border-radius: 12px;
+                max-height: 40vh; 
+            }
+
+            .search-input {
+                font-size: 1rem;
+                padding: 12px 8px;
+            }
+            
+            .btn-icon {
+                width: 40px; height: 40px;
+            }
+            .btn-mic { margin-right: 4px; }
+
+            .search-history {
+                left: 5px; right: 5px; 
+                border-radius: 12px;
+            }
+            .history-item { padding: 12px 15px; font-size: 0.95rem; }
+
+            .bento-grid { gap: 12px; grid-template-columns: repeat(2, 1fr); }
+            
+            .card { height: 140px; padding: 15px; }
+            .card-icon { width: 38px; height: 38px; font-size: 1rem; }
+            .card h3 { font-size: 0.95rem; }
+            .card p { font-size: 0.7rem; }
+
+            /* Estilos Específicos para Grid Mobile */
+            .dropdown-option[data-cols="auto"] { display: none !important; }
+        }
+        
+        /* Estilos Específicos para Grid Desktop */
+        @media (min-width: 601px) {
+            .dropdown-option[data-cols="2"],
+            .dropdown-option[data-cols="3"] {
+                display: none;
+            }
+        }
+
+        /* Estilos para opção 5 Colunas (Compactada) */
+        .bento-grid.cols-5 {
+            gap: 8px; 
+        }
+        .bento-grid.cols-5 .card {
+            height: 110px; 
+            padding: 8px; 
+        }
+        .bento-grid.cols-5 .card-icon { 
+            width: 26px; 
+            height: 26px; 
+            font-size: 0.75rem; 
+            margin-bottom: 4px; 
+            padding: 0; 
+        }
+        .bento-grid.cols-5 .card h3 { 
+            font-size: 0.65rem; 
+            line-height: 1.1; 
+            margin: 0;
+        }
+        .bento-grid.cols-5 .card p { display: none; }
+        .bento-grid.cols-5 .card-bg-icon { display: none; }
     </style>
 </head>
-<!-- O body começa com 'safe-mode-active', ativando o bloqueio padrão -->
-<body class="safe-mode-active">
+<body>
 
+    <!-- CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
     <div id="custom-bg-layer"></div>
+
     <div class="ambient-light">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
@@ -29,20 +721,18 @@
 
     <div class="container">
         <header>
+            <!-- LOGO ALTERADO PARA fa-layer-group -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
+            <!-- Controles do Header (Botão Home + Grid + Categoria) -->
             <div class="header-controls">
-                <!-- HOME -->
+                
+                <!-- NOVO BOTÃO HOME -->
                 <a href="https://deathzephyr.github.io/PortaisLDX/" class="header-btn" title="Portal Principal" target="_self">
                     <i class="fa-solid fa-house"></i>
                 </a>
 
-                <!-- BOTÃO DO CADEADO -->
-                <button class="header-btn" id="safeModeBtn" title="Modo Seguro">
-                    <i class="fa-solid fa-lock"></i>
-                </button>
-
-                <!-- GRID -->
+                <!-- Botão de Controle de Grid -->
                 <div class="header-btn-wrapper">
                     <button class="header-btn" id="gridBtn" title="Layout">
                         <i class="fa-solid fa-border-all"></i>
@@ -55,7 +745,7 @@
                     </div>
                 </div>
                 
-                <!-- CATEGORIAS -->
+                <!-- Botão de Controle de Categorias -->
                 <div class="header-btn-wrapper">
                     <button class="header-btn" id="catBtn" title="Filtrar Categoria">
                         <i class="fa-solid fa-filter"></i>
@@ -65,11 +755,15 @@
                         <div class="dropdown-option" data-cat-filter="streaming">Filmes</div>
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
+                        <!-- FILTRO MANHWA -->
                         <div class="dropdown-option" data-cat-filter="manhwa">Manhwas</div>
+                        <!-- FILTRO BL/GL (NOVO) -->
                         <div class="dropdown-option" data-cat-filter="bl">Leitura BL/GL</div>
+                        
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
                         <div class="dropdown-option" data-cat-filter="design">Design & Artes</div>
                         <div class="dropdown-option" data-cat-filter="wallpaper">Wallpapers</div>
+                        <!-- Opção I.A. REMOVIDA -->
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
                     </div>
@@ -78,10 +772,15 @@
         </header>
 
         <section class="hero">
-            <h1>Bem-vindo ao NexusHub.</h1>
+            <h1>
+                Bem-vindo ao NexusHub.
+            </h1>
             <p>Seu hub definitivo de entretenimento e tecnologia.</p>
+            
             <div class="search-wrapper">
+                <!-- Barra de Pesquisa -->
                 <div class="search-bar">
+                    <!-- Seletor de Motor -->
                     <div class="engine-selector">
                         <button class="engine-btn" id="engineBtn" title="Trocar Motor de Busca">
                             <i class="fa-brands fa-google icon-google" id="currentEngineIcon"></i>
@@ -99,33 +798,44 @@
                             <div class="engine-option" data-engine="wikipedia"><i class="fa-brands fa-wikipedia-w icon-wiki"></i> Wikipedia</div>
                         </div>
                     </div>
+
+                    <!-- Input -->
                     <form class="search-input-container" id="searchForm">
                         <input type="text" class="search-input" placeholder="Pesquisar..." id="searchInput" autocomplete="off">
                     </form>
+
+                    <!-- Botões -->
                     <div class="action-btns">
                         <button class="btn-icon btn-mic" id="voiceBtn" title="Pesquisa por Voz"><i class="fa-solid fa-microphone"></i></button>
                         <button type="submit" form="searchForm" class="btn-icon btn-submit" title="Pesquisar"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
+
+                <!-- Dropdown de Histórico -->
                 <div class="search-history" id="searchHistory">
                     <div class="history-label">Recentes</div>
-                    <div id="historyList"></div>
+                    <div id="historyList">
+                        <!-- Itens inseridos via JS -->
+                    </div>
                 </div>
             </div>
         </section>
 
         <div class="bento-grid" id="bentoGrid">
-            <!-- SEÇÃO STREAMING -->
+            
+            <!-- SEÇÃO: STREAMING -->
             <div class="section-header header-streaming">
                 <div class="section-title"><i class="fa-solid fa-film"></i> Filmes & Séries</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://myflixerz.to/home" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-ticket"></i></div><h3>My Flixerz</h3><p>Filmes e Séries HD</p></div><i class="fa-solid fa-ticket card-bg-icon"></i>
             </a>
             <a href="https://www.cineby.gd/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-film"></i></div><h3>Cineby</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-film card-bg-icon"></i>
             </a>
+            <!-- CARD ALTERADO: POBREFLIX -> REDE CANAIS -->
             <a href="https://redecanais.fm/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-tv"></i></div><h3>Rede Canais</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-tv card-bg-icon"></i>
             </a>
@@ -136,17 +846,21 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-circle-play"></i></div><h3>Boraflix</h3><p>Variedade HD</p></div><i class="fa-solid fa-circle-play card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO ANIMES -->
+            <!-- SEÇÃO: ANIMES -->
             <div class="section-header header-anime">
                 <div class="section-title"><i class="fa-solid fa-dragon"></i> Animes</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><h3>Anime Fire</h3><p>Animes Online HD</p></div><i class="fa-solid fa-fire card-bg-icon"></i>
             </a>
+            
+            <!-- CARD ALTERADO: ICON TV -> ICON LAPTOP-CODE (LAPTOP) -->
             <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
             </a>
+
             <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>Top Animes</h3><p>Ranking & Top</p></div><i class="fa-solid fa-star card-bg-icon"></i>
             </a>
@@ -157,14 +871,16 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div><h3>Animes Comix</h3><p>Animes & Doramas</p></div><i class="fa-solid fa-masks-theater card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO MANGÁS -->
+            <!-- SEÇÃO: MANGÁS -->
             <div class="section-header header-manga">
                 <div class="section-title"><i class="fa-solid fa-book"></i> Mangás</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://mangalivre.to/" target="_blank" class="card" data-cat="manga">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Mangá Livre</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
+            <!-- ROLIASCAN VOLTANDO AQUI -->
             <a href="https://roliascan.com/" target="_blank" class="card" data-cat="manga">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-glasses"></i></div><h3>RoliaScan</h3><p>Leitura Online</p></div><i class="fa-solid fa-glasses card-bg-icon"></i>
             </a>
@@ -175,29 +891,38 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div><h3>MangaHere</h3><p>Mangás Variados</p></div><i class="fa-solid fa-book-open-reader card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO MANHWAS -->
+            <!-- SEÇÃO: MANHWAS (NOVA) -->
             <div class="section-header header-manhwa">
                 <div class="section-title"><i class="fa-solid fa-book-journal-whills"></i> Manhwas</div>
                 <div class="section-line"></div>
             </div>
+
+            <!-- COMIKEY MOVIDO AQUI -->
             <a href="https://br.comikey.com/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scroll"></i></div><h3>Comikey</h3><p>Licenciados & Scan</p></div><i class="fa-solid fa-scroll card-bg-icon"></i>
             </a>
+
+            <!-- CARD NOVO: NexusToons -->
             <a href="https://nexustoons.com/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-journal-whills"></i></div><h3>NexusToons</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-journal-whills card-bg-icon"></i>
             </a>
+
+            <!-- CARD NOVO: FlowerMangas -->
             <a href="https://flowermangas.net/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-seedling"></i></div><h3>FlowerMangas</h3><p>Leitura Online</p></div><i class="fa-solid fa-seedling card-bg-icon"></i>
             </a>
+
+            <!-- CARD NOVO: Leitura Manga -->
             <a href="https://leituramanga.net/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Leitura Manga</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO LEITURA BL/GL (+18) -->
+            <!-- SEÇÃO: LEITURA BL/GL (NOVA) -->
             <div class="section-header header-bl">
                 <div class="section-title"><i class="fa-solid fa-heart"></i> Leitura BL/GL</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://cafecomyaoi.com.br/" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mug-hot"></i></div><h3>Cafe Com Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-mug-hot card-bg-icon"></i>
             </a>
@@ -207,18 +932,22 @@
             <a href="https://qtoon.com/pt/homepage" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-q"></i></div><h3>QToon</h3><p>Webtoons</p></div><i class="fa-solid fa-q card-bg-icon"></i>
             </a>
+            
+            <!-- ÍCONE ALTERADO: FOGO PARA USER-SECRET (DISCRETO) -->
             <a href="https://hentaiyaoi.net/" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-user-secret"></i></div><h3>Hentai Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-user-secret card-bg-icon"></i>
             </a>
+            
             <a href="https://3xyaoi.com/tag/br/" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-explosion"></i></div><h3>3X Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-explosion card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO JOGOS -->
+            <!-- SEÇÃO: JOGOS -->
             <div class="section-header header-game">
                 <div class="section-title"><i class="fa-solid fa-gamepad"></i> Jogos</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://www.airconsole.com/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-gamepad"></i></div><h3>AirConsole</h3><p>Jogos no navegador</p></div><i class="fa-solid fa-gamepad card-bg-icon"></i>
             </a>
@@ -235,11 +964,12 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO DESIGN -->
+            <!-- NOVA SEÇÃO: DESIGN & ARTES -->
             <div class="section-header header-design">
                 <div class="section-title"><i class="fa-solid fa-palette"></i> Design & Artes</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://cleanup.pictures/" target="_blank" class="card" data-cat="design">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-eraser"></i></div><h3>Cleanup</h3><p>Remover objetos</p></div><i class="fa-solid fa-eraser card-bg-icon"></i>
             </a>
@@ -256,32 +986,39 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-palette"></i></div><h3>Canva</h3><p>Design Gráfico</p></div><i class="fa-solid fa-palette card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO WALLPAPERS -->
+            <!-- NOVA SEÇÃO: WALLPAPERS -->
             <div class="section-header header-wallpaper">
                 <div class="section-title"><i class="fa-solid fa-image"></i> Wallpapers</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>4K Anime & PC</p></div><i class="fa-solid fa-image card-bg-icon"></i>
             </a>
             <a href="https://wallhaven.cc/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mountain-sun"></i></div><h3>Wallhaven</h3><p>Arte 4K</p></div><i class="fa-solid fa-mountain-sun card-bg-icon"></i>
             </a>
+            
+            <!-- UNSPLASH SUBSTITUÍDO POR 4KWALLPAPERS -->
             <a href="https://4kwallpapers.com/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-display"></i></div><h3>4K Wallpapers</h3><p>Fundos Ultra HD</p></div><i class="fa-solid fa-display card-bg-icon"></i>
             </a>
+
+            <!-- PEXELS SUBSTITUÍDO BY FREEPIK -->
             <a href="https://br.freepik.com/fotos-vetores-gratis/wallpaper-desktop" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-images"></i></div><h3>Freepik</h3><p>Vetores & Fotos</p></div><i class="fa-solid fa-images card-bg-icon"></i>
             </a>
+
             <a href="https://www.wallpaperflare.com/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>WallpaperFlare</h3><p>Fundos HD</p></div><i class="fa-solid fa-star card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO DEV -->
+            <!-- SEÇÃO: DEV (VERDE ESCURO) -->
             <div class="section-header header-host">
                 <div class="section-title"><i class="fa-solid fa-server"></i> Hospedagem & Dev</div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://github.com/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-github"></i></div><h3>GitHub</h3><p>Código e Versionamento</p></div><i class="fa-brands fa-github card-bg-icon"></i>
             </a>
@@ -291,18 +1028,21 @@
             <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
             </a>
+            <!-- VERCEL -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-caret-up"></i></div><h3>Vercel</h3><p>Cloud Platform</p></div><i class="fa-solid fa-caret-up card-bg-icon"></i>
             </a>
+            <!-- CODEPEN -->
             <a href="https://codepen.io/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO UTILITÁRIOS -->
+            <!-- SEÇÃO: UTILITÁRIOS -->
             <div class="section-header header-utils">
                 <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilidades </div>
                 <div class="section-line"></div>
             </div>
+
             <a href="https://sweezy-cursors.com/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-arrow-pointer"></i></div><h3>Sweezy</h3><p>Custom Cursor</p></div><i class="fa-solid fa-arrow-pointer card-bg-icon"></i>
             </a>
@@ -315,9 +1055,12 @@
             <a href="https://translate.google.com.br/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-language"></i></div><h3>Google Tradutor</h3><p>Tradução</p></div><i class="fa-solid fa-language card-bg-icon"></i>
             </a>
+            
+            <!-- NOVO CARD ADICIONADO: SPEEDTEST -->
             <a href="https://www.speedtest.net/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-gauge-high"></i></div><h3>SpeedTest</h3><p>Teste de Velocidade</p></div><i class="fa-solid fa-gauge-high card-bg-icon"></i>
             </a>
+
         </div>
 
         <footer>
@@ -325,7 +1068,360 @@
         </footer>
     </div>
 
-    <!-- JS -->
-    <!-- Cole aqui o conteúdo do 'script.js' OU use <script src="script.js"></script> -->
+    <script>
+        /* --- LÓGICA DE FUNDO CONECTADO (SISTEMA LDX) --- */
+        // Define img2.jpg como padrão se não houver configuração salva
+        const defaultBackground = 'img2.jpg';
+        if (!localStorage.getItem('ldx_custom_bg') || localStorage.getItem('ldx_custom_bg') === '') {
+            localStorage.setItem('ldx_custom_bg', defaultBackground);
+            localStorage.setItem('ldx_bg_type', 'image');
+        }
+
+        // Carrega o fundo ao abrir a página
+        const savedBg = localStorage.getItem('ldx_custom_bg');
+        const savedType = localStorage.getItem('ldx_bg_type');
+        const customBgLayer = document.getElementById('custom-bg-layer');
+
+        if (savedBg) {
+            if(savedType === 'image') {
+                customBgLayer.style.backgroundImage = `url('${savedBg}')`;
+            } else {
+                document.body.style.backgroundImage = savedBg;
+            }
+            document.body.classList.add('has-custom-bg');
+        }
+
+        /* --- FIM DO SISTEMA DE FUNDO --- */
+
+        /* --- SISTEMA DE PESQUISA E FILTRO --- */
+        
+        const engines = {
+            google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'fa-brands fa-google icon-google' },
+            bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
+            duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=', icon: 'fa-solid fa-shield-cat icon-ddg' },
+            youtube: { name: 'YouTube', url: 'https://www.youtube.com/results?search_query=', icon: 'fa-brands fa-youtube icon-youtube' },
+            spotify: { name: 'Spotify', url: 'https://open.spotify.com/search/', icon: 'fa-brands fa-spotify icon-spotify' },
+            reddit: { name: 'Reddit', url: 'https://www.reddit.com/search/?q=', icon: 'fa-brands fa-reddit icon-reddit' },
+            amazon: { name: 'Amazon', url: 'https://www.amazon.com/s?k=', icon: 'fa-brands fa-amazon icon-amazon' },
+            wikipedia: { name: 'Wikipedia', url: 'https://pt.wikipedia.org/wiki/Special:Search?search=', icon: 'fa-brands fa-wikipedia-w icon-wiki' }
+        };
+
+        let currentEngine = 'google';
+        const engineBtn = document.getElementById('engineBtn');
+        const engineDropdown = document.getElementById('engineDropdown');
+        const engineIcon = document.getElementById('currentEngineIcon');
+        const engineName = document.getElementById('currentEngineName');
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
+        const searchHistory = document.getElementById('searchHistory');
+        const historyList = document.getElementById('historyList');
+
+        /* --- LÓGICA AVANÇADA DE FILTRAGEM (Cards + Headers) --- */
+        const cards = document.querySelectorAll('.card');
+        const headers = document.querySelectorAll('.section-header');
+
+        function filterCards() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeCategory = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
+
+            cards.forEach(card => card.style.display = 'none');
+            headers.forEach(header => header.style.display = 'none');
+
+            const visibleCategories = new Set();
+
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                const category = card.dataset.cat;
+
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+                const matchesSearch = title.includes(searchTerm);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'flex';
+                    visibleCategories.add(category);
+                }
+            });
+
+            if (visibleCategories.size > 0) {
+                headers.forEach(header => {
+                    if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
+                    if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
+                    // LÓGICA MANHWA
+                    if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
+                    // LÓGICA BL/GL (NOVA)
+                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
+                    
+                    if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
+                    // NOVOS FILTROS
+                    if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
+                    if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
+                    
+                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
+                    if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
+                });
+            }
+        }
+
+        const catBtn = document.getElementById('catBtn');
+        const catDropdown = document.getElementById('catDropdown');
+        const catOptions = document.querySelectorAll('#catDropdown .dropdown-option');
+
+        catBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            catDropdown.classList.toggle('active');
+        });
+
+        catOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                catOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                filterCards();
+                catDropdown.classList.remove('active');
+            });
+        });
+
+        searchInput.addEventListener('input', filterCards);
+
+
+        // --- LÓGICA RESTANTE DA PESQUISA (Web) ---
+        engineBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            engineDropdown.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.engine-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const engineKey = option.getAttribute('data-engine');
+                const data = engines[engineKey];
+                currentEngine = engineKey;
+                engineIcon.className = data.icon;
+                engineName.textContent = data.name;
+                document.querySelectorAll('.engine-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                engineDropdown.classList.remove('active');
+                searchInput.focus();
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!engineBtn.contains(e.target)) engineDropdown.classList.remove('active');
+            if (!searchInput.contains(e.target) && !searchHistory.contains(e.target)) searchHistory.classList.remove('active');
+            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) catDropdown.classList.remove('active');
+        });
+
+        const storageKey = 'nexusHub_history_v2';
+        let searches = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            if (searches.length === 0) {
+                searchHistory.style.display = 'none';
+                return;
+            }
+            searches.slice(0,5).reverse().forEach(term => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${term}`;
+                div.addEventListener('click', () => {
+                    searchInput.value = term;
+                    filterCards();
+                    searchHistory.classList.remove('active');
+                });
+                historyList.appendChild(div);
+            });
+        }
+
+        function saveToHistory(term) {
+            if (!term || term.trim() === '') return;
+            term = term.trim();
+            searches = searches.filter(s => s.toLowerCase() !== term.toLowerCase());
+            searches.push(term);
+            if (searches.length > 10) searches.shift(); 
+            localStorage.setItem(storageKey, JSON.stringify(searches));
+            renderHistory();
+        }
+
+        searchInput.addEventListener('focus', () => {
+            renderHistory();
+            if (searches.length > 0) searchHistory.classList.add('active');
+        });
+
+        function performSearch(query) {
+            if (query) {
+                const url = engines[currentEngine].url + encodeURIComponent(query);
+                saveToHistory(query);
+                window.open(url, '_blank');
+            }
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch(searchInput.value);
+        });
+
+        const voiceBtn = document.getElementById('voiceBtn');
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            voiceBtn.addEventListener('click', () => {
+                recognition.start();
+                voiceBtn.classList.add('listening');
+            });
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                searchInput.value = transcript;
+                filterCards();
+                voiceBtn.classList.remove('listening');
+            };
+            recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
+            recognition.onend = () => { voiceBtn.classList.remove('listening'); };
+        } else {
+            voiceBtn.style.display = 'none'; 
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        /* --- CONTROLE DE GRID (MOBILE E PC) --- */
+        const gridBtn = document.getElementById('gridBtn');
+        const gridDropdown = document.getElementById('gridDropdown');
+        const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
+        const bentoGrid = document.getElementById('bentoGrid');
+
+        gridBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            gridDropdown.classList.toggle('active');
+        });
+
+        gridOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const cols = option.getAttribute('data-cols');
+                applyGrid(cols);
+                gridOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                gridDropdown.classList.remove('active');
+            });
+        });
+
+        function applyGrid(cols) {
+            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+            if (cols === 'auto') {
+                bentoGrid.style.gridTemplateColumns = '';
+                saveGridPreference('auto');
+            } else {
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
+                saveGridPreference(cols);
+            }
+        }
+
+        function saveGridPreference(value) {
+            if (window.innerWidth <= 600) {
+                localStorage.setItem('nexusHub_mobileCols', value);
+            } else {
+                localStorage.setItem('nexusHub_desktopCols', value);
+            }
+        }
+
+        function loadSavedGrid() {
+            let savedCols;
+            let key;
+            if (window.innerWidth <= 600) {
+                key = 'nexusHub_mobileCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = '2';
+            } else {
+                key = 'nexusHub_desktopCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = 'auto';
+            }
+            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
+            if(optToSelect) optToSelect.classList.add('selected');
+            applyGrid(savedCols);
+        }
+        loadSavedGrid();
+
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                loadSavedGrid();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) {
+                gridDropdown.classList.remove('active');
+            }
+        });
+
+        /* --- TILT 3D --- */
+        const cardElements = document.querySelectorAll('.card');
+        cardElements.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if(window.innerWidth >768) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        /* --- EFEITO RIPPLE DE CLIQUE --- */
+        cardElements.forEach(card => {
+            card.addEventListener('click', function(e) {
+                if(e.button === 0) {
+                    e.preventDefault(); 
+
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x - size / 2}px`;
+                    ripple.style.top = `${y - size / 2}px`;
+                    
+                    card.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target');
+                    setTimeout(() => {
+                        if (href) {
+                            if (target === '_blank') {
+                                window.open(href, '_blank');
+                            } else {
+                                window.location.href = href;
+                            }
+                        }
+                    }, 300);
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
