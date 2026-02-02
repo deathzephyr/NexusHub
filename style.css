@@ -669,3 +669,22 @@ body:not(.bl-unlocked) .dropdown-option[data-cat-filter="bl"] {
 }
 .bento-grid.cols-5 .card p { display: none; }
 .bento-grid.cols-5 .card-bg-icon { display: none; }
+
+/* --- ESTILO DO CADEADO (FIXO) --- */
+
+/* Garante que o botão continue cinza mesmo quando o body tem a classe .bl-unlocked */
+body.bl-unlocked .lock-btn,
+body.bl-unlocked .lock-btn:hover,
+body.bl-unlocked .lock-btn:active {
+    color: var(--text-muted) !important;
+    background: rgba(255, 255, 255, 0.03) !important; /* Fundo padrão transparente */
+    border-color: var(--glass-border) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Caso queira manter o efeito de hover padrão (ficar levemente mais claro, mas não branco), remova o ", body.bl-unlocked .lock-btn:hover" acima e use apenas: */
+body.bl-unlocked .lock-btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--text-main) !important; /* Mude para var(--text-muted) se quiser que continue cinza no hover também */
+}
