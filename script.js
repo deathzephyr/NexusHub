@@ -22,6 +22,42 @@ if (savedBg) {
 
 /* --- FIM DO SISTEMA DE FUNDO --- */
 
+/* --- SISTEMA DE BLOQUEIO BL/GL --- */
+let isBlUnlocked = localStorage.getItem('ldx_bl_unlocked') === 'true';
+const lockBtn = document.getElementById('lockBtn');
+const lockIcon = lockBtn.querySelector('i');
+
+function updateLockUI() {
+    if (isBlUnlocked) {
+        document.body.classList.add('bl-unlocked');
+        lockIcon.classList.remove('fa-lock');
+        lockIcon.classList.add('fa-lock-open');
+        lockBtn.title = "Bloquear Leitura BL/GL";
+        // Opcional: mudar cor quando aberto
+        lockBtn.style.color = 'var(--accent-secondary)';
+    } else {
+        document.body.classList.remove('bl-unlocked');
+        lockIcon.classList.remove('fa-lock-open');
+        lockIcon.classList.add('fa-lock');
+        lockBtn.title = "Desbloquear Leitura BL/GL";
+        lockBtn.style.color = 'var(--text-muted)';
+    }
+    // Atualiza o grid para mostrar/esconder os cards
+    filterCards();
+}
+
+// Evento de clique no cadeado
+lockBtn.addEventListener('click', () => {
+    isBlUnlocked = !isBlUnlocked;
+    localStorage.setItem('ldx_bl_unlocked', isBlUnlocked);
+    updateLockUI();
+});
+
+// Inicializa estado do cadeado ao carregar
+updateLockUI();
+
+/* --- FIM DO SISTEMA DE BLOQUEIO --- */
+
 /* --- SISTEMA DE PESQUISA E FILTRO --- */
 
 const engines = {
@@ -53,12 +89,24 @@ function filterCards() {
     const searchTerm = searchInput.value.toLowerCase();
     const activeCategory = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
 
-    cards.forEach(card => card.style.display = 'none');
+    cards.forEach(card => {
+        // Se estiver bloqueado e for BL, esconde imediatamente e ignora o resto
+        if (!isBlUnlocked && card.dataset.cat === 'bl') {
+            card.style.display = 'none';
+            return;
+        }
+
+        card.style.display = 'none';
+    });
+    
     headers.forEach(header => header.style.display = 'none');
 
     const visibleCategories = new Set();
 
     cards.forEach(card => {
+        // Se estiver bloqueado e for BL, pula
+        if (!isBlUnlocked && card.dataset.cat === 'bl') return;
+
         const title = card.querySelector('h3').innerText.toLowerCase();
         const category = card.dataset.cat;
 
@@ -73,13 +121,16 @@ function filterCards() {
 
     if (visibleCategories.size > 0) {
         headers.forEach(header => {
+            // Se BL estiver bloqueado, não mostra o header mesmo que seja visível pelo filtro (redundância)
+            if (header.classList.contains('header-bl') && !isBlUnlocked) return;
+
             if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
             if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
             if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
             // LÓGICA MANHWA
             if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
-            // LÓGICA BL/GL (NOVA)
-            if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
+            // LÓGICA BL/GL (Só mostra se desbloqueado)
+            if (header.classList.contains('header-bl') && visibleCategories.has('bl') && isBlUnlocked) header.style.display = 'flex';
             
             if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
             // NOVOS FILTROS
