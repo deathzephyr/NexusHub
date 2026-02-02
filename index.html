@@ -130,23 +130,6 @@
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn i { font-size: 1.1rem; }
 
-        /* --- BOTÃO DE MODO RESTRITO (+18) --- */
-        #safeModeBtn {
-            transition: all 0.3s ease;
-        }
-        /* Estado Bloqueado (Padrão) */
-        #safeModeBtn.is-locked {
-            border-color: rgba(255,255,255,0.1);
-            color: var(--text-muted);
-        }
-        /* Estado Desbloqueado (+18 Visível) */
-        #safeModeBtn.is-unlocked {
-            border-color: rgba(239, 68, 68, 0.5);
-            color: #ef4444;
-            background: rgba(239, 68, 68, 0.1);
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
-        }
-
         .header-dropdown {
             position: absolute;
             top: 120%; right: 0;
@@ -592,6 +575,12 @@
         .card[data-cat="wallpaper"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
         .card[data-cat="wallpaper"]:hover { box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
 
+        /* --- SISTEMA SAFE MODE (+18 HIDDEN) --- */
+        /* Oculta os elementos +18 se o body tiver a classe safe-mode-active */
+        body.safe-mode-active #catDropdown .dropdown-option[data-cat-filter="bl"] { display: none !important; }
+        body.safe-mode-active .header-bl { display: none !important; }
+        body.safe-mode-active .card[data-cat="bl"] { display: none !important; }
+
         /* --- FOOTER --- */
         footer { 
             text-align: center; 
@@ -604,24 +593,6 @@
             position: relative; 
             z-index: 2; 
             background: transparent; 
-        }
-
-        /* --- SISTEMA DE SAFE MODE (+18 HIDDEN) --- */
-        /* Esconde a categoria e os cards por padrão se o modo restrito estiver ativo (padrão) */
-        
-        /* Esconde a opção do filtro */
-        body.safe-mode-active #catDropdown .dropdown-option[data-cat-filter="bl"] {
-            display: none !important;
-        }
-
-        /* Esconde o cabeçalho da seção */
-        body.safe-mode-active .header-bl {
-            display: none !important;
-        }
-
-        /* Esconde os cards da categoria BL */
-        body.safe-mode-active .card[data-cat="bl"] {
-            display: none !important;
         }
 
         /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
@@ -703,7 +674,8 @@
         .bento-grid.cols-5 .card-bg-icon { display: none; }
     </style>
 </head>
-<body class="safe-mode-active"> <!-- Começa com o Safe Mode Ativo -->
+<!-- O body começa com a classe 'safe-mode-active' para esconder conteúdo +18 por padrão -->
+<body class="safe-mode-active">
 
     <!-- CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
     <div id="custom-bg-layer"></div>
@@ -719,7 +691,7 @@
             <!-- LOGO -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Home + Grid + Categoria + Safe Mode) -->
+            <!-- Controles do Header (Home + Safe Mode + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- BOTÃO HOME -->
@@ -728,7 +700,7 @@
                 </a>
 
                 <!-- BOTÃO SAFE MODE (NOVO) -->
-                <button class="header-btn is-locked" id="safeModeBtn" title="Conteúdo Adulto">
+                <button class="header-btn" id="safeModeBtn" title="Conteúdo +18">
                     <i class="fa-solid fa-lock"></i>
                 </button>
 
@@ -1062,44 +1034,49 @@
             document.body.classList.add('has-custom-bg');
         }
 
-        /* --- LÓGICA SAFE MODE (+18) --- */
+        /* --- LÓGICA SAFE MODE (+18) CORRIGIDA --- */
         const safeModeBtn = document.getElementById('safeModeBtn');
-        let isSafeMode = localStorage.getItem('ldx_safe_mode') !== 'false'; // Default true (Locked)
+        const body = document.body;
+
+        // Inicializa estado baseado no localStorage (padrão 'true' = bloqueado)
+        let isSafeMode = localStorage.getItem('ldx_safe_mode') === null || localStorage.getItem('ldx_safe_mode') === 'true';
 
         function toggleSafeMode() {
-            isSafeMode = !isSafeMode;
-            localStorage.setItem('ldx_safe_mode', isSafeMode);
-            updateSafeModeUI();
+            isSafeMode = !isSafeMode; // Inverte estado
             
-            // Se estivermos filtrando pela categoria BL e travarmos o modo, reseta filtro
+            // Salva estado
+            localStorage.setItem('ldx_safe_mode', isSafeMode);
+            
+            // Atualiza UI
+            updateSafeModeUI();
+
+            // Se estivermos no filtro BL e bloquearmos, volta para Todos
             const activeCat = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
             if (isSafeMode && activeCat === 'bl') {
                 document.querySelector('[data-cat-filter="all"]').click();
             }
+
+            // Re-executa o filtro para garantir visibilidade correta
             filterCards();
         }
 
         function updateSafeModeUI() {
             if (isSafeMode) {
-                // Modo Seguro Ativo (Bloqueado)
-                document.body.classList.add('safe-mode-active');
-                safeModeBtn.classList.add('is-locked');
-                safeModeBtn.classList.remove('is-unlocked');
+                // Estado Bloqueado (Cadeado Fechado)
+                body.classList.add('safe-mode-active');
                 safeModeBtn.innerHTML = '<i class="fa-solid fa-lock"></i>';
-                safeModeBtn.title = "Modo Restrito: Ativo";
+                safeModeBtn.title = "Modo Seguro Ativo";
             } else {
-                // Modo Adulto Ativo (Desbloqueado)
-                document.body.classList.remove('safe-mode-active');
-                safeModeBtn.classList.remove('is-locked');
-                safeModeBtn.classList.add('is-unlocked');
+                // Estado Desbloqueado (Cadeado Aberto)
+                body.classList.remove('safe-mode-active');
                 safeModeBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
-                safeModeBtn.title = "Conteúdo +18 Visível";
+                safeModeBtn.title = "Modo Seguro Inativo";
             }
         }
 
         safeModeBtn.addEventListener('click', toggleSafeMode);
         
-        // Inicializa UI
+        // Aplica o estado salvo ao carregar a página
         updateSafeModeUI();
 
         /* --- SISTEMA DE PESQUISA E FILTRO --- */
@@ -1140,6 +1117,9 @@
                 const title = card.querySelector('h3').innerText.toLowerCase();
                 const category = card.dataset.cat;
 
+                // Verifica se o Safe Mode está ativo e a categoria é BL
+                if (isSafeMode && category === 'bl') return; // Ignora cards BL se bloqueado
+
                 const matchesCategory = activeCategory === 'all' || category === activeCategory;
                 const matchesSearch = title.includes(searchTerm);
 
@@ -1155,7 +1135,9 @@
                     if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
                     if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
                     if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
-                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex'; // Se não estiver escondido pelo CSS, aparece
+                    
+                    // BL só mostra header se não estiver no safe mode e tiver cards visíveis
+                    if (!isSafeMode && header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
                     
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
                     if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
@@ -1178,7 +1160,7 @@
 
         catOptions.forEach(opt => {
             opt.addEventListener('click', () => {
-                // Impede selecionar BL se estiver bloqueado (embora o CSS já esconda)
+                // Impede selecionar BL se estiver bloqueado
                 if(opt.dataset.catFilter === 'bl' && isSafeMode) return;
 
                 catOptions.forEach(o => o.classList.remove('selected'));
