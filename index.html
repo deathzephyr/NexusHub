@@ -106,10 +106,10 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; z-index: 10; }
         .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
         
-        /* Área de controles do topo (Grid + Categorias + Home) */
+        /* Área de controles do topo */
         .header-controls { display: flex; align-items: center; gap: 12px; z-index: 10; position: relative; }
 
-        /* --- BOTÕES DO CABEÇALHO (Grid e Filtros) --- */
+        /* --- BOTÕES DO CABEÇALHO --- */
         .header-btn-wrapper { position: relative; flex-shrink: 0; z-index: 10; }
         
         .header-btn {
@@ -129,6 +129,23 @@
         }
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn i { font-size: 1.1rem; }
+
+        /* --- BOTÃO DE MODO RESTRITO (+18) --- */
+        #safeModeBtn {
+            transition: all 0.3s ease;
+        }
+        /* Estado Bloqueado (Padrão) */
+        #safeModeBtn.is-locked {
+            border-color: rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+        /* Estado Desbloqueado (+18 Visível) */
+        #safeModeBtn.is-unlocked {
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
 
         .header-dropdown {
             position: absolute;
@@ -169,15 +186,12 @@
         #catDropdown .dropdown-option[data-cat-filter="streaming"] { color: #ef4444; }
         #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
         #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
-        /* COR MANHWA */
         #catDropdown .dropdown-option[data-cat-filter="manhwa"] { color: #06b6d4; }
-        /* NOVA COR BL/GL */
+        /* COR BL/GL */
         #catDropdown .dropdown-option[data-cat-filter="bl"] { color: #db2777; }
         
         #catDropdown .dropdown-option[data-cat-filter="games"] { color: #22c55e; }
-        /* COR HOSTING (ALTERADA P/ VERDE ESCURO) */
         #catDropdown .dropdown-option[data-cat-filter="hosting"] { color: #047857; }
-        
         #catDropdown .dropdown-option[data-cat-filter="studies"] { color: #f59e0b; }
         #catDropdown .dropdown-option[data-cat-filter="design"] { color: #d946ef; }
         #catDropdown .dropdown-option[data-cat-filter="wallpaper"] { color: #3b82f6; }
@@ -195,7 +209,6 @@
         /* --- HERO --- */
         .hero { text-align: center; margin: 3rem 0 2rem; position: relative; }
         
-        /* Animação de Cores no Título */
         @keyframes colorCycle {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -420,21 +433,11 @@
         .header-streaming .section-title { color: #ef4444; } .header-streaming .section-line { background: linear-gradient(to right, #ef4444, transparent); }
         .header-anime .section-title { color: #f97316; } .header-anime .section-line { background: linear-gradient(to right, #f97316, transparent); }
         .header-manga .section-title { color: #8b5cf6; } .header-manga .section-line { background: linear-gradient(to right, #8b5cf6, transparent); }
-        
-        /* SEÇÃO MANHWA */
         .header-manhwa .section-title { color: #06b6d4; } .header-manhwa .section-line { background: linear-gradient(to right, #06b6d4, transparent); }
-
-        /* SEÇÃO BL/GL (NOVA) */
         .header-bl .section-title { color: #db2777; } .header-bl .section-line { background: linear-gradient(to right, #db2777, transparent); }
-
         .header-game .section-title { color: #22c55e; } .header-game .section-line { background: linear-gradient(to right, #22c55e, transparent); }
-        
-        /* SEÇÃO HOSTING (COR ALTERADA P/ VERDE ESCURO) */
         .header-host .section-title { color: #047857; } .header-host .section-line { background: linear-gradient(to right, #047857, transparent); }
-
         .header-utils .section-title { color: #f59e0b; } .header-utils .section-line { background: linear-gradient(to right, #f59e0b, transparent); }
-        
-        /* NOVAS CATEGORIAS */
         .header-design .section-title { color: #d946ef; } .header-design .section-line { background: linear-gradient(to right, #d946ef, transparent); }
         .header-wallpaper .section-title { color: #3b82f6; } .header-wallpaper .section-line { background: linear-gradient(to right, #3b82f6, transparent); }
 
@@ -522,14 +525,8 @@
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
         
         /* --- FORÇAR FONTES DO FONTAWESOME --- */
-        .card-icon .fa-solid, .card-icon .fas {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-        }
-        .card-icon .fa-brands, .card-icon .fab {
-            font-family: "Font Awesome 6 Brands";
-            font-weight: 400;
-        }
+        .card-icon .fa-solid, .card-icon .fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .card-icon .fa-brands, .card-icon .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
 
         /* Ajustes de Ícones Gerais */
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
@@ -540,25 +537,19 @@
         .card-icon .fa-brands.fa-codepen { font-size: 1.3rem !important; transform: scale(1.1); }
         .card-icon .fa-sitemap { font-size: 1.2rem !important; transform: scale(1.1); }
         
-        /* NOVOS AJUSTES DE ÍCONES */
         .card-icon .fa-laptop-code { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-eraser { font-size: 1.15rem !important; transform: scale(1.05) rotate(-10deg); }
         .card-icon .fa-align-justify { font-size: 1.1rem !important; transform: scale(1.0); }
         .card-icon .fa-palette { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-display, .card-icon .fa-camera-retro, .card-icon .fa-camera { font-size: 1.3rem !important; transform: scale(1.05); }
         .card-icon .fa-images { font-size: 1.25rem !important; transform: scale(1.05); }
-        /* Novo: SpeedTest */
         .card-icon .fa-gauge-high { font-size: 1.25rem !important; transform: scale(1.05); }
-        /* Novo: Seedling (Flower) */
         .card-icon .fa-seedling { font-size: 1.15rem !important; transform: scale(1.05); }
-        /* Novos Ícones BL/GL */
         .card-icon .fa-mug-hot { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-q { font-size: 1.4rem !important; transform: scale(1.1); font-family: "Times New Roman", serif; font-style: italic; }
         .card-icon .fa-certificate { font-size: 1.1rem !important; transform: scale(1.1); }
         .card-icon .fa-explosion { font-size: 1.1rem !important; transform: scale(1.1); }
-        /* NOVO: User Secret (Discreto) */
         .card-icon .fa-user-secret { font-size: 1.15rem !important; transform: scale(1.05); }
-
         .card-icon .fa-mobile { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-gamepad { font-size: 1.2rem !important; transform: translateY(2px) scale(1.05); }
         .card-icon .fa-heart { font-size: 1.25rem !important; transform: scale(1.05); }
@@ -572,7 +563,6 @@
         .card-icon .fa-book-open-reader { font-size: 1.2rem !important; transform: scale(1.05); }
         .card-icon .fa-brands.fa-cloudflare { font-size: 1.25rem !important; transform: scale(1.05); }
         .card-icon .fa-solid.fa-globe, .card-icon .fa-solid.fa-chart-simple { font-size: 1.4rem !important; transform: scale(1.1); line-height: 1; display: inline-flex; justify-content: center; align-items: center; }
-        /* Ícone para Manhwa */
         .card-icon .fa-book-journal-whills { font-size: 1.25rem !important; transform: scale(1.05); }
 
         .card:hover .card-icon { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
@@ -587,26 +577,16 @@
         .card[data-cat="anime"]:hover { box-shadow: 0 20px 40px -10px rgba(249,115,22,0.3), 0 0 0 1px rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); }
         .card[data-cat="manga"] .card-icon { color: #8b5cf6; text-shadow: 0 0 15px rgba(139, 92, 246, 0.2); }
         .card[data-cat="manga"]:hover { box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
-        
-        /* COR MANHWA */
         .card[data-cat="manhwa"] .card-icon { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
         .card[data-cat="manhwa"]:hover { box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.4), 0 0 0 1px rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.4); }
-
-        /* COR BL/GL (NOVA) */
         .card[data-cat="bl"] .card-icon { color: #db2777; text-shadow: 0 0 15px rgba(219, 39, 119, 0.2); }
         .card[data-cat="bl"]:hover { box-shadow: 0 20px 40px -10px rgba(219, 39, 119, 0.4), 0 0 0 1px rgba(219, 39, 119, 0.2); border-color: rgba(219, 39, 119, 0.4); }
-
         .card[data-cat="games"] .card-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34,197,94,0.2); }
         .card[data-cat="games"]:hover { box-shadow: 0 20px 40px -10px rgba(34,197,94,0.3), 0 0 0 1px rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
-        
-        /* COR HOSTING (VERDE ESCURO) */
         .card[data-cat="hosting"] .card-icon { color: #047857; text-shadow: 0 0 15px rgba(4, 120, 87, 0.2); }
         .card[data-cat="hosting"]:hover { box-shadow: 0 20px 40px -10px rgba(4, 120, 87, 0.3), 0 0 0 1px rgba(4, 120, 87, 0.1); border-color: rgba(4, 120, 87, 0.3); }
-
         .card[data-cat="studies"] .card-icon { color: #f59e0b; text-shadow: 0 0 15px rgba(245,158,11,0.2); }
         .card[data-cat="studies"]:hover { box-shadow: 0 20px 40px -10px rgba(245,158,11,0.3), 0 0 0 1px rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
-        
-        /* Cores dos NOVOS Cards */
         .card[data-cat="design"] .card-icon { color: #d946ef; text-shadow: 0 0 15px rgba(217,70,239,0.2); }
         .card[data-cat="design"]:hover { box-shadow: 0 20px 40px -10px rgba(217,70,239,0.3), 0 0 0 1px rgba(217,70,239,0.1); border-color: rgba(217,70,239,0.3); }
         .card[data-cat="wallpaper"] .card-icon { color: #3b82f6; text-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
@@ -624,6 +604,24 @@
             position: relative; 
             z-index: 2; 
             background: transparent; 
+        }
+
+        /* --- SISTEMA DE SAFE MODE (+18 HIDDEN) --- */
+        /* Esconde a categoria e os cards por padrão se o modo restrito estiver ativo (padrão) */
+        
+        /* Esconde a opção do filtro */
+        body.safe-mode-active #catDropdown .dropdown-option[data-cat-filter="bl"] {
+            display: none !important;
+        }
+
+        /* Esconde o cabeçalho da seção */
+        body.safe-mode-active .header-bl {
+            display: none !important;
+        }
+
+        /* Esconde os cards da categoria BL */
+        body.safe-mode-active .card[data-cat="bl"] {
+            display: none !important;
         }
 
         /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
@@ -672,11 +670,9 @@
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
 
-            /* Estilos Específicos para Grid Mobile */
             .dropdown-option[data-cols="auto"] { display: none !important; }
         }
         
-        /* Estilos Específicos para Grid Desktop */
         @media (min-width: 601px) {
             .dropdown-option[data-cols="2"],
             .dropdown-option[data-cols="3"] {
@@ -684,7 +680,6 @@
             }
         }
 
-        /* Estilos para opção 5 Colunas (Compactada) */
         .bento-grid.cols-5 {
             gap: 8px; 
         }
@@ -708,7 +703,7 @@
         .bento-grid.cols-5 .card-bg-icon { display: none; }
     </style>
 </head>
-<body>
+<body class="safe-mode-active"> <!-- Começa com o Safe Mode Ativo -->
 
     <!-- CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
     <div id="custom-bg-layer"></div>
@@ -721,16 +716,21 @@
 
     <div class="container">
         <header>
-            <!-- LOGO ALTERADO PARA fa-layer-group -->
+            <!-- LOGO -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Botão Home + Grid + Categoria) -->
+            <!-- Controles do Header (Home + Grid + Categoria + Safe Mode) -->
             <div class="header-controls">
                 
-                <!-- NOVO BOTÃO HOME -->
+                <!-- BOTÃO HOME -->
                 <a href="https://deathzephyr.github.io/PortaisLDX/" class="header-btn" title="Portal Principal" target="_self">
                     <i class="fa-solid fa-house"></i>
                 </a>
+
+                <!-- BOTÃO SAFE MODE (NOVO) -->
+                <button class="header-btn is-locked" id="safeModeBtn" title="Conteúdo Adulto">
+                    <i class="fa-solid fa-lock"></i>
+                </button>
 
                 <!-- Botão de Controle de Grid -->
                 <div class="header-btn-wrapper">
@@ -755,15 +755,13 @@
                         <div class="dropdown-option" data-cat-filter="streaming">Filmes</div>
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
-                        <!-- FILTRO MANHWA -->
                         <div class="dropdown-option" data-cat-filter="manhwa">Manhwas</div>
-                        <!-- FILTRO BL/GL (NOVO) -->
+                        <!-- Categoria BL/GL -->
                         <div class="dropdown-option" data-cat-filter="bl">Leitura BL/GL</div>
                         
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
                         <div class="dropdown-option" data-cat-filter="design">Design & Artes</div>
                         <div class="dropdown-option" data-cat-filter="wallpaper">Wallpapers</div>
-                        <!-- Opção I.A. REMOVIDA -->
                         <div class="dropdown-option" data-cat-filter="hosting">Dev</div>
                         <div class="dropdown-option" data-cat-filter="studies">Utils</div>
                     </div>
@@ -778,7 +776,6 @@
             <p>Seu hub definitivo de entretenimento e tecnologia.</p>
             
             <div class="search-wrapper">
-                <!-- Barra de Pesquisa -->
                 <div class="search-bar">
                     <!-- Seletor de Motor -->
                     <div class="engine-selector">
@@ -835,7 +832,6 @@
             <a href="https://www.cineby.gd/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-film"></i></div><h3>Cineby</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-film card-bg-icon"></i>
             </a>
-            <!-- CARD ALTERADO: POBREFLIX -> REDE CANAIS -->
             <a href="https://redecanais.fm/" target="_blank" class="card" data-cat="streaming">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-tv"></i></div><h3>Rede Canais</h3><p>Filmes e Séries</p></div><i class="fa-solid fa-tv card-bg-icon"></i>
             </a>
@@ -855,12 +851,9 @@
             <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><h3>Anime Fire</h3><p>Animes Online HD</p></div><i class="fa-solid fa-fire card-bg-icon"></i>
             </a>
-            
-            <!-- CARD ALTERADO: ICON TV -> ICON LAPTOP-CODE (LAPTOP) -->
             <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
             </a>
-
             <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>Top Animes</h3><p>Ranking & Top</p></div><i class="fa-solid fa-star card-bg-icon"></i>
             </a>
@@ -880,7 +873,6 @@
             <a href="https://mangalivre.to/" target="_blank" class="card" data-cat="manga">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Mangá Livre</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
-            <!-- ROLIASCAN VOLTANDO AQUI -->
             <a href="https://roliascan.com/" target="_blank" class="card" data-cat="manga">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-glasses"></i></div><h3>RoliaScan</h3><p>Leitura Online</p></div><i class="fa-solid fa-glasses card-bg-icon"></i>
             </a>
@@ -897,22 +889,15 @@
                 <div class="section-line"></div>
             </div>
 
-            <!-- COMIKEY MOVIDO AQUI -->
             <a href="https://br.comikey.com/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scroll"></i></div><h3>Comikey</h3><p>Licenciados & Scan</p></div><i class="fa-solid fa-scroll card-bg-icon"></i>
             </a>
-
-            <!-- CARD NOVO: NexusToons -->
             <a href="https://nexustoons.com/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-journal-whills"></i></div><h3>NexusToons</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-journal-whills card-bg-icon"></i>
             </a>
-
-            <!-- CARD NOVO: FlowerMangas -->
             <a href="https://flowermangas.net/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-seedling"></i></div><h3>FlowerMangas</h3><p>Leitura Online</p></div><i class="fa-solid fa-seedling card-bg-icon"></i>
             </a>
-
-            <!-- CARD NOVO: Leitura Manga -->
             <a href="https://leituramanga.net/" target="_blank" class="card" data-cat="manhwa">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Leitura Manga</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
             </a>
@@ -932,12 +917,9 @@
             <a href="https://qtoon.com/pt/homepage" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-q"></i></div><h3>QToon</h3><p>Webtoons</p></div><i class="fa-solid fa-q card-bg-icon"></i>
             </a>
-            
-            <!-- ÍCONE ALTERADO: FOGO PARA USER-SECRET (DISCRETO) -->
             <a href="https://hentaiyaoi.net/" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-user-secret"></i></div><h3>Hentai Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-user-secret card-bg-icon"></i>
             </a>
-            
             <a href="https://3xyaoi.com/tag/br/" target="_blank" class="card" data-cat="bl">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-explosion"></i></div><h3>3X Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-explosion card-bg-icon"></i>
             </a>
@@ -998,22 +980,17 @@
             <a href="https://wallhaven.cc/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mountain-sun"></i></div><h3>Wallhaven</h3><p>Arte 4K</p></div><i class="fa-solid fa-mountain-sun card-bg-icon"></i>
             </a>
-            
-            <!-- UNSPLASH SUBSTITUÍDO POR 4KWALLPAPERS -->
             <a href="https://4kwallpapers.com/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-display"></i></div><h3>4K Wallpapers</h3><p>Fundos Ultra HD</p></div><i class="fa-solid fa-display card-bg-icon"></i>
             </a>
-
-            <!-- PEXELS SUBSTITUÍDO BY FREEPIK -->
             <a href="https://br.freepik.com/fotos-vetores-gratis/wallpaper-desktop" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-images"></i></div><h3>Freepik</h3><p>Vetores & Fotos</p></div><i class="fa-solid fa-images card-bg-icon"></i>
             </a>
-
             <a href="https://www.wallpaperflare.com/" target="_blank" class="card" data-cat="wallpaper">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>WallpaperFlare</h3><p>Fundos HD</p></div><i class="fa-solid fa-star card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: DEV (VERDE ESCURO) -->
+            <!-- SEÇÃO: DEV -->
             <div class="section-header header-host">
                 <div class="section-title"><i class="fa-solid fa-server"></i> Hospedagem & Dev</div>
                 <div class="section-line"></div>
@@ -1028,11 +1005,9 @@
             <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
             </a>
-            <!-- VERCEL -->
             <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-caret-up"></i></div><h3>Vercel</h3><p>Cloud Platform</p></div><i class="fa-solid fa-caret-up card-bg-icon"></i>
             </a>
-            <!-- CODEPEN -->
             <a href="https://codepen.io/" target="_blank" class="card" data-cat="hosting">
                 <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
             </a>
@@ -1055,8 +1030,6 @@
             <a href="https://translate.google.com.br/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-language"></i></div><h3>Google Tradutor</h3><p>Tradução</p></div><i class="fa-solid fa-language card-bg-icon"></i>
             </a>
-            
-            <!-- NOVO CARD ADICIONADO: SPEEDTEST -->
             <a href="https://www.speedtest.net/" target="_blank" class="card" data-cat="studies">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-gauge-high"></i></div><h3>SpeedTest</h3><p>Teste de Velocidade</p></div><i class="fa-solid fa-gauge-high card-bg-icon"></i>
             </a>
@@ -1069,15 +1042,13 @@
     </div>
 
     <script>
-        /* --- LÓGICA DE FUNDO CONECTADO (SISTEMA LDX) --- */
-        // Define img2.jpg como padrão se não houver configuração salva
+        /* --- LÓGICA DE FUNDO --- */
         const defaultBackground = 'img2.jpg';
         if (!localStorage.getItem('ldx_custom_bg') || localStorage.getItem('ldx_custom_bg') === '') {
             localStorage.setItem('ldx_custom_bg', defaultBackground);
             localStorage.setItem('ldx_bg_type', 'image');
         }
 
-        // Carrega o fundo ao abrir a página
         const savedBg = localStorage.getItem('ldx_custom_bg');
         const savedType = localStorage.getItem('ldx_bg_type');
         const customBgLayer = document.getElementById('custom-bg-layer');
@@ -1091,10 +1062,47 @@
             document.body.classList.add('has-custom-bg');
         }
 
-        /* --- FIM DO SISTEMA DE FUNDO --- */
+        /* --- LÓGICA SAFE MODE (+18) --- */
+        const safeModeBtn = document.getElementById('safeModeBtn');
+        let isSafeMode = localStorage.getItem('ldx_safe_mode') !== 'false'; // Default true (Locked)
+
+        function toggleSafeMode() {
+            isSafeMode = !isSafeMode;
+            localStorage.setItem('ldx_safe_mode', isSafeMode);
+            updateSafeModeUI();
+            
+            // Se estivermos filtrando pela categoria BL e travarmos o modo, reseta filtro
+            const activeCat = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
+            if (isSafeMode && activeCat === 'bl') {
+                document.querySelector('[data-cat-filter="all"]').click();
+            }
+            filterCards();
+        }
+
+        function updateSafeModeUI() {
+            if (isSafeMode) {
+                // Modo Seguro Ativo (Bloqueado)
+                document.body.classList.add('safe-mode-active');
+                safeModeBtn.classList.add('is-locked');
+                safeModeBtn.classList.remove('is-unlocked');
+                safeModeBtn.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                safeModeBtn.title = "Modo Restrito: Ativo";
+            } else {
+                // Modo Adulto Ativo (Desbloqueado)
+                document.body.classList.remove('safe-mode-active');
+                safeModeBtn.classList.remove('is-locked');
+                safeModeBtn.classList.add('is-unlocked');
+                safeModeBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
+                safeModeBtn.title = "Conteúdo +18 Visível";
+            }
+        }
+
+        safeModeBtn.addEventListener('click', toggleSafeMode);
+        
+        // Inicializa UI
+        updateSafeModeUI();
 
         /* --- SISTEMA DE PESQUISA E FILTRO --- */
-        
         const engines = {
             google: { name: 'Google', url: 'https://www.google.com/search?q=', icon: 'fa-brands fa-google icon-google' },
             bing: { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
@@ -1116,7 +1124,6 @@
         const searchHistory = document.getElementById('searchHistory');
         const historyList = document.getElementById('historyList');
 
-        /* --- LÓGICA AVANÇADA DE FILTRAGEM (Cards + Headers) --- */
         const cards = document.querySelectorAll('.card');
         const headers = document.querySelectorAll('.section-header');
 
@@ -1147,13 +1154,10 @@
                     if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
                     if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
                     if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
-                    // LÓGICA MANHWA
                     if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
-                    // LÓGICA BL/GL (NOVA)
-                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
+                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex'; // Se não estiver escondido pelo CSS, aparece
                     
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
-                    // NOVOS FILTROS
                     if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
                     if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
                     
@@ -1174,6 +1178,9 @@
 
         catOptions.forEach(opt => {
             opt.addEventListener('click', () => {
+                // Impede selecionar BL se estiver bloqueado (embora o CSS já esconda)
+                if(opt.dataset.catFilter === 'bl' && isSafeMode) return;
+
                 catOptions.forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
                 filterCards();
@@ -1280,7 +1287,7 @@
             recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
             recognition.onend = () => { voiceBtn.classList.remove('listening'); };
         } else {
-            voiceBtn.style.display = 'none'; 
+            voiceBtn.style.display = 'none'); 
         }
 
         document.addEventListener('keydown', (e) => {
