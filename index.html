@@ -14,6 +14,34 @@
 
     <!-- Link para o CSS Externo -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- CSS EXTRA PARA A ANIMAÇÃO DE CLIQUE (Garantia de funcionamento) -->
+    <style>
+        /* Animação de Clique (Shrink) */
+        .card.clicked {
+            transform: scale(0.95) !important;
+            opacity: 0.8;
+            box-shadow: none !important;
+        }
+        
+        /* Animação Ripple */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-anim 0.6s ease-out;
+            pointer-events: none;
+            z-index: 1; 
+        }
+
+        @keyframes ripple-anim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body class="">
 
@@ -39,7 +67,7 @@
                     <i class="fa-solid fa-house"></i>
                 </a>
 
-                <!-- NOVO BOTÃO: CADEADO BL/GL -->
+                <!-- BOTÃO: CADEADO BL/GL -->
                 <div class="header-btn-wrapper">
                     <button class="header-btn" id="lockBtn" title="Desbloquear Leitura BL/GL">
                         <i class="fa-solid fa-lock"></i>
@@ -362,7 +390,344 @@
         </footer>
     </div>
 
-    <!-- Link para o JavaScript Externo -->
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT FUNCIONAL -->
+    <script>
+        /* --- LÓGICA DO CADEADO (BL/GL) --- */
+        const lockBtn = document.getElementById('lockBtn');
+        const lockIcon = lockBtn.querySelector('i');
+        
+        // Verifica estado salvo (null = primeira vez = fechado)
+        let isUnlocked = localStorage.getItem('nexus_bl_unlocked') === 'true';
+
+        function updateLockState() {
+            if (isUnlocked) {
+                document.body.classList.add('bl-unlocked');
+                lockIcon.classList.remove('fa-lock');
+                lockIcon.classList.add('fa-lock-open');
+            } else {
+                document.body.classList.remove('bl-unlocked');
+                lockIcon.classList.remove('fa-lock-open');
+                lockIcon.classList.add('fa-lock');
+            }
+        }
+
+        // Inicializa o estado
+        updateLockState();
+
+        lockBtn.addEventListener('click', () => {
+            isUnlocked = !isUnlocked;
+            localStorage.setItem('nexus_bl_unlocked', isUnlocked);
+            updateLockState();
+        });
+
+
+        /* --- SISTEMA DE GRID E FILTROS --- */
+        const gridBtn = document.getElementById('gridBtn');
+        const gridDropdown = document.getElementById('gridDropdown');
+        const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
+        const bentoGrid = document.getElementById('bentoGrid');
+
+        // Toggle Dropdown Grid
+        gridBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            gridDropdown.classList.toggle('active');
+        });
+
+        // Aplicar Layout de Grid
+        gridOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const cols = option.getAttribute('data-cols');
+                applyGrid(cols);
+                gridOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                gridDropdown.classList.remove('active');
+            });
+        });
+
+        function applyGrid(cols) {
+            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+            if (cols === 'auto') {
+                bentoGrid.style.gridTemplateColumns = '';
+                saveGridPreference('auto');
+            } else {
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
+                saveGridPreference(cols);
+            }
+        }
+
+        function saveGridPreference(value) {
+            if (window.innerWidth <= 600) localStorage.setItem('nexus_mobileCols', value);
+            else localStorage.setItem('nexus_desktopCols', value);
+        }
+
+        function loadSavedGrid() {
+            let savedCols;
+            let key;
+            if (window.innerWidth <= 600) {
+                key = 'nexus_mobileCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = '2';
+            } else {
+                key = 'nexus_desktopCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = 'auto';
+            }
+            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
+            if(optToSelect) optToSelect.classList.add('selected');
+            applyGrid(savedCols);
+        }
+        loadSavedGrid();
+
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                loadSavedGrid();
+            }
+        });
+
+
+        /* --- LÓGICA DE FILTRO (CATEGORIAS) --- */
+        const catBtn = document.getElementById('catBtn');
+        const catDropdown = document.getElementById('catDropdown');
+        const catOptions = document.querySelectorAll('#catDropdown .dropdown-option');
+        const cards = document.querySelectorAll('.card');
+        const headers = document.querySelectorAll('.section-header');
+
+        // Toggle Dropdown Categoria
+        catBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            catDropdown.classList.toggle('active');
+        });
+
+        // Selecionar Categoria e Filtrar
+        catOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                catOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                filterCards();
+                catDropdown.classList.remove('active');
+            });
+        });
+
+        function filterCards() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const activeCategory = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
+
+            cards.forEach(card => card.style.display = 'none');
+            headers.forEach(header => header.style.display = 'none');
+
+            const visibleCategories = new Set();
+
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                const category = card.dataset.cat;
+
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+                const matchesSearch = title.includes(searchTerm);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'flex';
+                    visibleCategories.add(category);
+                }
+            });
+
+            // Mostrar Headers baseado nas categorias visíveis
+            if (visibleCategories.size > 0) {
+                headers.forEach(header => {
+                    if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
+                    if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
+                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
+                    if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
+                    if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
+                    if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
+                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
+                    if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
+                });
+            }
+        }
+
+        // Fechar dropdowns ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) {
+                gridDropdown.classList.remove('active');
+            }
+            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) {
+                catDropdown.classList.remove('active');
+            }
+            // Fechar dropdown de busca e engine se existirem
+            const engineBtn = document.getElementById('engineBtn');
+            const engineDropdown = document.getElementById('engineDropdown');
+            if (engineBtn && !engineBtn.contains(e.target) && !engineDropdown.contains(e.target)) {
+                engineDropdown.classList.remove('active');
+            }
+        });
+
+
+        /* --- SISTEMA DE BUSCA (Motores) --- */
+        const engines = {
+            google: { name: 'Google', url: 'https://www.google.com.br/search?q=', icon: 'fa-brands fa-google icon-google' },
+            bing: { name: 'Bing', url: 'https://www.bing.com.br/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
+            duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=', icon: 'fa-solid fa-shield-cat icon-ddg' },
+            youtube: { name: 'YouTube', url: 'https://www.youtube.com.br/results?search_query=', icon: 'fa-brands fa-youtube icon-youtube' },
+            spotify: { name: 'Spotify', url: 'https://open.spotify.com/search/', icon: 'fa-brands fa-spotify icon-spotify' },
+            reddit: { name: 'Reddit', url: 'https://www.reddit.com.br/search/?q=', icon: 'fa-brands fa-reddit icon-reddit' },
+            amazon: { name: 'Amazon', url: 'https://www.amazon.com.br/s?k=', icon: 'fa-brands fa-amazon icon-amazon' },
+            wikipedia: { name: 'Wikipedia', url: 'https://pt.wikipedia.org/wiki/Special:Search?search=', icon: 'fa-brands fa-wikipedia-w icon-wiki' }
+        };
+
+        let currentEngine = 'google';
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
+        const engineBtn = document.getElementById('engineBtn');
+        const engineDropdown = document.getElementById('engineDropdown');
+        const engineIcon = document.getElementById('currentEngineIcon');
+        const engineName = document.getElementById('currentEngineName');
+        const searchHistory = document.getElementById('searchHistory');
+        const historyList = document.getElementById('historyList');
+
+        if (engineBtn) {
+            engineBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                engineDropdown.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.engine-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const engineKey = option.getAttribute('data-engine');
+                    const data = engines[engineKey];
+                    currentEngine = engineKey;
+                    engineIcon.className = data.icon;
+                    engineName.textContent = data.name;
+                    document.querySelectorAll('.engine-option').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    engineDropdown.classList.remove('active');
+                    searchInput.focus();
+                });
+            });
+        }
+
+        searchInput.addEventListener('input', filterCards);
+
+        const storageKey = 'nexus_history_v2';
+        let searches = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            if (searches.length === 0) {
+                searchHistory.style.display = 'none';
+                return;
+            }
+            searches.slice(0, 5).reverse().forEach(term => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${term}`;
+                div.addEventListener('click', () => {
+                    searchInput.value = term;
+                    filterCards();
+                    searchHistory.classList.remove('active');
+                });
+                historyList.appendChild(div);
+            });
+        }
+
+        function saveToHistory(term) {
+            if (!term || term.trim() === '') return;
+            term = term.trim();
+            searches = searches.filter(s => s.toLowerCase() !== term.toLowerCase());
+            searches.push(term);
+            if (searches.length > 10) searches.shift(); 
+            localStorage.setItem(storageKey, JSON.stringify(searches));
+            renderHistory();
+        }
+
+        searchInput.addEventListener('focus', () => {
+            renderHistory();
+            if (searches.length > 0) searchHistory.classList.add('active');
+        });
+
+        function performSearch(query) {
+            if (query) {
+                const url = engines[currentEngine].url + encodeURIComponent(query);
+                saveToHistory(query);
+                window.open(url, '_blank');
+            }
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch(searchInput.value);
+        });
+
+        const voiceBtn = document.getElementById('voiceBtn');
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            voiceBtn.addEventListener('click', () => {
+                recognition.start();
+                voiceBtn.classList.add('listening');
+            });
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                searchInput.value = transcript;
+                filterCards();
+                voiceBtn.classList.remove('listening');
+            };
+            recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
+            recognition.onend = () => { voiceBtn.classList.remove('listening'); };
+        } else {
+            voiceBtn.style.display = 'none'; 
+        }
+
+
+        /* --- ANIMAÇÃO DE CLIQUE (RIPPLE) --- */
+        const cardElements = document.querySelectorAll('.card');
+        cardElements.forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.button === 0) { // Apenas clique esquerdo
+                    e.preventDefault();
+                    
+                    // 1. Adiciona classe de encolher
+                    this.classList.add('clicked');
+
+                    // 2. Cria efeito Ripple
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const size = Math.max(rect.width, rect.height);
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x - size / 2}px`;
+                    ripple.style.top = `${y - size / 2}px`;
+                    
+                    card.appendChild(ripple);
+                    
+                    // Remove ripple após animação
+                    setTimeout(() => { ripple.remove(); }, 600);
+
+                    // 3. Navega após delay da animação
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target');
+                    setTimeout(() => {
+                        if (href && href !== '#') {
+                            if (target === '_blank') window.open(href, '_blank');
+                            else window.location.href = href;
+                        }
+                        // Remove classe clicked para poder animar de novo no futuro
+                        this.classList.remove('clicked');
+                    }, 350); // 350ms para o click feel
+                }
+            });
+        });
+    </script>
 </body>
 </html>
