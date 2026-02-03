@@ -392,6 +392,16 @@
 
     <!-- JAVASCRIPT FUNCIONAL -->
     <script>
+        /* --- CONEXÃO DE FUNDO (APENAS LEITURA DO PORTAL LDX) --- */
+        const savedBg = localStorage.getItem('ldx_custom_bg');
+        const savedType = localStorage.getItem('ldx_bg_type');
+        const customBgLayer = document.getElementById('custom-bg-layer');
+
+        if (savedBg && savedType === 'image') {
+            customBgLayer.style.backgroundImage = `url('${savedBg}')`;
+            document.body.classList.add('has-custom-bg');
+        }
+
         /* --- LÓGICA DO CADEADO (BL/GL) --- */
         const lockBtn = document.getElementById('lockBtn');
         const lockIcon = lockBtn.querySelector('i');
