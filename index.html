@@ -24,7 +24,6 @@
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
             
             /* Cores das Marcas */
             --color-google: #EA4335;
@@ -52,9 +51,9 @@
 
         h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
 
-        /* --- SISTEMA DE FUNDO (VIDEO PADRÃO vs IMAGEM CUSTOMIZADA) --- */
+        /* --- SISTEMA DE FUNDO (SOMENTE VIDEO E IMAGEM CUSTOMIZADA) --- */
         
-        /* 1. Camada do Vídeo (Fundo Mais Fundo - Z-Index -3) */
+        /* 1. Camada do Vídeo (Padrão) */
         #video-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -64,7 +63,7 @@
             display: block; /* Visível por padrão */
         }
 
-        /* 2. Camada de Imagem Customizada (Z-Index -2) */
+        /* 2. Camada de Imagem Customizada (Sobreposta) */
         #custom-bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -75,47 +74,15 @@
             opacity: 0; /* Invisível por padrão */
             transition: opacity 0.5s ease;
             pointer-events: none;
-            -webkit-transform: translate3d(0,0,0);
         }
 
-        /* 3. Orbs de Ambiente (Z-Index -1) */
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        /* Lógica: Se há imagem customizada, esconde os Orbs e o Vídeo */
-        body.has-custom-bg .ambient-light {
-            opacity: 0;
-        }
-
-        body.has-custom-bg #video-bg {
-            display: none;
-        }
-
+        /* Lógica: Se tem imagem customizada, mostra ela e esconde o vídeo */
         body.has-custom-bg #custom-bg-layer {
             opacity: 1;
         }
-
-        /* Animação dos Orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.4;
-            animation: floatOrb 25s infinite alternate ease-in-out;
+        body.has-custom-bg #video-bg {
+            display: none;
         }
-
-        .orb-1 { width: 500px; height: 500px; background: var(--accent-primary); top: -150px; left: -150px; animation-duration: 30s; }
-        .orb-2 { width: 600px; height: 600px; background: var(--accent-secondary); bottom: -150px; right: -150px; animation-duration: 35s; animation-delay: -5s; }
-        .orb-3 { width: 350px; height: 350px; background: var(--accent-cyan); top: 40%; left: 50%; transform: translate(-50%, -50%); opacity: 0.25; animation: pulseOrb 12s infinite ease-in-out; }
-
-        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 90px) scale(1.1); } }
-        @keyframes pulseOrb { 0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); } 50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); } }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 2rem; }
 
@@ -123,10 +90,8 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; position: relative; z-index: 10; }
         .logo { font-size: 1.6rem; font-weight: 700; background: linear-gradient(to right, #fff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 12px; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
 
-        /* Área de controles do topo (Grid + Categorias + Home) */
         .header-controls { display: flex; align-items: center; gap: 12px; z-index: 10; position: relative; }
 
-        /* --- BOTÕES DO CABEÇALHO --- */
         .header-btn-wrapper { position: relative; flex-shrink: 0; z-index: 10; }
 
         .header-btn {
@@ -182,7 +147,7 @@
             white-space: nowrap;
         }
 
-        /* --- CORES ESPECÍFICAS PARA OS FILTROS --- */
+        /* Cores Específicas para os Filtros */
         #catDropdown .dropdown-option[data-cat-filter="streaming"] { color: #ef4444; }
         #catDropdown .dropdown-option[data-cat-filter="anime"] { color: #f97316; }
         #catDropdown .dropdown-option[data-cat-filter="manga"] { color: #8b5cf6; }
@@ -194,15 +159,8 @@
         #catDropdown .dropdown-option[data-cat-filter="design"] { color: #d946ef; }
         #catDropdown .dropdown-option[data-cat-filter="wallpaper"] { color: #3b82f6; }
 
-        .dropdown-option:hover { 
-            background: rgba(255,255,255,0.08); 
-            transform: translateX(2px); 
-        }
-        .dropdown-option.selected { 
-            background: rgba(255,255,255,0.05); 
-            color: inherit !important; 
-            font-weight: 700; 
-        }
+        .dropdown-option:hover { background: rgba(255,255,255,0.08); transform: translateX(2px); }
+        .dropdown-option.selected { background: rgba(255,255,255,0.05); color: inherit !important; font-weight: 700; }
 
         /* --- HERO --- */
         .hero { text-align: center; margin: 3rem 0 2rem; position: relative; }
@@ -269,11 +227,10 @@
             font-size: 0.95rem;
             white-space: nowrap;
         }
-
         .engine-btn:hover { background: rgba(255,255,255,0.08); }
         .engine-btn i { font-size: 1.1rem; transition: color 0.3s; }
 
-        /* Dropdown Engine */
+        /* Dropdown */
         .engine-dropdown {
             position: absolute;
             top: 120%; left: 0;
@@ -293,12 +250,8 @@
             overflow-y: auto;
             z-index: 101;
         }
-
         .engine-dropdown::-webkit-scrollbar { width: 6px; }
-        .engine-dropdown::-webkit-scrollbar-track { background: transparent; }
         .engine-dropdown::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
-        .engine-dropdown::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
-
         .engine-dropdown.active { display: flex; opacity: 1; transform: translateY(0); }
 
         .engine-option {
@@ -313,7 +266,6 @@
             cursor: pointer;
             white-space: nowrap;
         }
-
         .engine-option:hover { background: rgba(255,255,255,0.08); color: white; }
         .engine-option.selected { background: rgba(255,255,255,0.05); color: white; font-weight: 500; }
 
@@ -349,14 +301,9 @@
             display: flex; align-items: center; justify-content: center;
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         .btn-icon:hover { background: rgba(255,255,255,0.08); color: white; transform: scale(1.05); }
 
-        .btn-mic.listening { 
-            color: var(--color-google); 
-            animation: pulseMic 1.5s infinite; 
-        }
-
+        .btn-mic.listening { color: var(--color-google); animation: pulseMic 1.5s infinite; }
         @keyframes pulseMic {
             0% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(234, 67, 53, 0); }
@@ -388,6 +335,7 @@
             z-index: 99;
         }
         .search-history.active { display: flex; animation: slideDown 0.2s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .history-item {
             padding: 10px 20px;
@@ -409,8 +357,6 @@
             letter-spacing: 1px;
             font-weight: 600;
         }
-
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- GRID & SEÇÕES --- */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 16px; padding-bottom: 5rem; transition: all 0.3s ease; }
@@ -480,19 +426,9 @@
             pointer-events: none;
             z-index: 1;
         }
-
-        @keyframes ripple-anim {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
+        @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
         
-        .card.clicked {
-            transform: scale(0.95) !important;
-            opacity: 0.8;
-            box-shadow: none !important;
-        }
+        .card.clicked { transform: scale(0.95) !important; opacity: 0.8; box-shadow: none !important; }
 
         .card-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.04; transform: rotate(-15deg); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1; }
         .card:hover .card-bg-icon { opacity: 0.08; transform: rotate(0deg) scale(1.2); }
@@ -528,10 +464,6 @@
             flex-shrink: 0; 
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
-
-        /* --- FORÇAR FONTES --- */
-        .card-icon .fa-solid, .card-icon .fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .card-icon .fa-brands, .card-icon .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
 
         /* Ajustes de Ícones Gerais */
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
@@ -690,25 +622,17 @@
 </head>
 <body>
 
-    <!-- 1. VÍDEO DE FUNDO PADRÃO -->
+    <!-- 1. VÍDEO DE FUNDO PADRÃO (INICIA AUTOMATICAMENTE) -->
     <video id="video-bg" autoplay muted loop playsinline>
         <source src="video1.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
     </video>
 
-    <!-- 2. CAMADA DE FUNDO PERSONALIZADO -->
+    <!-- 2. CAMADA DE FUNDO PERSONALIZADO (CASO HAJA) -->
     <div id="custom-bg-layer"></div>
-
-    <!-- 3. ORBS DE AMBIENTE -->
-    <div class="ambient-light">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
 
     <div class="container">
         <header>
-            <!-- LOGO -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
             <div class="header-controls">
@@ -806,7 +730,6 @@
             </div>
         </section>
 
-        <!-- Bento Grid (Conteúdo Simplificado para Exemplo) -->
         <div class="bento-grid" id="bentoGrid">
             
             <div class="section-header header-streaming">
@@ -841,10 +764,10 @@
             <a href="https://poki.com/br" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-trophy"></i></div><h3>Poki</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-trophy card-bg-icon"></i>
             </a>
-            <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
+             <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><h3>Crazy Games</h3><p>Jogos Variados</p></div><i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
             </a>
-             <a href="https://emugames.com/" target="_blank" class="card" data-cat="games">
+            <a href="https://emugames.com/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-dice"></i></div><h3>EmuGames</h3><p>Retro & Emulação</p></div><i class="fa-solid fa-dice card-bg-icon"></i>
             </a>
             <a href="https://playhop.com/pt" target="_blank" class="card" data-cat="games">
@@ -879,9 +802,8 @@
         </footer>
     </div>
 
-    <!-- JAVASCRIPT FUNCIONAL -->
     <script>
-        /* --- FUNÇÃO DE RESET (DEBUG) --- */
+        /* --- FUNÇÃO DE RESET --- */
         function resetBackground(e) {
             e.preventDefault();
             if(confirm("Isso irá apagar a imagem personalizada e restaurar o vídeo padrão. Deseja continuar?")) {
@@ -891,29 +813,36 @@
             }
         }
 
-        /* --- LÓGICA DE FUNDO --- */
+        /* --- LÓGICA DE FUNDO (SOMENTE VIDEO vs IMAGEM) --- */
         function initLDXBackground() {
             const videoBg = document.getElementById('video-bg');
             const bgLayer = document.getElementById('custom-bg-layer');
             const savedBg = localStorage.getItem('ldx_custom_bg');
             const savedType = localStorage.getItem('ldx_bg_type');
 
-            if (savedBg && savedType === 'image') {
-                // Tem imagem customizada
+            // Verifica se há uma imagem válida salva
+            if (savedBg && savedBg !== '' && savedType === 'image') {
                 bgLayer.style.backgroundImage = `url('${savedBg}')`;
                 bgLayer.style.opacity = '1';
                 videoBg.style.display = 'none';
                 document.body.classList.add('has-custom-bg');
             } else {
-                // Padrão: Vídeo
+                // Se não há imagem válida, garante que o vídeo esteja visível
                 bgLayer.style.opacity = '0';
                 videoBg.style.display = 'block';
                 document.body.classList.remove('has-custom-bg');
-                videoBg.play().catch(e => console.log("Autoplay de vídeo bloqueado até interação do usuário."));
+                
+                // Tenta dar play (segurança extra)
+                const playPromise = videoBg.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay vídeo bloqueado pelo navegador até interação.");
+                    });
+                }
             }
         }
 
-        /* --- LÓGICA DO CADEADO --- */
+        /* --- LÓGICA DO CADEADO (BL/GL) --- */
         const lockBtn = document.getElementById('lockBtn');
         const lockIcon = lockBtn.querySelector('i');
         let isUnlocked = localStorage.getItem('nexus_bl_unlocked') === 'true';
@@ -928,15 +857,16 @@
                 lockIcon.classList.remove('fa-lock-open');
                 lockIcon.classList.add('fa-lock');
             }
+            filterCards();
         }
+
         lockBtn.addEventListener('click', () => {
             isUnlocked = !isUnlocked;
             localStorage.setItem('nexus_bl_unlocked', isUnlocked);
             updateLockState();
-            filterCards();
         });
 
-        /* --- FILTROS E GRID --- */
+        /* --- LÓGICA DE FILTRO E GRID --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
@@ -947,81 +877,91 @@
         const cards = document.querySelectorAll('.card');
         const headers = document.querySelectorAll('.section-header');
 
-        function applyGrid(cols) {
-            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
-            if (cols === 'auto') {
-                bentoGrid.style.gridTemplateColumns = '';
-                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', 'auto');
-            } else {
-                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
-                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', cols);
-            }
-        }
+        gridBtn.addEventListener('click', (e) => { e.stopPropagation(); gridDropdown.classList.toggle('active'); });
+        catBtn.addEventListener('click', (e) => { e.stopPropagation(); catDropdown.classList.toggle('active'); });
+
+        gridOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const cols = option.getAttribute('data-cols');
+                bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+                if (cols === 'auto') {
+                    bentoGrid.style.gridTemplateColumns = '';
+                    localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', 'auto');
+                } else {
+                    bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                    bentoGrid.classList.add(`cols-${cols}`);
+                    localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', cols);
+                }
+                gridOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                gridDropdown.classList.remove('active');
+            });
+        });
 
         function loadSavedGrid() {
             let savedCols = localStorage.getItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols');
             if(!savedCols) savedCols = window.innerWidth <= 600 ? '2' : 'auto';
             const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
             if(optToSelect) optToSelect.classList.add('selected');
-            applyGrid(savedCols);
+            
+            // Aplica estilos iniciais
+            if (savedCols === 'auto') {
+                bentoGrid.style.gridTemplateColumns = '';
+            } else {
+                bentoGrid.style.gridTemplateColumns = `repeat(${savedCols}, 1fr)`;
+                bentoGrid.classList.add(`cols-${savedCols}`);
+            }
         }
 
-        gridBtn.addEventListener('click', (e) => { e.stopPropagation(); gridDropdown.classList.toggle('active'); });
-        catBtn.addEventListener('click', (e) => { e.stopPropagation(); catDropdown.classList.toggle('active'); });
-
-        gridOptions.forEach(opt => {
+        catOptions.forEach(opt => {
             opt.addEventListener('click', () => {
-                document.querySelectorAll('#gridDropdown .dropdown-option').forEach(o => o.classList.remove('selected'));
+                catOptions.forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
-                applyGrid(opt.getAttribute('data-cols'));
-                gridDropdown.classList.remove('active');
+                filterCards();
+                catDropdown.classList.remove('active');
             });
         });
 
         function filterCards() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const activeCategory = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
+
             cards.forEach(card => card.style.display = 'none');
             headers.forEach(header => header.style.display = 'none');
 
             const visibleCategories = new Set();
+
             cards.forEach(card => {
                 if (!isUnlocked && card.dataset.cat === 'bl') return;
+                
                 const title = card.querySelector('h3').innerText.toLowerCase();
-                const matchesCategory = activeCategory === 'all' || card.dataset.cat === activeCategory;
+                const category = card.dataset.cat;
+
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
                 const matchesSearch = title.includes(searchTerm);
+
                 if (matchesCategory && matchesSearch) {
                     card.style.display = 'flex';
-                    visibleCategories.add(card.dataset.cat);
+                    visibleCategories.add(category);
                 }
             });
 
             if (visibleCategories.size > 0) {
                 headers.forEach(header => {
                     if (header.classList.contains('header-bl') && !isUnlocked) return;
-                    if (visibleCategories.has('streaming') && header.classList.contains('header-streaming')) header.style.display = 'flex';
-                    if (visibleCategories.has('anime') && header.classList.contains('header-anime')) header.style.display = 'flex';
-                    if (visibleCategories.has('manga') && header.classList.contains('header-manga')) header.style.display = 'flex';
-                    if (visibleCategories.has('manhwa') && header.classList.contains('header-manhwa')) header.style.display = 'flex';
-                    if (visibleCategories.has('bl') && header.classList.contains('header-bl')) header.style.display = 'flex';
-                    if (visibleCategories.has('games') && header.classList.contains('header-game')) header.style.display = 'flex';
-                    if (visibleCategories.has('studies') && header.classList.contains('header-utils')) header.style.display = 'flex';
-                    // Adicionei lógica para os headers que existem
-                    if (visibleCategories.has('design') && header.classList.contains('header-design')) header.style.display = 'flex';
-                    if (visibleCategories.has('wallpaper') && header.classList.contains('header-wallpaper')) header.style.display = 'flex';
-                    if (visibleCategories.has('hosting') && header.classList.contains('header-host')) header.style.display = 'flex';
+                    if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
+                    if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
+                    if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
                 });
             }
         }
 
-        catOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
-                document.querySelectorAll('#catDropdown .dropdown-option').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-                filterCards();
-                catDropdown.classList.remove('active');
-            });
+        document.addEventListener('click', (e) => {
+            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) gridDropdown.classList.remove('active');
+            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) catDropdown.classList.remove('active');
+            const engineBtn = document.getElementById('engineBtn');
+            const engineDropdown = document.getElementById('engineDropdown');
+            if (engineBtn && !engineBtn.contains(e.target) && !engineDropdown.contains(e.target)) engineDropdown.classList.remove('active');
         });
 
         /* --- SISTEMA DE BUSCA --- */
@@ -1037,26 +977,34 @@
         };
 
         let currentEngine = 'google';
-        const engineBtn = document.getElementById('engineBtn');
-        const engineDropdown = document.getElementById('engineDropdown');
         const searchInput = document.getElementById('searchInput');
         const searchForm = document.getElementById('searchForm');
+        const engineBtn = document.getElementById('engineBtn');
+        const engineDropdown = document.getElementById('engineDropdown');
+        const engineIcon = document.getElementById('currentEngineIcon');
+        const engineName = document.getElementById('currentEngineName');
         const searchHistory = document.getElementById('searchHistory');
         const historyList = document.getElementById('historyList');
 
-        engineBtn.addEventListener('click', (e) => { e.stopPropagation(); engineDropdown.classList.toggle('active'); });
-        document.querySelectorAll('.engine-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const key = option.getAttribute('data-engine');
-                currentEngine = key;
-                document.getElementById('currentEngineIcon').className = engines[key].icon;
-                document.getElementById('currentEngineName').textContent = option.innerText;
-                document.querySelectorAll('.engine-option').forEach(o => o.classList.remove('selected'));
-                option.classList.add('selected');
-                engineDropdown.classList.remove('active');
-                searchInput.focus();
+        if (engineBtn) {
+            engineBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                engineDropdown.classList.toggle('active');
             });
-        });
+
+            document.querySelectorAll('.engine-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const engineKey = option.getAttribute('data-engine');
+                    currentEngine = engineKey;
+                    engineIcon.className = engines[engineKey].icon;
+                    engineName.textContent = option.innerText;
+                    document.querySelectorAll('.engine-option').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    engineDropdown.classList.remove('active');
+                    searchInput.focus();
+                });
+            });
+        }
 
         searchInput.addEventListener('input', filterCards);
 
@@ -1065,7 +1013,10 @@
 
         function renderHistory() {
             historyList.innerHTML = '';
-            if (searches.length === 0) { searchHistory.style.display = 'none'; return; }
+            if (searches.length === 0) {
+                searchHistory.style.display = 'none';
+                return;
+            }
             searches.slice(0,5).reverse().forEach(term => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
@@ -1103,19 +1054,35 @@
             }
         });
 
+        const voiceBtn = document.getElementById('voiceBtn');
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            voiceBtn.addEventListener('click', () => {
+                recognition.start();
+                voiceBtn.classList.add('listening');
+            });
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                searchInput.value = transcript;
+                filterCards();
+                voiceBtn.classList.remove('listening');
+            };
+            recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
+            recognition.onend = () => { voiceBtn.classList.remove('listening'); };
+        } else {
+            voiceBtn.style.display = 'none'; 
+        }
+
         /* --- INICIALIZAÇÃO --- */
         document.addEventListener('DOMContentLoaded', () => {
             initLDXBackground();
             updateLockState();
             loadSavedGrid();
             filterCards();
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) gridDropdown.classList.remove('active');
-            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) catDropdown.classList.remove('active');
-            if (!engineBtn.contains(e.target) && !engineDropdown.contains(e.target)) engineDropdown.classList.remove('active');
-            if (!searchInput.contains(e.target) && !searchHistory.contains(e.target)) searchHistory.classList.remove('active');
         });
 
         /* --- ANIMAÇÕES CARDS --- */
