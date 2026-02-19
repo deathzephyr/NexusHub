@@ -54,16 +54,17 @@
 
         /* --- SISTEMA DE FUNDO (VIDEO PADRÃO vs IMAGEM CUSTOMIZADA) --- */
         
-        /* 1. Camada do Vídeo (Fundo Mais Fundo) */
+        /* 1. Camada do Vídeo (Fundo Mais Fundo - Z-Index -3) */
         #video-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             object-fit: cover;
             z-index: -3;
             pointer-events: none;
+            display: block; /* Visível por padrão */
         }
 
-        /* 2. Camada de Imagem Customizada (Acima do Vídeo) */
+        /* 2. Camada de Imagem Customizada (Z-Index -2) */
         #custom-bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -71,13 +72,13 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0;
+            opacity: 0; /* Invisível por padrão */
             transition: opacity 0.5s ease;
             pointer-events: none;
             -webkit-transform: translate3d(0,0,0);
         }
 
-        /* 3. Orbs de Ambiente (Acima da Imagem/Vídeo) */
+        /* 3. Orbs de Ambiente (Z-Index -1) */
         .ambient-light {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -87,9 +88,13 @@
             transition: opacity 0.5s ease;
         }
 
-        /* Lógica: Se há imagem customizada, esconde os Orbs. Se não, mostra (sobre o vídeo) */
+        /* Lógica: Se há imagem customizada, esconde os Orbs e o Vídeo */
         body.has-custom-bg .ambient-light {
             opacity: 0;
+        }
+
+        body.has-custom-bg #video-bg {
+            display: none;
         }
 
         body.has-custom-bg #custom-bg-layer {
@@ -121,7 +126,7 @@
         /* Área de controles do topo (Grid + Categorias + Home) */
         .header-controls { display: flex; align-items: center; gap: 12px; z-index: 10; position: relative; }
 
-        /* --- BOTÕES DO CABEÇALHO (Grid e Filtros) --- */
+        /* --- BOTÕES DO CABEÇALHO --- */
         .header-btn-wrapper { position: relative; flex-shrink: 0; z-index: 10; }
 
         .header-btn {
@@ -268,7 +273,7 @@
         .engine-btn:hover { background: rgba(255,255,255,0.08); }
         .engine-btn i { font-size: 1.1rem; transition: color 0.3s; }
 
-        /* Dropdown */
+        /* Dropdown Engine */
         .engine-dropdown {
             position: absolute;
             top: 120%; left: 0;
@@ -465,7 +470,7 @@
         .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
         .card:hover { background: rgba(30, 30, 35, 0.8); border-color: rgba(255,255,255,0.4); }
 
-        /* --- ANIMAÇÃO RIPPLE (CLIQUE) --- */
+        /* --- ANIMAÇÃO RIPPLE --- */
         .ripple {
             position: absolute;
             border-radius: 50%;
@@ -524,15 +529,9 @@
         }
         .card-icon i { display: inline-flex; align-items: center; justify-content: center; margin: 0; vertical-align: middle; }
 
-        /* --- FORÇAR FONTES DO FONTAWESOME --- */
-        .card-icon .fa-solid, .card-icon .fas {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-        }
-        .card-icon .fa-brands, .card-icon .fab {
-            font-family: "Font Awesome 6 Brands";
-            font-weight: 400;
-        }
+        /* --- FORÇAR FONTES --- */
+        .card-icon .fa-solid, .card-icon .fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .card-icon .fa-brands, .card-icon .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
 
         /* Ajustes de Ícones Gerais */
         .card-icon .fa-ticket, .card-icon .fa-film, .card-icon .fa-clapperboard, .card-icon .fa-tv, .card-icon .fa-video, .card-icon .fa-masks-theater, .card-icon .fa-hat-cowboy, .card-icon .fa-scroll { font-size: 0.9rem !important; transform: scale(0.9) translateY(2px); }
@@ -613,98 +612,68 @@
             z-index: 2; 
             background: transparent; 
         }
+        .reset-link {
+            color: #666;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .reset-link:hover { color: #fff; text-decoration: underline; }
 
         /* --- SISTEMA DE BLOQUEIO BL/GL --- */
-        /* Esconde itens BL/GL por padrão, a menos que o body tenha a classe 'bl-unlocked' */
         body:not(.bl-unlocked) .card[data-cat="bl"],
         body:not(.bl-unlocked) .section-header.header-bl,
         body:not(.bl-unlocked) .dropdown-option[data-cat-filter="bl"] {
             display: none !important;
         }
 
-        /* --- OTIMIZAÇÃO MOBILE (CELULAR) --- */
+        /* --- OTIMIZAÇÃO MOBILE --- */
         @media (max-width: 600px) { 
             .hero h1 { font-size: 2.4rem; } 
             .container { padding: 0 1rem; } 
             
             .search-wrapper { width: 100%; padding: 0; }
             .engine-btn {
-                width: 44px; 
-                padding: 0;
-                justify-content: center;
-                border-radius: 50%; 
-                margin-right: 5px;
+                width: 44px; padding: 0; justify-content: center; border-radius: 50%; margin-right: 5px;
             }
             #currentEngineName, .engine-btn .fa-chevron-down { display: none !important; }
 
             .engine-dropdown {
-                width: 100%; 
-                left: 0;
-                top: 130%;
-                border-radius: 12px;
-                max-height: 40vh; 
+                width: 100%; left: 0; top: 130%; border-radius: 12px; max-height: 40vh; 
             }
 
-            .search-input {
-                font-size: 1rem;
-                padding: 12px 8px;
-            }
-            
-            .btn-icon {
-                width: 40px; height: 40px;
-            }
+            .search-input { font-size: 1rem; padding: 12px 8px; }
+            .btn-icon { width: 40px; height: 40px; }
             .btn-mic { margin-right: 4px; }
 
-            .search-history {
-                left: 5px; right: 5px; 
-                border-radius: 12px;
-            }
+            .search-history { left: 5px; right: 5px; border-radius: 12px; }
             .history-item { padding: 12px 15px; font-size: 0.95rem; }
 
             .bento-grid { gap: 12px; grid-template-columns: repeat(2, 1fr); }
-            
             .card { height: 140px; padding: 15px; }
             .card-icon { width: 38px; height: 38px; font-size: 1rem; }
             .card h3 { font-size: 0.95rem; }
             .card p { font-size: 0.7rem; }
 
-            /* Estilos Específicos para Grid Mobile */
             .dropdown-option[data-cols="auto"] { display: none !important; }
         }
 
         /* Estilos Específicos para Grid Desktop */
         @media (min-width: 601px) {
-            .dropdown-option[data-cols="2"],
-            .dropdown-option[data-cols="3"] {
-                display: none;
-            }
+            .dropdown-option[data-cols="2"], .dropdown-option[data-cols="3"] { display: none; }
         }
 
-        /* Estilos para opção 5 Colunas (Compactada) */
-        .bento-grid.cols-5 {
-            gap: 8px; 
-        }
-        .bento-grid.cols-5 .card {
-            height: 110px; 
-            padding: 8px; 
-        }
-        .bento-grid.cols-5 .card-icon { 
-            width: 26px; 
-            height: 26px; 
-            font-size: 0.75rem; 
-            margin-bottom: 4px; 
-            padding: 0; 
-        }
-        .bento-grid.cols-5 .card h3 { 
-            font-size: 0.65rem; 
-            line-height: 1.1; 
-            margin: 0;
-        }
+        /* Estilos para opção 5 Colunas */
+        .bento-grid.cols-5 { gap: 8px; }
+        .bento-grid.cols-5 .card { height: 110px; padding: 8px; }
+        .bento-grid.cols-5 .card-icon { width: 26px; height: 26px; font-size: 0.75rem; margin-bottom: 4px; padding: 0; }
+        .bento-grid.cols-5 .card h3 { font-size: 0.65rem; line-height: 1.1; margin: 0; }
         .bento-grid.cols-5 .card p { display: none; }
         .bento-grid.cols-5 .card-bg-icon { display: none; }
 
-        /* --- CORREÇÃO ESPECÍFICA: CADEADO SEMPRE CINZA --- */
-        /* Esta regra força o botão #lockBtn a manter a cor cinza (muted) mesmo quando o body tem a classe .bl-unlocked */
+        /* --- CADEADO SEMPRE CINZA --- */
         body.bl-unlocked #lockBtn {
             color: var(--text-muted) !important;
             background: rgba(255, 255, 255, 0.03) !important;
@@ -712,12 +681,10 @@
             box-shadow: none !important;
             transform: none !important;
         }
-
-        /* Garante que o hover também mantenha o cinza e não fique branco */
         body.bl-unlocked #lockBtn:hover {
             color: var(--text-muted) !important;
             background: rgba(255, 255, 255, 0.08) !important;
-            transform: scale(1.05) !important; /* Mantém a animação de escala, se desejar, ou remova o !important */
+            transform: scale(1.05) !important;
         }
     </style>
 </head>
@@ -729,7 +696,7 @@
         Seu navegador não suporta a tag de vídeo.
     </video>
 
-    <!-- 2. CAMADA DE FUNDO PERSONALIZADO (FIXO) -->
+    <!-- 2. CAMADA DE FUNDO PERSONALIZADO -->
     <div id="custom-bg-layer"></div>
 
     <!-- 3. ORBS DE AMBIENTE -->
@@ -744,7 +711,6 @@
             <!-- LOGO -->
             <div class="logo"><i class="fa-solid fa-layer-group"></i> LDX</div>
             
-            <!-- Controles do Header (Botão Home + Cadeado + Grid + Categoria) -->
             <div class="header-controls">
                 
                 <!-- Botão Home -->
@@ -783,7 +749,6 @@
                         <div class="dropdown-option" data-cat-filter="anime">Animes</div>
                         <div class="dropdown-option" data-cat-filter="manga">Mangás</div>
                         <div class="dropdown-option" data-cat-filter="manhwa">Manhwas</div>
-                        <!-- Opção BL/GL (Escondida via CSS/JS se bloqueado) -->
                         <div class="dropdown-option" data-cat-filter="bl">Leitura BL/GL</div>
                         
                         <div class="dropdown-option" data-cat-filter="games">Jogos</div>
@@ -797,13 +762,10 @@
         </header>
 
         <section class="hero">
-            <h1>
-                Bem-vindo ao NexusHub.
-            </h1>
+            <h1>Bem-vindo ao NexusHub.</h1>
             <p>Seu hub definitivo de entretenimento e tecnologia.</p>
             
             <div class="search-wrapper">
-                <!-- Barra de Pesquisa -->
                 <div class="search-bar">
                     <!-- Seletor de Motor -->
                     <div class="engine-selector">
@@ -839,16 +801,14 @@
                 <!-- Dropdown de Histórico -->
                 <div class="search-history" id="searchHistory">
                     <div class="history-label">Recentes</div>
-                    <div id="historyList">
-                        <!-- Itens inseridos via JS -->
-                    </div>
+                    <div id="historyList"></div>
                 </div>
             </div>
         </section>
 
+        <!-- Bento Grid (Conteúdo Simplificado para Exemplo) -->
         <div class="bento-grid" id="bentoGrid">
             
-            <!-- SEÇÃO: STREAMING -->
             <div class="section-header header-streaming">
                 <div class="section-title"><i class="fa-solid fa-film"></i> Filmes & Séries</div>
                 <div class="section-line"></div>
@@ -870,95 +830,6 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-circle-play"></i></div><h3>Boraflix</h3><p>Variedade HD</p></div><i class="fa-solid fa-circle-play card-bg-icon"></i>
             </a>
 
-            <!-- SEÇÃO: ANIMES -->
-            <div class="section-header header-anime">
-                <div class="section-title"><i class="fa-solid fa-dragon"></i> Animes</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><h3>Anime Fire</h3><p>Animes Online HD</p></div><i class="fa-solid fa-fire card-bg-icon"></i>
-            </a>
-            <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
-            </a>
-            <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>Top Animes</h3><p>Ranking & Top</p></div><i class="fa-solid fa-star card-bg-icon"></i>
-            </a>
-             <a href="https://animesonlinecc.to/" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-video"></i></div><h3>Animes Online</h3><p>Assistir Online</p></div><i class="fa-solid fa-video card-bg-icon"></i>
-            </a>
-            <a href="https://animescomix.tv/" target="_blank" class="card" data-cat="anime">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div><h3>Animes Comix</h3><p>Animes & Doramas</p></div><i class="fa-solid fa-masks-theater card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: MANGÁS -->
-            <div class="section-header header-manga">
-                <div class="section-title"><i class="fa-solid fa-book"></i> Mangás</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://mangalivre.to/" target="_blank" class="card" data-cat="manga">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Mangá Livre</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
-            </a>
-            <a href="https://roliascan.com/" target="_blank" class="card" data-cat="manga">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-glasses"></i></div><h3>RoliaScan</h3><p>Leitura Online</p></div><i class="fa-solid fa-glasses card-bg-icon"></i>
-            </a>
-            <a href="https://mugiwarasoficial.com/" target="_blank" class="card" data-cat="manga">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-hat-cowboy" style="font-size: 1.5rem !important; transform: scale(1.1);"></i></div><h3>Mugiwaras</h3><p>Leitura Oficial</p></div><i class="fa-solid fa-hat-cowboy card-bg-icon"></i>
-            </a>
-            <a href="https://www.mangahere.cc/" target="_blank" class="card" data-cat="manga">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div><h3>MangaHere</h3><p>Mangás Variados</p></div><i class="fa-solid fa-book-open-reader card-bg-icon"></i>
-            </a>
-            <a href="https://mangaplus.shueisha.co.jp/updates" target="_blank" class="card" data-cat="manga">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-certificate"></i></div><h3>Manga Plus</h3><p>Shueisha Oficial</p></div><i class="fa-solid fa-certificate card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: MANHWAS -->
-            <div class="section-header header-manhwa">
-                <div class="section-title"><i class="fa-solid fa-book-journal-whills"></i> Manhwas</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://br.comikey.com/" target="_blank" class="card" data-cat="manhwa">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scroll" style="font-size: 1.5rem !important; transform: scale(1.1);"></i></div><h3>Comikey</h3><p>Licenciados & Scan</p></div><i class="fa-solid fa-scroll card-bg-icon"></i>
-            </a>
-            <a href="https://nexustoons.com/" target="_blank" class="card" data-cat="manhwa">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-journal-whills"></i></div><h3>NexusToons</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-journal-whills card-bg-icon"></i>
-            </a>
-            <a href="https://flowermangas.net/" target="_blank" class="card" data-cat="manhwa">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-seedling"></i></div><h3>FlowerMangas</h3><p>Leitura Online</p></div><i class="fa-solid fa-seedling card-bg-icon"></i>
-            </a>
-            <a href="https://leituramanga.net/" target="_blank" class="card" data-cat="manhwa">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book"></i></div><h3>Leitura Manga</h3><p>Leitura Online</p></div><i class="fa-solid fa-book card-bg-icon"></i>
-            </a>
-            <a href="https://m.webtoons.com/pt/" target="_blank" class="card" data-cat="manhwa">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mobile"></i></div><h3>Webtoons</h3><p>Manhwas Oficiais</p></div><i class="fa-solid fa-mobile card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: LEITURA BL/GL (Escondida por padrão) -->
-            <div class="section-header header-bl">
-                <div class="section-title"><i class="fa-solid fa-heart"></i> Leitura BL/GL</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://cafecomyaoi.com.br/" target="_blank" class="card" data-cat="bl">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mug-hot"></i></div><h3>Cafe Com Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-mug-hot card-bg-icon"></i>
-            </a>
-            <a href="https://lerboyslove.com/" target="_blank" class="card" data-cat="bl">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-heart"></i></div><h3>Ler BoysLove</h3><p>Leitura Online</p></div><i class="fa-solid fa-heart card-bg-icon"></i>
-            </a>
-            <a href="https://qtoon.com/pt/homepage" target="_blank" class="card" data-cat="bl">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-q"></i></div><h3>QToon</h3><p>Webtoons</p></div><i class="fa-solid fa-q card-bg-icon"></i>
-            </a>
-            <a href="https://hentaiyaoi.net/" target="_blank" class="card" data-cat="bl">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-user-secret"></i></div><h3>Hentai Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-user-secret card-bg-icon"></i>
-            </a>
-            <a href="https://3xyaoi.com/tag/br/" target="_blank" class="card" data-cat="bl">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-explosion"></i></div><h3>3X Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-explosion card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: JOGOS -->
             <div class="section-header header-game">
                 <div class="section-title"><i class="fa-solid fa-gamepad"></i> Jogos</div>
                 <div class="section-line"></div>
@@ -970,83 +841,16 @@
             <a href="https://poki.com/br" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-trophy"></i></div><h3>Poki</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-trophy card-bg-icon"></i>
             </a>
-             <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
+            <a href="https://www.crazygames.com/br/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><h3>Crazy Games</h3><p>Jogos Variados</p></div><i class="fa-solid fa-puzzle-piece card-bg-icon"></i>
             </a>
-            <a href="https://emugames.com/" target="_blank" class="card" data-cat="games">
+             <a href="https://emugames.com/" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-dice"></i></div><h3>EmuGames</h3><p>Retro & Emulação</p></div><i class="fa-solid fa-dice card-bg-icon"></i>
             </a>
             <a href="https://playhop.com/pt" target="_blank" class="card" data-cat="games">
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
-            <!-- NOVA SEÇÃO: DESIGN & ARTES -->
-            <div class="section-header header-design">
-                <div class="section-title"><i class="fa-solid fa-palette"></i> Design & Artes</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://cleanup.pictures/" target="_blank" class="card" data-cat="design">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-eraser"></i></div><h3>Cleanup</h3><p>Remover objetos</p></div><i class="fa-solid fa-eraser card-bg-icon"></i>
-            </a>
-            <a href="https://textbehindimage.com/" target="_blank" class="card" data-cat="design">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-align-justify"></i></div><h3>Text Behind Img</h3><p>Texto atrás de foto</p></div><i class="fa-solid fa-align-justify card-bg-icon"></i>
-            </a>
-            <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="design">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
-            </a>
-            <a href="https://www.photopea.com/" target="_blank" class="card" data-cat="design">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div><h3>Photopea</h3><p>Editor Grátis</p></div><i class="fa-solid fa-pen-ruler card-bg-icon"></i>
-            </a>
-            <a href="https://www.canva.com/" target="_blank" class="card" data-cat="design">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-palette"></i></div><h3>Canva</h3><p>Design Gráfico</p></div><i class="fa-solid fa-palette card-bg-icon"></i>
-            </a>
-
-            <!-- NOVA SEÇÃO: WALLPAPERS -->
-            <div class="section-header header-wallpaper">
-                <div class="section-title"><i class="fa-solid fa-image"></i> Wallpapers</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpaper">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>4K Anime & PC</p></div><i class="fa-solid fa-image card-bg-icon"></i>
-            </a>
-            <a href="https://wallhaven.cc/" target="_blank" class="card" data-cat="wallpaper">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mountain-sun"></i></div><h3>Wallhaven</h3><p>Arte 4K</p></div><i class="fa-solid fa-mountain-sun card-bg-icon"></i>
-            </a>
-            <a href="https://4kwallpapers.com/" target="_blank" class="card" data-cat="wallpaper">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-display"></i></div><h3>4K Wallpapers</h3><p>Fundos Ultra HD</p></div><i class="fa-solid fa-display card-bg-icon"></i>
-            </a>
-            <a href="https://br.freepik.com/fotos-vetores-gratis/wallpaper-desktop" target="_blank" class="card" data-cat="wallpaper">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-images"></i></div><h3>Freepik</h3><p>Vetores & Fotos</p></div><i class="fa-solid fa-images card-bg-icon"></i>
-            </a>
-            <a href="https://www.wallpaperflare.com/" target="_blank" class="card" data-cat="wallpaper">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-sun"></i></div><h3>WallpaperFlare</h3><p>Fundos HD</p></div><i class="fa-solid fa-sun card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: DEV -->
-            <div class="section-header header-host">
-                <div class="section-title"><i class="fa-solid fa-server"></i> Hospedagem & Dev</div>
-                <div class="section-line"></div>
-            </div>
-
-            <a href="https://github.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-github"></i></div><h3>GitHub</h3><p>Código e Versionamento</p></div><i class="fa-brands fa-github card-bg-icon"></i>
-            </a>
-            <a href="https://app.netlify.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
-            </a>
-            <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
-            </a>
-            <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-caret-up"></i></div><h3>Vercel</h3><p>Cloud Platform</p></div><i class="fa-solid fa-caret-up card-bg-icon"></i>
-            </a>
-            <a href="https://codepen.io/" target="_blank" class="card" data-cat="hosting">
-                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
-            </a>
-
-            <!-- SEÇÃO: UTILITÁRIOS -->
             <div class="section-header header-utils">
                 <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilidades </div>
                 <div class="section-line"></div>
@@ -1071,14 +875,23 @@
         </div>
 
         <footer>
-            <p>DESIGN BY LDX &copy; 2026</p>
+            <p>DESIGN BY LDX &copy; 2026 <a href="#" onclick="resetBackground(event)" class="reset-link">(Resetar para Vídeo)</a></p>
         </footer>
     </div>
 
     <!-- JAVASCRIPT FUNCIONAL -->
     <script>
-        /* --- LÓGICA DE FUNDO (VIDEO PADRÃO vs IMAGEM CUSTOMIZADA) --- */
-        // Esta função centraliza a lógica do background para todas as páginas do sistema LDX
+        /* --- FUNÇÃO DE RESET (DEBUG) --- */
+        function resetBackground(e) {
+            e.preventDefault();
+            if(confirm("Isso irá apagar a imagem personalizada e restaurar o vídeo padrão. Deseja continuar?")) {
+                localStorage.removeItem('ldx_custom_bg');
+                localStorage.removeItem('ldx_bg_type');
+                location.reload();
+            }
+        }
+
+        /* --- LÓGICA DE FUNDO --- */
         function initLDXBackground() {
             const videoBg = document.getElementById('video-bg');
             const bgLayer = document.getElementById('custom-bg-layer');
@@ -1086,30 +899,23 @@
             const savedType = localStorage.getItem('ldx_bg_type');
 
             if (savedBg && savedType === 'image') {
-                // Tem imagem customizada: Mostra imagem, esconde vídeo, esconde orbs
+                // Tem imagem customizada
                 bgLayer.style.backgroundImage = `url('${savedBg}')`;
                 bgLayer.style.opacity = '1';
                 videoBg.style.display = 'none';
                 document.body.classList.add('has-custom-bg');
             } else {
-                // Padrão: Vídeo. Mostra vídeo, esconde imagem, mostra orbs
+                // Padrão: Vídeo
                 bgLayer.style.opacity = '0';
                 videoBg.style.display = 'block';
                 document.body.classList.remove('has-custom-bg');
-                // Tenta dar play (alguns navegadores bloqueiam autoplay mudo)
                 videoBg.play().catch(e => console.log("Autoplay de vídeo bloqueado até interação do usuário."));
             }
         }
 
-        // Inicializa o fundo
-        initLDXBackground();
-
-
-        /* --- LÓGICA DO CADEADO (BL/GL) --- */
+        /* --- LÓGICA DO CADEADO --- */
         const lockBtn = document.getElementById('lockBtn');
         const lockIcon = lockBtn.querySelector('i');
-        
-        // Verifica estado salvo (null = primeira vez = fechado)
         let isUnlocked = localStorage.getItem('nexus_bl_unlocked') === 'true';
 
         function updateLockState() {
@@ -1122,214 +928,135 @@
                 lockIcon.classList.remove('fa-lock-open');
                 lockIcon.classList.add('fa-lock');
             }
-            // Atualiza filtro para esconder/mostrar cards
-            filterCards(); 
         }
-
-        // Inicializa o estado
-        updateLockState();
-
         lockBtn.addEventListener('click', () => {
             isUnlocked = !isUnlocked;
             localStorage.setItem('nexus_bl_unlocked', isUnlocked);
             updateLockState();
+            filterCards();
         });
 
-
-        /* --- SISTEMA DE GRID E FILTROS --- */
+        /* --- FILTROS E GRID --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
         const bentoGrid = document.getElementById('bentoGrid');
-
-        // Toggle Dropdown Grid
-        gridBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            gridDropdown.classList.toggle('active');
-        });
-
-        // Aplicar Layout de Grid
-        gridOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const cols = option.getAttribute('data-cols');
-                applyGrid(cols);
-                gridOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                gridDropdown.classList.remove('active');
-            });
-        });
-
-        function applyGrid(cols) {
-            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
-            if (cols === 'auto') {
-                bentoGrid.style.gridTemplateColumns = '';
-                saveGridPreference('auto');
-            } else {
-                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
-                saveGridPreference(cols);
-            }
-        }
-
-        function saveGridPreference(value) {
-            if (window.innerWidth <= 600) localStorage.setItem('nexusHub_mobileCols', value);
-            else localStorage.setItem('nexusHub_desktopCols', value);
-        }
-
-        function loadSavedGrid() {
-            let savedCols;
-            let key;
-            if (window.innerWidth <= 600) {
-                key = 'nexusHub_mobileCols';
-                savedCols = localStorage.getItem(key);
-                if(!savedCols) savedCols = '2';
-            } else {
-                key = 'nexusHub_desktopCols';
-                savedCols = localStorage.getItem(key);
-                if(!savedCols) savedCols = 'auto';
-            }
-            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
-            if(optToSelect) optToSelect.classList.add('selected');
-            applyGrid(savedCols);
-        }
-        loadSavedGrid();
-
-        let lastWidth = window.innerWidth;
-        window.addEventListener('resize', () => {
-            if (window.innerWidth !== lastWidth) {
-                lastWidth = window.innerWidth;
-                loadSavedGrid();
-            }
-        });
-
-
-        /* --- LÓGICA DE FILTRO (CATEGORIAS) --- */
         const catBtn = document.getElementById('catBtn');
         const catDropdown = document.getElementById('catDropdown');
         const catOptions = document.querySelectorAll('#catDropdown .dropdown-option');
         const cards = document.querySelectorAll('.card');
         const headers = document.querySelectorAll('.section-header');
 
-        // Toggle Dropdown Categoria
-        catBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            catDropdown.classList.toggle('active');
-        });
+        function applyGrid(cols) {
+            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+            if (cols === 'auto') {
+                bentoGrid.style.gridTemplateColumns = '';
+                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', 'auto');
+            } else {
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
+                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', cols);
+            }
+        }
 
-        // Selecionar Categoria e Filtrar
-        catOptions.forEach(opt => {
+        function loadSavedGrid() {
+            let savedCols = localStorage.getItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols');
+            if(!savedCols) savedCols = window.innerWidth <= 600 ? '2' : 'auto';
+            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
+            if(optToSelect) optToSelect.classList.add('selected');
+            applyGrid(savedCols);
+        }
+
+        gridBtn.addEventListener('click', (e) => { e.stopPropagation(); gridDropdown.classList.toggle('active'); });
+        catBtn.addEventListener('click', (e) => { e.stopPropagation(); catDropdown.classList.toggle('active'); });
+
+        gridOptions.forEach(opt => {
             opt.addEventListener('click', () => {
-                catOptions.forEach(o => o.classList.remove('selected'));
+                document.querySelectorAll('#gridDropdown .dropdown-option').forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
-                filterCards();
-                catDropdown.classList.remove('active');
+                applyGrid(opt.getAttribute('data-cols'));
+                gridDropdown.classList.remove('active');
             });
         });
 
         function filterCards() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const activeCategory = document.querySelector('#catDropdown .dropdown-option.selected').dataset.catFilter;
-
             cards.forEach(card => card.style.display = 'none');
             headers.forEach(header => header.style.display = 'none');
 
             const visibleCategories = new Set();
-
             cards.forEach(card => {
-                // Lógica de BL/GL: Se estiver bloqueado, ignora esse card
                 if (!isUnlocked && card.dataset.cat === 'bl') return;
-
                 const title = card.querySelector('h3').innerText.toLowerCase();
-                const category = card.dataset.cat;
-
-                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+                const matchesCategory = activeCategory === 'all' || card.dataset.cat === activeCategory;
                 const matchesSearch = title.includes(searchTerm);
-
                 if (matchesCategory && matchesSearch) {
                     card.style.display = 'flex';
-                    visibleCategories.add(category);
+                    visibleCategories.add(card.dataset.cat);
                 }
             });
 
-            // Mostrar Headers baseado nas categorias visíveis
             if (visibleCategories.size > 0) {
                 headers.forEach(header => {
-                    // Lógica BL/GL para headers também
                     if (header.classList.contains('header-bl') && !isUnlocked) return;
-
-                    if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
-                    if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
-                    if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
-                    if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
-                    if (header.classList.contains('header-bl') && visibleCategories.has('bl') && isUnlocked) header.style.display = 'flex';
-                    if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
-                    if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
-                    if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
-                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
-                    if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
+                    if (visibleCategories.has('streaming') && header.classList.contains('header-streaming')) header.style.display = 'flex';
+                    if (visibleCategories.has('anime') && header.classList.contains('header-anime')) header.style.display = 'flex';
+                    if (visibleCategories.has('manga') && header.classList.contains('header-manga')) header.style.display = 'flex';
+                    if (visibleCategories.has('manhwa') && header.classList.contains('header-manhwa')) header.style.display = 'flex';
+                    if (visibleCategories.has('bl') && header.classList.contains('header-bl')) header.style.display = 'flex';
+                    if (visibleCategories.has('games') && header.classList.contains('header-game')) header.style.display = 'flex';
+                    if (visibleCategories.has('studies') && header.classList.contains('header-utils')) header.style.display = 'flex';
+                    // Adicionei lógica para os headers que existem
+                    if (visibleCategories.has('design') && header.classList.contains('header-design')) header.style.display = 'flex';
+                    if (visibleCategories.has('wallpaper') && header.classList.contains('header-wallpaper')) header.style.display = 'flex';
+                    if (visibleCategories.has('hosting') && header.classList.contains('header-host')) header.style.display = 'flex';
                 });
             }
         }
 
-        // Fechar dropdowns ao clicar fora
-        document.addEventListener('click', (e) => {
-            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) {
-                gridDropdown.classList.remove('active');
-            }
-            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) {
+        catOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('#catDropdown .dropdown-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                filterCards();
                 catDropdown.classList.remove('active');
-            }
-            // Fechar dropdown de busca e engine se existirem
-            const engineBtn = document.getElementById('engineBtn');
-            const engineDropdown = document.getElementById('engineDropdown');
-            if (engineBtn && !engineBtn.contains(e.target) && !engineDropdown.contains(e.target)) {
-                engineDropdown.classList.remove('active');
-            }
+            });
         });
 
-
-        /* --- SISTEMA DE BUSCA (Motores) --- */
+        /* --- SISTEMA DE BUSCA --- */
         const engines = {
-            google: { name: 'Google', url: 'https://www.google.com.br/search?q=', icon: 'fa-brands fa-google icon-google' },
-            bing: { name: 'Bing', url: 'https://www.bing.com.br/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
-            duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=', icon: 'fa-solid fa-shield-cat icon-ddg' },
-            youtube: { name: 'YouTube', url: 'https://www.youtube.com.br/results?search_query=', icon: 'fa-brands fa-youtube icon-youtube' },
-            spotify: { name: 'Spotify', url: 'https://open.spotify.com/search/', icon: 'fa-brands fa-spotify icon-spotify' },
-            reddit: { name: 'Reddit', url: 'https://www.reddit.com.br/search/?q=', icon: 'fa-brands fa-reddit icon-reddit' },
-            amazon: { name: 'Amazon', url: 'https://www.amazon.com.br/s?k=', icon: 'fa-brands fa-amazon icon-amazon' },
-            wikipedia: { name: 'Wikipedia', url: 'https://pt.wikipedia.org/wiki/Special:Search?search=', icon: 'fa-brands fa-wikipedia-w icon-wiki' }
+            google: { url: 'https://www.google.com.br/search?q=', icon: 'fa-brands fa-google icon-google' },
+            bing: { url: 'https://www.bing.com.br/search?q=', icon: 'fa-brands fa-microsoft icon-bing' },
+            duckduckgo: { url: 'https://duckduckgo.com/?q=', icon: 'fa-solid fa-shield-cat icon-ddg' },
+            youtube: { url: 'https://www.youtube.com.br/results?search_query=', icon: 'fa-brands fa-youtube icon-youtube' },
+            spotify: { url: 'https://open.spotify.com/search/', icon: 'fa-brands fa-spotify icon-spotify' },
+            reddit: { url: 'https://www.reddit.com.br/search/?q=', icon: 'fa-brands fa-reddit icon-reddit' },
+            amazon: { url: 'https://www.amazon.com.br/s?k=', icon: 'fa-brands fa-amazon icon-amazon' },
+            wikipedia: { url: 'https://pt.wikipedia.org/wiki/Special:Search?search=', icon: 'fa-brands fa-wikipedia-w icon-wiki' }
         };
 
         let currentEngine = 'google';
-        const searchInput = document.getElementById('searchInput');
-        const searchForm = document.getElementById('searchForm');
         const engineBtn = document.getElementById('engineBtn');
         const engineDropdown = document.getElementById('engineDropdown');
-        const engineIcon = document.getElementById('currentEngineIcon');
-        const engineName = document.getElementById('currentEngineName');
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
         const searchHistory = document.getElementById('searchHistory');
         const historyList = document.getElementById('historyList');
 
-        if (engineBtn) {
-            engineBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                engineDropdown.classList.toggle('active');
+        engineBtn.addEventListener('click', (e) => { e.stopPropagation(); engineDropdown.classList.toggle('active'); });
+        document.querySelectorAll('.engine-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const key = option.getAttribute('data-engine');
+                currentEngine = key;
+                document.getElementById('currentEngineIcon').className = engines[key].icon;
+                document.getElementById('currentEngineName').textContent = option.innerText;
+                document.querySelectorAll('.engine-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                engineDropdown.classList.remove('active');
+                searchInput.focus();
             });
-
-            document.querySelectorAll('.engine-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    const engineKey = option.getAttribute('data-engine');
-                    const data = engines[engineKey];
-                    currentEngine = engineKey;
-                    engineIcon.className = data.icon;
-                    engineName.textContent = data.name;
-                    document.querySelectorAll('.engine-option').forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    engineDropdown.classList.remove('active');
-                    searchInput.focus();
-                });
-            });
-        }
+        });
 
         searchInput.addEventListener('input', filterCards);
 
@@ -1338,11 +1065,8 @@
 
         function renderHistory() {
             historyList.innerHTML = '';
-            if (searches.length === 0) {
-                searchHistory.style.display = 'none';
-                return;
-            }
-            searches.slice(0, 5).reverse().forEach(term => {
+            if (searches.length === 0) { searchHistory.style.display = 'none'; return; }
+            searches.slice(0,5).reverse().forEach(term => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
                 div.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${term}`;
@@ -1370,111 +1094,56 @@
             if (searches.length > 0) searchHistory.classList.add('active');
         });
 
-        function performSearch(query) {
-            if (query) {
-                const url = engines[currentEngine].url + encodeURIComponent(query);
-                saveToHistory(query);
-                window.open(url, '_blank');
-            }
-        }
-
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            performSearch(searchInput.value);
+            if (searchInput.value) {
+                const url = engines[currentEngine].url + encodeURIComponent(searchInput.value);
+                saveToHistory(searchInput.value);
+                window.open(url, '_blank');
+            }
         });
 
-        const voiceBtn = document.getElementById('voiceBtn');
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'pt-BR';
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            voiceBtn.addEventListener('click', () => {
-                recognition.start();
-                voiceBtn.classList.add('listening');
-            });
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                searchInput.value = transcript;
-                filterCards();
-                voiceBtn.classList.remove('listening');
-            };
-            recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
-            recognition.onend = () => { voiceBtn.classList.remove('listening'); };
-        } else {
-            voiceBtn.style.display = 'none'; 
-        }
-
-
-        /* --- ANIMAÇÃO DE CLIQUE (RIPPLE) --- */
-        const cardElements = document.querySelectorAll('.card');
-        cardElements.forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (e.button === 0) { // Apenas clique esquerdo
-                    e.preventDefault();
-                    
-                    // 1. Adiciona classe de encolher
-                    this.classList.add('clicked');
-
-                    // 2. Cria efeito Ripple
-                    const ripple = document.createElement('span');
-                    ripple.classList.add('ripple');
-                    
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const size = Math.max(rect.width, rect.height);
-                    
-                    ripple.style.width = ripple.style.height = `${size}px`;
-                    ripple.style.left = `${x - size / 2}px`;
-                    ripple.style.top = `${y - size / 2}px`;
-                    
-                    card.appendChild(ripple);
-                    
-                    // Remove ripple após animação
-                    setTimeout(() => { ripple.remove(); }, 600);
-
-                    // 3. Navega após delay da animação
-                    const href = this.getAttribute('href');
-                    const target = this.getAttribute('target');
-                    setTimeout(() => {
-                        if (href && href !== '#') {
-                            if (target === '_blank') window.open(href, '_blank');
-                            else window.location.href = href;
-                        }
-                        // Remove classe clicked para poder animar de novo no futuro
-                        this.classList.remove('clicked');
-                    }, 350); // 350ms para o click feel
-                }
-            });
+        /* --- INICIALIZAÇÃO --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            initLDXBackground();
+            updateLockState();
+            loadSavedGrid();
+            filterCards();
         });
 
-        /* --- TILT 3D --- */
-        cardElements.forEach(card => {
+        document.addEventListener('click', (e) => {
+            if (!gridBtn.contains(e.target) && !gridDropdown.contains(e.target)) gridDropdown.classList.remove('active');
+            if (!catBtn.contains(e.target) && !catDropdown.contains(e.target)) catDropdown.classList.remove('active');
+            if (!engineBtn.contains(e.target) && !engineDropdown.contains(e.target)) engineDropdown.classList.remove('active');
+            if (!searchInput.contains(e.target) && !searchHistory.contains(e.target)) searchHistory.classList.remove('active');
+        });
+
+        /* --- ANIMAÇÕES CARDS --- */
+        cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 if(window.innerWidth > 768) {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -8;
-                    const rotateY = ((x - centerX) / centerX) * 8;
+                    const rotateX = ((y - rect.height/2) / rect.height/2) * -8;
+                    const rotateY = ((x - rect.width/2) / rect.width/2) * 8;
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                 }
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
-        });
-
-        // Atalho de teclado para busca
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '/' && document.activeElement !== searchInput) {
-                e.preventDefault();
-                searchInput.focus();
-            }
+            card.addEventListener('click', function(e) {
+                if(e.button === 0) {
+                    e.preventDefault();
+                    this.classList.add('clicked');
+                    setTimeout(() => {
+                        const href = this.getAttribute('href');
+                        if(href) window.open(href, '_blank');
+                        this.classList.remove('clicked');
+                    }, 350);
+                }
+            });
         });
 
     </script>
