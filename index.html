@@ -17,7 +17,7 @@
         :root {
             --bg-dark: #050507;
             --glass-bg: rgba(20, 20, 25, 0.6); 
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255,255,255,0.1);
             --accent-primary: #8b5cf6; 
             --accent-secondary: #ec4899; 
             --accent-cyan: #06b6d4; 
@@ -51,7 +51,7 @@
 
         h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
 
-        /* --- SISTEMA DE FUNDO (SOMENTE VIDEO E IMAGEM CUSTOMIZADA) --- */
+        /* --- SISTEMA DE FUNDO (VIDEO PADRÃO vs IMAGEM CUSTOMIZADA) --- */
         
         /* 1. Camada do Vídeo (Padrão) */
         #video-bg {
@@ -230,7 +230,7 @@
         .engine-btn:hover { background: rgba(255,255,255,0.08); }
         .engine-btn i { font-size: 1.1rem; transition: color 0.3s; }
 
-        /* Dropdown */
+        /* Dropdown Engine */
         .engine-dropdown {
             position: absolute;
             top: 120%; left: 0;
@@ -544,15 +544,6 @@
             z-index: 2; 
             background: transparent; 
         }
-        .reset-link {
-            color: #666;
-            text-decoration: none;
-            margin-left: 10px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .reset-link:hover { color: #fff; text-decoration: underline; }
 
         /* --- SISTEMA DE BLOQUEIO BL/GL --- */
         body:not(.bl-unlocked) .card[data-cat="bl"],
@@ -622,13 +613,13 @@
 </head>
 <body>
 
-    <!-- 1. VÍDEO DE FUNDO PADRÃO (INICIA AUTOMATICAMENTE) -->
+    <!-- 1. VÍDEO DE FUNDO PADRÃO -->
     <video id="video-bg" autoplay muted loop playsinline>
         <source src="video1.mp4" type="video/mp4">
         Seu navegador não suporta a tag de vídeo.
     </video>
 
-    <!-- 2. CAMADA DE FUNDO PERSONALIZADO (CASO HAJA) -->
+    <!-- 2. CAMADA DE FUNDO PERSONALIZADO -->
     <div id="custom-bg-layer"></div>
 
     <div class="container">
@@ -732,6 +723,7 @@
 
         <div class="bento-grid" id="bentoGrid">
             
+            <!-- SEÇÃO: STREAMING -->
             <div class="section-header header-streaming">
                 <div class="section-title"><i class="fa-solid fa-film"></i> Filmes & Séries</div>
                 <div class="section-line"></div>
@@ -753,6 +745,95 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-circle-play"></i></div><h3>Boraflix</h3><p>Variedade HD</p></div><i class="fa-solid fa-circle-play card-bg-icon"></i>
             </a>
 
+            <!-- SEÇÃO: ANIMES -->
+            <div class="section-header header-anime">
+                <div class="section-title"><i class="fa-solid fa-dragon"></i> Animes</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://animefire.io/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><h3>Anime Fire</h3><p>Animes Online HD</p></div><i class="fa-solid fa-fire card-bg-icon"></i>
+            </a>
+            <a href="https://animesdigital.org/home" target="_blank" class="card" data-cat="anime">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Animes Digital</h3><p>Catálogo Completo</p></div><i class="fa-solid fa-laptop-code card-bg-icon"></i>
+            </a>
+            <a href="https://topanimes.net/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-star"></i></div><h3>Top Animes</h3><p>Ranking & Top</p></div><i class="fa-solid fa-star card-bg-icon"></i>
+            </a>
+             <a href="https://animesonlinecc.to/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-video"></i></div><h3>Animes Online</h3><p>Assistir Online</p></div><i class="fa-solid fa-video card-bg-icon"></i>
+            </a>
+            <a href="https://animescomix.tv/" target="_blank" class="card" data-cat="anime">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-masks-theater"></i></div><h3>Animes Comix</h3><p>Animes & Doramas</p></div><i class="fa-solid fa-masks-theater card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: MANGÁS -->
+            <div class="section-header header-manga">
+                <div class="section-title"><i class="fa-solid fa-book"></i> Mangás</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://mangalivre.to/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open"></i></div><h3>Mangá Livre</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-open card-bg-icon"></i>
+            </a>
+            <a href="https://roliascan.com/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-glasses"></i></div><h3>RoliaScan</h3><p>Leitura Online</p></div><i class="fa-solid fa-glasses card-bg-icon"></i>
+            </a>
+            <a href="https://mugiwarasoficial.com/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-hat-cowboy" style="font-size: 1.5rem !important; transform: scale(1.1);"></i></div><h3>Mugiwaras</h3><p>Leitura Oficial</p></div><i class="fa-solid fa-hat-cowboy card-bg-icon"></i>
+            </a>
+            <a href="https://www.mangahere.cc/" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div><h3>MangaHere</h3><p>Mangás Variados</p></div><i class="fa-solid fa-book-open-reader card-bg-icon"></i>
+            </a>
+            <a href="https://mangaplus.shueisha.co.jp/updates" target="_blank" class="card" data-cat="manga">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-certificate"></i></div><h3>Manga Plus</h3><p>Shueisha Oficial</p></div><i class="fa-solid fa-certificate card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: MANHWAS -->
+            <div class="section-header header-manhwa">
+                <div class="section-title"><i class="fa-solid fa-book-journal-whills"></i> Manhwas</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://br.comikey.com/" target="_blank" class="card" data-cat="manhwa">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scroll" style="font-size: 1.5rem !important; transform: scale(1.1);"></i></div><h3>Comikey</h3><p>Licenciados & Scan</p></div><i class="fa-solid fa-scroll card-bg-icon"></i>
+            </a>
+            <a href="https://nexustoons.com/" target="_blank" class="card" data-cat="manhwa">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book-journal-whills"></i></div><h3>NexusToons</h3><p>Leitura Online</p></div><i class="fa-solid fa-book-journal-whills card-bg-icon"></i>
+            </a>
+            <a href="https://flowermangas.net/" target="_blank" class="card" data-cat="manhwa">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-seedling"></i></div><h3>FlowerMangas</h3><p>Leitura Online</p></div><i class="fa-solid fa-seedling card-bg-icon"></i>
+            </a>
+            <a href="https://leituramanga.net/" target="_blank" class="card" data-cat="manhwa">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-book"></i></div><h3>Leitura Manga</h3><p>Leitura Online</p></div><i class="fa-solid fa-book card-bg-icon"></i>
+            </a>
+            <a href="https://m.webtoons.com/pt/" target="_blank" class="card" data-cat="manhwa">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mobile"></i></div><h3>Webtoons</h3><p>Manhwas Oficiais</p></div><i class="fa-solid fa-mobile card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: LEITURA BL/GL -->
+            <div class="section-header header-bl">
+                <div class="section-title"><i class="fa-solid fa-heart"></i> Leitura BL/GL</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://cafecomyaoi.com.br/" target="_blank" class="card" data-cat="bl">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mug-hot"></i></div><h3>Cafe Com Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-mug-hot card-bg-icon"></i>
+            </a>
+            <a href="https://lerboyslove.com/" target="_blank" class="card" data-cat="bl">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-heart"></i></div><h3>Ler BoysLove</h3><p>Leitura Online</p></div><i class="fa-solid fa-heart card-bg-icon"></i>
+            </a>
+            <a href="https://qtoon.com/pt/homepage" target="_blank" class="card" data-cat="bl">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-q"></i></div><h3>QToon</h3><p>Webtoons</p></div><i class="fa-solid fa-q card-bg-icon"></i>
+            </a>
+            <a href="https://hentaiyaoi.net/" target="_blank" class="card" data-cat="bl">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-user-secret"></i></div><h3>Hentai Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-user-secret card-bg-icon"></i>
+            </a>
+            <a href="https://3xyaoi.com/tag/br/" target="_blank" class="card" data-cat="bl">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-explosion"></i></div><h3>3X Yaoi</h3><p>Leitura Online</p></div><i class="fa-solid fa-explosion card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: JOGOS -->
             <div class="section-header header-game">
                 <div class="section-title"><i class="fa-solid fa-gamepad"></i> Jogos</div>
                 <div class="section-line"></div>
@@ -774,6 +855,73 @@
                 <div class="card-content"><div class="card-icon"><i class="fa-solid fa-vr-cardboard"></i></div><h3>Playhop</h3><p>Jogos Grátis</p></div><i class="fa-solid fa-vr-cardboard card-bg-icon"></i>
             </a>
 
+            <!-- NOVA SEÇÃO: DESIGN & ARTES -->
+            <div class="section-header header-design">
+                <div class="section-title"><i class="fa-solid fa-palette"></i> Design & Artes</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://cleanup.pictures/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-eraser"></i></div><h3>Cleanup</h3><p>Remover objetos</p></div><i class="fa-solid fa-eraser card-bg-icon"></i>
+            </a>
+            <a href="https://textbehindimage.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-align-justify"></i></div><h3>Text Behind Img</h3><p>Texto atrás de foto</p></div><i class="fa-solid fa-align-justify card-bg-icon"></i>
+            </a>
+            <a href="https://www.remove.bg/pt" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-scissors"></i></div><h3>RemoveBg</h3><p>Remover Fundo</p></div><i class="fa-solid fa-scissors card-bg-icon"></i>
+            </a>
+            <a href="https://www.photopea.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div><h3>Photopea</h3><p>Editor Grátis</p></div><i class="fa-solid fa-pen-ruler card-bg-icon"></i>
+            </a>
+            <a href="https://www.canva.com/" target="_blank" class="card" data-cat="design">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-palette"></i></div><h3>Canva</h3><p>Design Gráfico</p></div><i class="fa-solid fa-palette card-bg-icon"></i>
+            </a>
+
+            <!-- NOVA SEÇÃO: WALLPAPERS -->
+            <div class="section-header header-wallpaper">
+                <div class="section-title"><i class="fa-solid fa-image"></i> Wallpapers</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://moewalls.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-image"></i></div><h3>MoeWalls</h3><p>4K Anime & PC</p></div><i class="fa-solid fa-image card-bg-icon"></i>
+            </a>
+            <a href="https://wallhaven.cc/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-mountain-sun"></i></div><h3>Wallhaven</h3><p>Arte 4K</p></div><i class="fa-solid fa-mountain-sun card-bg-icon"></i>
+            </a>
+            <a href="https://4kwallpapers.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-display"></i></div><h3>4K Wallpapers</h3><p>Fundos Ultra HD</p></div><i class="fa-solid fa-display card-bg-icon"></i>
+            </a>
+            <a href="https://br.freepik.com/fotos-vetores-gratis/wallpaper-desktop" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-images"></i></div><h3>Freepik</h3><p>Vetores & Fotos</p></div><i class="fa-solid fa-images card-bg-icon"></i>
+            </a>
+            <a href="https://www.wallpaperflare.com/" target="_blank" class="card" data-cat="wallpaper">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-sun"></i></div><h3>WallpaperFlare</h3><p>Fundos HD</p></div><i class="fa-solid fa-sun card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: DEV -->
+            <div class="section-header header-host">
+                <div class="section-title"><i class="fa-solid fa-server"></i> Hospedagem & Dev</div>
+                <div class="section-line"></div>
+            </div>
+
+            <a href="https://github.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-github"></i></div><h3>GitHub</h3><p>Código e Versionamento</p></div><i class="fa-brands fa-github card-bg-icon"></i>
+            </a>
+            <a href="https://app.netlify.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div><h3>Netlify</h3><p>Deploy & Hospedagem</p></div><i class="fa-solid fa-cloud-arrow-up card-bg-icon"></i>
+            </a>
+            <a href="https://www.cloudflare.com/pt-br" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-cloudflare"></i></div><h3>Cloudflare</h3><p>Segurança & CDN</p></div><i class="fa-brands fa-cloudflare card-bg-icon"></i>
+            </a>
+            <a href="https://vercel.com/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-solid fa-caret-up"></i></div><h3>Vercel</h3><p>Cloud Platform</p></div><i class="fa-solid fa-caret-up card-bg-icon"></i>
+            </a>
+            <a href="https://codepen.io/" target="_blank" class="card" data-cat="hosting">
+                <div class="card-content"><div class="card-icon"><i class="fa-brands fa-codepen"></i></div><h3>CodePen</h3><p>Editor Online</p></div><i class="fa-brands fa-codepen card-bg-icon"></i>
+            </a>
+
+            <!-- SEÇÃO: UTILITÁRIOS -->
             <div class="section-header header-utils">
                 <div class="section-title"><i class="fa-solid fa-layer-group"></i> Utilidades </div>
                 <div class="section-line"></div>
@@ -798,36 +946,24 @@
         </div>
 
         <footer>
-            <p>DESIGN BY LDX &copy; 2026 <a href="#" onclick="resetBackground(event)" class="reset-link">(Resetar para Vídeo)</a></p>
+            <p>DESIGN BY LDX &copy; 2026</p>
         </footer>
     </div>
 
     <script>
-        /* --- FUNÇÃO DE RESET --- */
-        function resetBackground(e) {
-            e.preventDefault();
-            if(confirm("Isso irá apagar a imagem personalizada e restaurar o vídeo padrão. Deseja continuar?")) {
-                localStorage.removeItem('ldx_custom_bg');
-                localStorage.removeItem('ldx_bg_type');
-                location.reload();
-            }
-        }
-
-        /* --- LÓGICA DE FUNDO (SOMENTE VIDEO vs IMAGEM) --- */
+        /* --- LÓGICA DE FUNDO --- */
         function initLDXBackground() {
             const videoBg = document.getElementById('video-bg');
             const bgLayer = document.getElementById('custom-bg-layer');
             const savedBg = localStorage.getItem('ldx_custom_bg');
             const savedType = localStorage.getItem('ldx_bg_type');
 
-            // Verifica se há uma imagem válida salva
-            if (savedBg && savedBg !== '' && savedType === 'image') {
+            if (savedBg && savedType === 'image') {
                 bgLayer.style.backgroundImage = `url('${savedBg}')`;
                 bgLayer.style.opacity = '1';
                 videoBg.style.display = 'none';
                 document.body.classList.add('has-custom-bg');
             } else {
-                // Se não há imagem válida, garante que o vídeo esteja visível
                 bgLayer.style.opacity = '0';
                 videoBg.style.display = 'block';
                 document.body.classList.remove('has-custom-bg');
@@ -836,13 +972,13 @@
                 const playPromise = videoBg.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.log("Autoplay vídeo bloqueado pelo navegador até interação.");
+                        console.log("Autoplay de vídeo bloqueado até interação do usuário.");
                     });
                 }
             }
         }
 
-        /* --- LÓGICA DO CADEADO (BL/GL) --- */
+        /* --- LÓGICA DO CADEADO --- */
         const lockBtn = document.getElementById('lockBtn');
         const lockIcon = lockBtn.querySelector('i');
         let isUnlocked = localStorage.getItem('nexus_bl_unlocked') === 'true';
@@ -859,14 +995,13 @@
             }
             filterCards();
         }
-
         lockBtn.addEventListener('click', () => {
             isUnlocked = !isUnlocked;
             localStorage.setItem('nexus_bl_unlocked', isUnlocked);
             updateLockState();
         });
 
-        /* --- LÓGICA DE FILTRO E GRID --- */
+        /* --- FILTROS E GRID --- */
         const gridBtn = document.getElementById('gridBtn');
         const gridDropdown = document.getElementById('gridDropdown');
         const gridOptions = document.querySelectorAll('#gridDropdown .dropdown-option');
@@ -883,36 +1018,53 @@
         gridOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const cols = option.getAttribute('data-cols');
-                bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
-                if (cols === 'auto') {
-                    bentoGrid.style.gridTemplateColumns = '';
-                    localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', 'auto');
-                } else {
-                    bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-                    bentoGrid.classList.add(`cols-${cols}`);
-                    localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', cols);
-                }
+                applyGrid(cols);
                 gridOptions.forEach(opt => opt.classList.remove('selected'));
                 option.classList.add('selected');
                 gridDropdown.classList.remove('active');
             });
         });
 
-        function loadSavedGrid() {
-            let savedCols = localStorage.getItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols');
-            if(!savedCols) savedCols = window.innerWidth <= 600 ? '2' : 'auto';
-            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
-            if(optToSelect) optToSelect.classList.add('selected');
-            
-            // Aplica estilos iniciais
-            if (savedCols === 'auto') {
+        function applyGrid(cols) {
+            bentoGrid.classList.remove('cols-2', 'cols-3', 'cols-5');
+            if (cols === 'auto') {
                 bentoGrid.style.gridTemplateColumns = '';
+                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', 'auto');
             } else {
-                bentoGrid.style.gridTemplateColumns = `repeat(${savedCols}, 1fr)`;
-                bentoGrid.classList.add(`cols-${savedCols}`);
+                bentoGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                if(cols != 'auto') bentoGrid.classList.add(`cols-${cols}`);
+                localStorage.setItem(window.innerWidth <= 600 ? 'nexusHub_mobileCols' : 'nexusHub_desktopCols', cols);
             }
         }
 
+        function loadSavedGrid() {
+            let savedCols;
+            let key;
+            if (window.innerWidth <= 600) {
+                key = 'nexusHub_mobileCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = '2';
+            } else {
+                key = 'nexusHub_desktopCols';
+                savedCols = localStorage.getItem(key);
+                if(!savedCols) savedCols = 'auto';
+            }
+            const optToSelect = document.querySelector(`#gridDropdown .dropdown-option[data-cols="${savedCols}"]`);
+            if(optToSelect) optToSelect.classList.add('selected');
+            applyGrid(savedCols);
+        }
+        loadSavedGrid();
+
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                loadSavedGrid();
+            }
+        });
+
+
+        /* --- LÓGICA DE FILTRO (CATEGORIAS) --- */
         catOptions.forEach(opt => {
             opt.addEventListener('click', () => {
                 catOptions.forEach(o => o.classList.remove('selected'));
@@ -933,7 +1085,7 @@
 
             cards.forEach(card => {
                 if (!isUnlocked && card.dataset.cat === 'bl') return;
-                
+
                 const title = card.querySelector('h3').innerText.toLowerCase();
                 const category = card.dataset.cat;
 
@@ -950,7 +1102,14 @@
                 headers.forEach(header => {
                     if (header.classList.contains('header-bl') && !isUnlocked) return;
                     if (header.classList.contains('header-streaming') && visibleCategories.has('streaming')) header.style.display = 'flex';
+                    if (header.classList.contains('header-anime') && visibleCategories.has('anime')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manga') && visibleCategories.has('manga')) header.style.display = 'flex';
+                    if (header.classList.contains('header-manhwa') && visibleCategories.has('manhwa')) header.style.display = 'flex';
+                    if (header.classList.contains('header-bl') && visibleCategories.has('bl')) header.style.display = 'flex';
                     if (header.classList.contains('header-game') && visibleCategories.has('games')) header.style.display = 'flex';
+                    if (header.classList.contains('header-design') && visibleCategories.has('design')) header.style.display = 'flex';
+                    if (header.classList.contains('header-wallpaper') && visibleCategories.has('wallpaper')) header.style.display = 'flex';
+                    if (header.classList.contains('header-host') && visibleCategories.has('hosting')) header.style.display = 'flex';
                     if (header.classList.contains('header-utils') && visibleCategories.has('studies')) header.style.display = 'flex';
                 });
             }
@@ -995,10 +1154,11 @@
             document.querySelectorAll('.engine-option').forEach(option => {
                 option.addEventListener('click', () => {
                     const engineKey = option.getAttribute('data-engine');
+                    const data = engines[engineKey];
                     currentEngine = engineKey;
-                    engineIcon.className = engines[engineKey].icon;
-                    engineName.textContent = option.innerText;
-                    document.querySelectorAll('.engine-option').forEach(opt => opt.classList.remove('selected'));
+                    engineIcon.className = data.icon;
+                    engineName.textContent = data.name;
+                    document.querySelectorAll('.engine-option').forEach(o => o.classList.remove('selected'));
                     option.classList.add('selected');
                     engineDropdown.classList.remove('active');
                     searchInput.focus();
@@ -1013,10 +1173,7 @@
 
         function renderHistory() {
             historyList.innerHTML = '';
-            if (searches.length === 0) {
-                searchHistory.style.display = 'none';
-                return;
-            }
+            if (searches.length === 0) { searchHistory.style.display = 'none'; return; }
             searches.slice(0,5).reverse().forEach(term => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
@@ -1045,13 +1202,17 @@
             if (searches.length > 0) searchHistory.classList.add('active');
         });
 
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (searchInput.value) {
-                const url = engines[currentEngine].url + encodeURIComponent(searchInput.value);
-                saveToHistory(searchInput.value);
+        function performSearch(query) {
+            if (query) {
+                const url = engines[currentEngine].url + encodeURIComponent(query);
+                saveToHistory(query);
                 window.open(url, '_blank');
             }
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch(searchInput.value);
         });
 
         const voiceBtn = document.getElementById('voiceBtn');
@@ -1074,8 +1235,9 @@
             recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
             recognition.onend = () => { voiceBtn.classList.remove('listening'); };
         } else {
-            voiceBtn.style.display = 'none'; 
+            voiceBtn.style.display = none; 
         }
+
 
         /* --- INICIALIZAÇÃO --- */
         document.addEventListener('DOMContentLoaded', () => {
@@ -1086,7 +1248,43 @@
         });
 
         /* --- ANIMAÇÕES CARDS --- */
-        cards.forEach(card => {
+        const cardElements = document.querySelectorAll('.card');
+        cardElements.forEach(card => {
+            card.addEventListener('click', function(e) {
+                if(e.button === 0) {
+                    e.preventDefault();
+
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const size = Math.max(rect.width, rect.height);
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x - size / 2}px`;
+                    ripple.style.top = `${y - size / 2}px`;
+                    
+                    card.appendChild(ripple);
+                    
+                    setTimeout(() => { ripple.remove(); }, 600);
+
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target');
+                    setTimeout(() => {
+                        if (href) {
+                            if (target === '_blank') window.open(href, '_blank');
+                            else window.location.href = href;
+                        }
+                        this.classList.remove('clicked');
+                    }, 350);
+                }
+            });
+        });
+
+        /* --- TILT 3D --- */
+        cardElements.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 if(window.innerWidth > 768) {
                     const rect = card.getBoundingClientRect();
@@ -1099,17 +1297,6 @@
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-            card.addEventListener('click', function(e) {
-                if(e.button === 0) {
-                    e.preventDefault();
-                    this.classList.add('clicked');
-                    setTimeout(() => {
-                        const href = this.getAttribute('href');
-                        if(href) window.open(href, '_blank');
-                        this.classList.remove('clicked');
-                    }, 350);
-                }
             });
         });
 
