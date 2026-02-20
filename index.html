@@ -51,19 +51,9 @@
 
         h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
 
-        /* --- SISTEMA DE FUNDO (VIDEO PADRÃO vs IMAGEM CUSTOMIZADA) --- */
+        /* --- SISTEMA DE FUNDO (SINCRONIZADO) --- */
         
-        /* 1. Camada do Vídeo (Padrão) */
-        #video-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            object-fit: cover;
-            z-index: -3;
-            pointer-events: none;
-            display: block; /* Visível por padrão */
-        }
-
-        /* 2. Camada de Imagem Customizada (Sobreposta) */
+        /* Única Camada de Fundo (Padrão ou Customizada) */
         #custom-bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -71,17 +61,11 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0; /* Invisível por padrão */
-            transition: opacity 0.5s ease;
+            /* FUNDO PADRÃO DEFINIDO DIRETO NO CSS: img2.jpeg */
+            background-image: url('img2.jpeg');
+            opacity: 1; 
+            transition: background-image 0.5s ease;
             pointer-events: none;
-        }
-
-        /* Lógica: Se tem imagem customizada, mostra ela e esconde o vídeo */
-        body.has-custom-bg #custom-bg-layer {
-            opacity: 1;
-        }
-        body.has-custom-bg #video-bg {
-            display: none;
         }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; padding-bottom: 2rem; }
@@ -386,7 +370,7 @@
         .header-design .section-title { color: #d946ef; } .header-design .section-line { background: linear-gradient(to right, #d946ef, transparent); }
         .header-wallpaper .section-title { color: #3b82f6; } .header-wallpaper .section-line { background: linear-gradient(to right, #3b82f6, transparent); }
 
-        /* --- CARDS --- */
+        /* --- CARDS (PADRÃO) --- */
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -415,6 +399,36 @@
         }
         .card:hover::after { left: 150%; transition: 0.8s ease-in-out; }
         .card:hover { background: rgba(30, 30, 35, 0.8); border-color: rgba(255,255,255,0.4); }
+
+        /* --- ESTILOS DE CARD SINCRONIZADOS (TRANSPARENT E INVISIBLE) --- */
+        
+        /* Modo Transparente (Vidro) */
+        body.transparent-mode .card {
+            background: rgba(0, 0, 0, 0.25); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+        }
+        body.transparent-mode .card:hover {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Modo Invisível (Nada) */
+        body.invisible-mode .card {
+            background: transparent;
+            backdrop-filter: none; 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: none;
+        }
+        body.invisible-mode .card:hover {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+        }
+        body.invisible-mode .card h3, 
+        body.invisible-mode .card p {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
 
         /* --- ANIMAÇÃO RIPPLE --- */
         .ripple {
@@ -613,13 +627,7 @@
 </head>
 <body>
 
-    <!-- 1. VÍDEO DE FUNDO PADRÃO -->
-    <video id="video-bg" autoplay muted loop playsinline>
-        <source src="video1.mp4" type="video/mp4">
-        Seu navegador não suporta a tag de vídeo.
-    </video>
-
-    <!-- 2. CAMADA DE FUNDO PERSONALIZADO -->
+    <!-- FUNDO PADRÃO E CAMADA DE CUSTOMIZAÇÃO -->
     <div id="custom-bg-layer"></div>
 
     <div class="container">
@@ -951,30 +959,25 @@
     </div>
 
     <script>
-        /* --- LÓGICA DE FUNDO --- */
-        function initLDXBackground() {
-            const videoBg = document.getElementById('video-bg');
+        /* --- LÓGICA DE SINCRONIZAÇÃO (FUNDO E ESTILO) --- */
+        function initSyncedSettings() {
             const bgLayer = document.getElementById('custom-bg-layer');
+            
+            // 1. Sincronizar Fundo
             const savedBg = localStorage.getItem('ldx_custom_bg');
-            const savedType = localStorage.getItem('ldx_bg_type');
-
-            if (savedBg && savedType === 'image') {
+            if (savedBg) {
                 bgLayer.style.backgroundImage = `url('${savedBg}')`;
-                bgLayer.style.opacity = '1';
-                videoBg.style.display = 'none';
-                document.body.classList.add('has-custom-bg');
             } else {
-                bgLayer.style.opacity = '0';
-                videoBg.style.display = 'block';
-                document.body.classList.remove('has-custom-bg');
-                
-                // Tenta dar play (segurança extra)
-                const playPromise = videoBg.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Autoplay de vídeo bloqueado até interação do usuário.");
-                    });
-                }
+                bgLayer.style.backgroundImage = `url('img2.jpeg')`;
+            }
+            bgLayer.style.opacity = '1'; 
+
+            // 2. Sincronizar Estilo dos Cards (Transparência)
+            const savedStyle = localStorage.getItem('ldx_card_style');
+            if (savedStyle === 'transparent') {
+                document.body.classList.add('transparent-mode');
+            } else if (savedStyle === 'invisible') {
+                document.body.classList.add('invisible-mode');
             }
         }
 
@@ -1241,7 +1244,7 @@
 
         /* --- INICIALIZAÇÃO --- */
         document.addEventListener('DOMContentLoaded', () => {
-            initLDXBackground();
+            initSyncedSettings(); // Carrega Fundo e Estilo
             updateLockState();
             loadSavedGrid();
             filterCards();
